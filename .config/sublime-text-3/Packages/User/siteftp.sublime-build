@@ -1,0 +1,6 @@
+{
+	"shell_cmd":"siteftp $file",
+	"working_dir": "${folder:${project_path:${file_path}}}",
+	// "selector": "source.text",
+	"keyfile": ".siteConfig"
+}

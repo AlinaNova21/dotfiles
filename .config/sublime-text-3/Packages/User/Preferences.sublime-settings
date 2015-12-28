@@ -1,0 +1,28 @@
+{
+	"atomic_save": false,
+	"auto_upgrade_ignore":
+	[
+		"Seti_UI"
+	],
+	"codeintel_scan_files_in_project": false,
+	"color_scheme": "Packages/Seti_UI/Scheme/Seti_monokai.tmTheme",
+	"enable_tab_scrolling": true,
+	"font_size": 10,
+	"ignore_inodes": true,
+	"ignored_packages":
+	[
+		"CSS",
+		"Vintage"
+	],
+	"index_exclude_patterns":
+	[
+		".nfs*",
+		"/mnt/samba*",
+		"*.log"
+	],
+	"index_files": false,
+	"show_encoding": true,
+	"theme": "Seti_orig.sublime-theme",
+	"typescript_plugin_tsc_version": "1.7.2",
+	"word_wrap": false
+}

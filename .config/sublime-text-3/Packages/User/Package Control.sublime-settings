@@ -1,0 +1,29 @@
+{
+	"bootstrapped": true,
+	"in_process_packages":
+	[
+	],
+	"installed_packages":
+	[
+		"AngularJS",
+		"Ansible",
+		"AutoFileName",
+		"BracketHighlighter",
+		"Color Highlighter",
+		"CSS3",
+		"Dart",
+		"Emmet",
+		"Grunt",
+		"HTML Underscore Syntax",
+		"NodeRequirer",
+		"npm",
+		"Package Control",
+		"Seti_UI",
+		"SideBarEnhancements",
+		"SideBarGit",
+		"SublimeGit",
+		"SublimeLinter",
+		"SublimeLinter-jshint",
+		"TypeScript"
+	]
+}

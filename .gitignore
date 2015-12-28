@@ -1,0 +1,20 @@
+*
+# .files
+!.gitignore
+!.bashrc
+!.bashcl
+!.bashpr
+!.bash_profile
+!.npmrc
+!.tmux.conf
+
+# .config
+!.config
+.config/*
+!.config/sublime-text-3
+.config/sublime-text-3/*
+!.config/sublime-text-3/Packages
+.config/sublime-text-3/Packages/*
+!.config/sublime-text-3/Packages/User
+.config/sublime-text-3/Packages/User/*
+!.jshintrc

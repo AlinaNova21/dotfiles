@@ -1,0 +1,9 @@
+#!/bin/bash
+Gray="$BBlack"
+PS1=""
+G="$Gray"
+L=""
+PS1=" \033]0;\h \W\007
+\[$L$Gray\](\[$Green\]$(date +%H%M)$Gray)-($Green\u$Gray)
+\[$L$Gray\](\[$Yellow\]\w\[$Gray\])-(\[$Yellow\]\h\[$Gray\])
+\[$Color_Off\] \$ ";

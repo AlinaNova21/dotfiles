@@ -1,0 +1,10 @@
+{
+	"cmd": ["nodePush","$file"],
+	"variants":[
+		{
+			"name": "Force Single",
+			"cmd": ["nodePush","$file","--single"],
+		}
+	],
+	"file_regex": "PHP Parse error:.+? in (...*?) on line ([0-9]*)"
+}

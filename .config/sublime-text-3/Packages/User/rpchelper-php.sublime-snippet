@@ -1,0 +1,29 @@
+<snippet>
+	<content><![CDATA[
+function success(\$result){
+	header('content-type: application/json');
+	die(json_encode([
+		'success'	=>	true,
+		'result'	=>	\$result,
+		'error'		=>	null
+	]));
+}
+
+function fail(\$code,\$msg,\$data=null){
+	header('content-type: application/json');
+	die(json_encode([
+		'success'	=>	false,
+		'result'	=>	null,
+		'error'		=>	[
+			'code'	=>	\$code,
+			'msg'	=>	\$msg,
+			'data'	=>	\$data
+		]
+	]));
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>rpchelper</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.php</scope>
+</snippet>
