@@ -1,5 +1,9 @@
 {
 	"bootstrapped": true,
+	"auto_upgrade_ignore":
+    [
+        "Seti_UI"
+    ],
 	"in_process_packages":
 	[
 	],
