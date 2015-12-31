@@ -7,3 +7,61 @@ PS1=" \033]0;\h \W\007
 \[$L$Gray\](\[$Green\]$(date +%H%M)$Gray)-($Green\u$Gray)
 \[$L$Gray\](\[$Yellow\]\w\[$Gray\])-(\[$Yellow\]\h\[$Gray\])
 \[$Color_Off\] \$ ";
+
+
+if test $(id -u) -eq 0; then
+	usr="$Red\u"
+else
+	usr="$Green\u"
+fi
+
+function gitprompt(){
+	local -a git_status_fields
+	git_status_fields=($(~/.gitstatus 2>/dev/null))
+
+	local GIT_BRANCH="${git_status_fields[0]}"
+	local GIT_REMOTE="${git_status_fields[1]}"
+	if [[ "." == "$GIT_REMOTE" ]]; then
+		unset GIT_REMOTE
+	fi
+
+	local GIT_UPSTREAM="${git_status_fields[2]}"
+	if [[ -z "${__GIT_PROMPT_SHOW_UPSTREAM}" || "^" == "$GIT_UPSTREAM" ]]; then
+		unset GIT_UPSTREAM
+	else
+		GIT_UPSTREAM="${GIT_PROMPT_UPSTREAM//_UPSTREAM_/${GIT_UPSTREAM}}"
+	fi
+
+	local GIT_STAGED=${git_status_fields[3]}
+	local GIT_CONFLICTS=${git_status_fields[4]}
+	local GIT_CHANGED=${git_status_fields[5]}
+	local GIT_UNTRACKED=${git_status_fields[6]}
+	local GIT_STASHED=${git_status_fields[7]}
+	local GIT_CLEAN=${git_status_fields[8]}
+
+	# echo 
+	# echo STAGED $GIT_STAGED
+	# echo CONFLICTS $GIT_CONFLICTS
+	# echo CHANGED $GIT_CHANGED
+	# echo UNTRACKED $GIT_UNTRACKED
+	# echo STASHED $GIT_STASHED
+	# echo CLEAN $GIT_CLEAN
+
+	if [[ $GIT_BRANCH != '' ]]; then
+		local STAT=""
+		[[ $GIT_CLEAN 		-ne 0 ]] && STAT=$STAT"$Green✔"
+		[[ $GIT_STAGED 		-ne 0 ]] && STAT=$STAT"$Yellow● $GIT_STAGED"
+		[[ $GIT_CONFLICTS 	-ne 0 ]] && STAT=$STAT"$BRed✖ $GIT_CONFLICTS"
+		[[ $GIT_CHANGED 	-ne 0 ]] && STAT=$STAT"$Yellow✚ $GIT_CHANGED"
+		[[ $GIT_UNTRACKED 	-ne 0 ]] && STAT=$STAT"$Gray…$GIT_UNTRACKED"
+		[[ $GIT_STASHED 	-ne 0 ]] && STAT=$STAT"$Gray⚑ $GIT_STASHED"
+		echo -ne "—["
+		[[ $GIT_CLEAN == 0 ]] && echo -ne "$Red" || echo -ne "$Green"
+		echo -ne "${GIT_BRANCH}${STAT}"
+		echo -ne "$White]"
+	fi
+}
+
+PS1="
+$White┌[$usr$White]—[\h]\$(gitprompt) $White\w
+\[$White\]└> "

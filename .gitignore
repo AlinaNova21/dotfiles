@@ -1,6 +1,7 @@
 *
 # .files
 !.gitignore
+!.gitstatus
 !.bashrc
 !.bashcl
 !.bashpr
