@@ -23,6 +23,6 @@
 	"index_files": false,
 	"show_encoding": true,
 	"theme": "Seti_orig.sublime-theme",
-	"typescript_plugin_tsc_version": "1.7.2",
+	"typescript_plugin_tsc_version": "1.7.3",
 	"word_wrap": false
 }

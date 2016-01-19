@@ -1,9 +1,9 @@
 {
-	"bootstrapped": true,
 	"auto_upgrade_ignore":
-    [
-        "Seti_UI"
-    ],
+	[
+		"Seti_UI"
+	],
+	"bootstrapped": true,
 	"in_process_packages":
 	[
 	],
@@ -22,6 +22,7 @@
 		"NodeRequirer",
 		"npm",
 		"Package Control",
+		"Protocol Buffer Syntax",
 		"Seti_UI",
 		"SideBarEnhancements",
 		"SideBarGit",
