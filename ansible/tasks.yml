@@ -18,7 +18,6 @@
      url=http://repo.ags131.com/repo.ags131.com.gpg.key
      state=present
      repo='ppa:neovim-ppa/unstable'
-     state=present
 
  - name: Add nodejs repo
    sudo: yes
