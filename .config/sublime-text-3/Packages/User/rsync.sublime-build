@@ -1,0 +1,11 @@
+{
+	"cmd": ["/bin/bash","-c",". .rsyncConfig;rsync -rltv \"$folder\" \"\\$REMOTE\""],
+	"working_dir": "${folder:${project_path:${file_path}}}",
+	"variants":[
+		{
+			"name": "Single File",
+			"cmd": ["/bin/bash","-c",". .rsyncConfig;rsync -Rltv \"`echo $file | sed 's#$folder/##'`\" \"\\$REMOTE\""],
+		}
+	],
+	"keyfile": ".rsyncConfig",
+}
