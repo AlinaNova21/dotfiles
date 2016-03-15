@@ -7,7 +7,7 @@ sudo apt-add-repository -y ppa:ansible/ansible
 sudo apt-get update
 sudo apt-get install -y ansible
 
-sudo cat <<EOT > /etc/ansible/hosts
+sudo dd of=/etc/ansible/hosts << EOT
 [local]
 localhost
 EOT
