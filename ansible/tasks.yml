@@ -46,7 +46,7 @@
 
  - name: Remove broken links
    sudo_user: "{{ user }}"
-   shell: find -L /home/{{ user }} -type l -delete
+   shell: find -xdev -L /home/{{ user }} -type l -delete
    tags: dotfiles
 
  - name: Unstow
