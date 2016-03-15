@@ -2,10 +2,11 @@
 
 if [ ! -e ~/src/dotfiles ]; then
 sudo apt-get update
-sudo apt-get install -y software-properties-common git
-sudo apt-add-repository -y ppa:ansible/ansible
-sudo apt-get update
-sudo apt-get install -y ansible
+sudo apt-get install -y software-properties-common git pip
+#sudo apt-add-repository -y ppa:ansible/ansible
+#sudo apt-get update
+#sudo apt-get install -y ansible
+sudo pip install ansible -y
 
 sudo dd of=/etc/ansible/hosts << EOT
 [local]

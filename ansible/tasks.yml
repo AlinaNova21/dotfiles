@@ -23,7 +23,6 @@
    apt_repository:
      repo='deb http://repo.ags131.com/debian main main'
      state=present
-     filename='repo.ags131.com'
      update_cache=yes
 
  - name: Setup {{ user }} shell
