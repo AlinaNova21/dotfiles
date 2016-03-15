@@ -51,5 +51,5 @@
 
  - name: Unstow
    sudo_user: "{{ user }}"
-   shell: cd /home/{{ user }}/src/dotfiles && xstow -t /home/{{ user }} bash git shell tmux jshint npm sublime
+   shell: cd /home/{{ user }}/src/dotfiles && xstow -t /home/{{ user }} bash git shell tmux jshint npm
    tags: dotfiles
