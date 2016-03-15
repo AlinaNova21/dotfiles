@@ -6,8 +6,9 @@ sudo apt-get install -y software-properties-common git python-pip
 #sudo apt-add-repository -y ppa:ansible/ansible
 #sudo apt-get update
 #sudo apt-get install -y ansible
-sudo pip install ansible -y
+sudo pip install ansible --upgrade
 
+sudo mkdir -p /etc/ansible
 sudo dd of=/etc/ansible/hosts << EOT
 [local]
 localhost
