@@ -5,6 +5,8 @@
    with_items:
        - nano
        - xstow
+       - tmux
+       - htop
 
  - name: "{{ user }} gui apps and utils"
    apt: name={{ item }}
@@ -46,7 +48,7 @@
 
  - name: Remove broken links
    sudo_user: "{{ user }}"
-   shell: find -xdev -L /home/{{ user }} -type l -delete
+   shell: find -L /home/{{ user }} -xdev -type l -delete
    tags: dotfiles
 
  - name: Unstow
