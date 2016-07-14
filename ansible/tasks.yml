@@ -48,10 +48,10 @@
 
  - name: Remove broken links
    sudo_user: "{{ user }}"
-   shell: find -L /home/{{ user }} -xdev -type l -delete
+   shell: find -depth 1 -L /home/{{ user }} -xdev -type l -delete
    tags: dotfiles
 
  - name: Unstow
    sudo_user: "{{ user }}"
-   shell: cd /home/{{ user }}/src/dotfiles && xstow -t /home/{{ user }} bash git shell tmux jshint npm
+   shell: cd /home/{{ user }}/src/dotfiles && xstow -t /home/{{ user }} bash git shell tmux jshint npm i3
    tags: dotfiles

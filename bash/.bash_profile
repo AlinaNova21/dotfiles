@@ -7,7 +7,7 @@ fi
 
 # User specific environment and startup programs
 
-PATH=~/npm-global/bin:$HOME/bin:$PATH:/usr/games
+PATH=$HOME/npm-global/bin:$HOME/bin:$PATH:/usr/games
 
 export PATH
 EDITOR=nano

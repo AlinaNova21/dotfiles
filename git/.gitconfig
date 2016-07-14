@@ -3,8 +3,6 @@
 	name = Adam Shumann
 [push]
 	default = tracking
-[diff]
-	external = /usr/bin/meld
 [merge]
 	tool = meld
 [mergetool "meld"]
