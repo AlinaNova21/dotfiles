@@ -3,5 +3,6 @@
   sudo: yes 
   vars:
     user: adam
+    debug: false
   tasks:
   - include: tasks.yml

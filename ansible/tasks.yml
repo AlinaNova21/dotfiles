@@ -39,6 +39,7 @@
      version=master
      recursive=yes
    tags: dotfiles
+   when: debug == false
 
  - name: Remove existing files
    file: dest=/home/{{ user }}/{{ item }} state=absent
@@ -48,7 +49,7 @@
 
  - name: Remove broken links
    sudo_user: "{{ user }}"
-   shell: find -depth 1 -L /home/{{ user }} -xdev -type l -delete
+   shell: find -L /home/{{ user }} -maxdepth 1 -xdev -type l -delete
    tags: dotfiles
 
  - name: Unstow
