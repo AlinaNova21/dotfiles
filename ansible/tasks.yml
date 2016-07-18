@@ -17,13 +17,13 @@
  - name: Add nodejs repo key
    sudo: yes
    apt_key: 
-     url=http://repo.ags131.com/repo.ags131.com.gpg.key
+     url=http://ags131repo.s3-website-us-east-1.amazonaws.com/repo.ags131.com.gpg.key
      state=present
 
  - name: Add nodejs repo
    sudo: yes
    apt_repository:
-     repo='deb http://repo.ags131.com/debian main main'
+     repo='deb https://s3.amazonaws.com/ags131repo/debian main main'
      state=present
      update_cache=yes
 
