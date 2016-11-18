@@ -62,6 +62,7 @@
 
  - name: Setup bin
    file:
+    path: /home/{{ user }}/bin
     state: directory
 
  - name: Unstow bin
