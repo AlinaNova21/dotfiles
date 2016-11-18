@@ -1,7 +1,7 @@
 ---
  - name: "{{ user }} apps and utils"
    apt: name={{ item }}
-   sudo: yes
+   become: yes
    with_items:
        - apt-transport-https
        - zsh
@@ -13,18 +13,18 @@
 
  - name: "{{ user }} gui apps and utils"
    apt: name={{ item }}
-   sudo: yes
+   become: yes
    with_items:
        - feh
 
  - name: Add nodejs repo key
-   sudo: yes
+   become: yes
    apt_key: 
      url=http://ags131repo.s3-website-us-east-1.amazonaws.com/repo.ags131.com.gpg.key
      state=present
 
  - name: Add nodejs repo
-   sudo: yes
+   become: yes
    apt_repository:
      repo='deb https://s3.amazonaws.com/ags131repo/debian main main'
      state=present
@@ -36,7 +36,7 @@
          shell=/bin/zsh
 
  - name: Clone dotfiles
-   sudo_user: "{{ user }}"
+   become_user: "{{ user }}"
    git: repo=https://github.com/ags131/dotfiles
      dest=/home/{{ user }}/src/dotfiles
      version=master
@@ -51,16 +51,20 @@
        - .bash_logout
 
  - name: Remove broken links
-   sudo_user: "{{ user }}"
+   become_user: "{{ user }}"
    shell: find -L /home/{{ user }} -maxdepth 1 -xdev -type l -delete
    tags: dotfiles
 
  - name: Unstow
-   sudo_user: "{{ user }}"
+   become_user: "{{ user }}"
    shell: cd /home/{{ user }}/src/dotfiles && xstow -t /home/{{ user }} bash zsh git shell tmux jshint npm i3
    tags: dotfiles
 
+ - name: Setup bin
+   file:
+    state: directory
+
  - name: Unstow bin
-   sudo_user: "{{ user }}"
+   become_user: "{{ user }}"
    shell: cd /home/{{ user }}/src/dotfiles && xstow -t /home/{{ user }}/bin bin
    tags: dotfiles
