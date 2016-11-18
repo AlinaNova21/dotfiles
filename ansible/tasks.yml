@@ -62,6 +62,13 @@
     args:
       chdir: /home/{{ user }}/src/powerline-shell
 
+  - name: Link powerline-shell
+    become_user: "{{ user }}"
+    file:
+      path: /home/{{ user }}/bin/powerline-shell.py
+      state: link
+      src: /home/{{ user }}/powerline-shell/powerline-shell.py
+
   - name: Clone dotfiles
     become_user: "{{ user }}"
     git: 
