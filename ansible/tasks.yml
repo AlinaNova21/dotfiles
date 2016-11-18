@@ -68,6 +68,7 @@
       path: /home/{{ user }}/bin/powerline-shell.py
       state: link
       src: /home/{{ user }}/powerline-shell/powerline-shell.py
+      force: yes
 
   - name: Clone dotfiles
     become_user: "{{ user }}"
@@ -101,7 +102,7 @@
       path: /home/{{ user }}/bin
       state: directory
 
-  - name: Unstow bin
-    become_user: "{{ user }}"
-    shell: cd /home/{{ user }}/src/dotfiles && xstow -t /home/{{ user }}/bin bin
-    tags: dotfiles
+  # - name: Unstow bin
+  #   become_user: "{{ user }}"
+  #   shell: cd /home/{{ user }}/src/dotfiles && xstow -t /home/{{ user }}/bin bin
+  #   tags: dotfiles
