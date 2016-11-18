@@ -59,3 +59,8 @@
    sudo_user: "{{ user }}"
    shell: cd /home/{{ user }}/src/dotfiles && xstow -t /home/{{ user }} bash zsh git shell tmux jshint npm i3
    tags: dotfiles
+
+ - name: Unstow bin
+   sudo_user: "{{ user }}"
+   shell: cd /home/{{ user }}/src/dotfiles && xstow -t /home/{{ user }}/bin bin
+   tags: dotfiles
