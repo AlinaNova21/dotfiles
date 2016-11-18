@@ -30,6 +30,11 @@
      state=present
      update_cache=yes
 
+  - name: Clone oh-my-zsh repo
+    git: 
+      repo: https://github.com/robbyrussell/oh-my-zsh.git
+      dest: /home/{{ user }}/.oh-my-zsh
+
  - name: Setup {{ user }} shell
    user: name={{ user }}
          comment="Adam Shumann"
@@ -61,6 +66,7 @@
    tags: dotfiles
 
  - name: Setup bin
+   become_user: "{{ user }}"
    file:
     path: /home/{{ user }}/bin
     state: directory
