@@ -67,7 +67,7 @@
     file:
       path: /home/{{ user }}/bin/powerline-shell.py
       state: link
-      src: /home/{{ user }}/powerline-shell/powerline-shell.py
+      src: /home/{{ user }}/src/powerline-shell/powerline-shell.py
       force: yes
 
   - name: Clone dotfiles
