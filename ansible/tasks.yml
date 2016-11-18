@@ -3,6 +3,9 @@
    apt: name={{ item }}
    sudo: yes
    with_items:
+       - apt-transport-https
+       - zsh
+       - git
        - nano
        - xstow
        - tmux
@@ -30,7 +33,7 @@
  - name: Setup {{ user }} shell
    user: name={{ user }}
          comment="Adam Shumann"
-         shell=/bin/bash
+         shell=/bin/zsh
 
  - name: Clone dotfiles
    sudo_user: "{{ user }}"
@@ -54,5 +57,5 @@
 
  - name: Unstow
    sudo_user: "{{ user }}"
-   shell: cd /home/{{ user }}/src/dotfiles && xstow -t /home/{{ user }} bash git shell tmux jshint npm i3
+   shell: cd /home/{{ user }}/src/dotfiles && xstow -t /home/{{ user }} bash zsh git shell tmux jshint npm i3
    tags: dotfiles

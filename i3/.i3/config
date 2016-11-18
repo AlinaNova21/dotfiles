@@ -166,7 +166,10 @@ for_window [class="rdesktop"] move workspace number 9; floating disable
 for_window [class="zoiper"] move absolute position 2680 px 0 px;
 for_window [class="Zoiper"] move absolute position 2680 px 0 px;
 for_window [class="Sublime_text"] move workspace number 4;
+for_window [class="chrome"] move workspace number 1;
+for_window [class="vivaldi"] move workspace number 1;
 
 
 bindsym $mod+l exec "~/bin/fuzzylock"
 exec xautolock -time 5 -locker '/home/adam/bin/fuzzylock' &
+exec parcellite
