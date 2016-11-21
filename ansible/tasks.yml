@@ -91,9 +91,16 @@
     shell: find -L /home/{{ user }} -maxdepth 1 -xdev -type l -delete
     tags: dotfiles
 
+  - name: Ensure NPM Prefix
+    lineinfile:
+      create: true
+      dest: /home/{{ user }}/.npmrc
+      line: 'prefix=/home/{{ user }}/npm-global'
+      state: present
+
   - name: Unstow
     become_user: "{{ user }}"
-    shell: cd /home/{{ user }}/src/dotfiles && xstow -t /home/{{ user }} bash zsh git shell tmux jshint npm i3
+    shell: cd /home/{{ user }}/src/dotfiles && xstow -t /home/{{ user }} bash zsh git shell tmux jshint i3
     tags: dotfiles
 
   - name: Setup bin

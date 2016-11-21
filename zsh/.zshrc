@@ -87,20 +87,20 @@ export editor="nano"
 alias zshconfig="subl ~/.zshrc"
 alias ohmyzsh="subl ~/.oh-my-zsh"
 
-# function powerline_precmd() {
-#     PS1="$(~/bin/powerline-shell.py $? --shell zsh --colorize-hostname --cwd-mode fancy 2> /dev/null)"
-# }
+function powerline_precmd() {
+    PS1="$(~/src/powerline-shell/powerline-shell.py $? --shell zsh --colorize-hostname --cwd-mode fancy 2> /dev/null)"
+}
 
-# function install_powerline_precmd() {
-#   for s in "${precmd_functions[@]}"; do
-#     if [ "$s" = "powerline_precmd" ]; then
-#       return
-#     fi
-#   done
-#   precmd_functions+=(powerline_precmd)
-# }
+function install_powerline_precmd() {
+  for s in "${precmd_functions[@]}"; do
+    if [ "$s" = "powerline_precmd" ]; then
+      return
+    fi
+  done
+  precmd_functions+=(powerline_precmd)
+}
 
-# if [ "$TERM" != "linux" ]; then
-#     install_powerline_precmd
-# fi
+if [ "$TERM" != "linux" ]; then
+    install_powerline_precmd
+fi
 
