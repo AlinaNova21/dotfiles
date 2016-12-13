@@ -151,6 +151,8 @@ mode "resize" {
         bindsym Escape mode "default"
 }
 
+bindsym Print exec puush -b
+
 bindsym $mod+r mode "resize"
 
 # Start i3bar to display a workspace bar (plus the system information i3status
@@ -173,3 +175,12 @@ for_window [class="vivaldi"] move workspace number 1;
 bindsym $mod+l exec "~/bin/fuzzylock"
 exec xautolock -time 5 -locker '/home/adam/bin/fuzzylock' &
 exec parcellite
+
+exec --no-startup-id nm-applet
+exec --no-startup-id nitrogen --restore
+exec --no-startup-id blueman-applet
+
+bindsym XF86TouchpadToggle exec toggleTouchPad.js
+bindsym XF86KbdBrightnessUp exec kbdBacklight up
+bindsym XF86KbdBrightnessDown exec kbdBacklight down
+exec --no-startup-id /usr/bin/syndaemon -R -d -K -i 1
