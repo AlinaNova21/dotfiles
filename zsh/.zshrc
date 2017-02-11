@@ -104,3 +104,6 @@ if [ "$TERM" != "linux" ]; then
     install_powerline_precmd
 fi
 
+setopt noautomenu 
+setopt nomenucomplete
+

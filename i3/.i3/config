@@ -96,6 +96,8 @@ bindsym $mod+a focus parent
 # focus the child container
 #bindsym $mod+d focus child
 
+bindsym $mod+u [urgent=latest] focus
+
 # switch to workspace
 bindsym $mod+1 workspace 1
 bindsym $mod+2 workspace 2
@@ -159,7 +161,8 @@ bindsym $mod+r mode "resize"
 # finds out, if available)
 bar {
 	position top
-        status_command i3status
+        #status_command i3status
+	status_command /home/adam/bin/net-speed.sh
         tray_output primary
 }
 
@@ -183,4 +186,7 @@ exec --no-startup-id blueman-applet
 bindsym XF86TouchpadToggle exec toggleTouchPad.js
 bindsym XF86KbdBrightnessUp exec kbdBacklight up
 bindsym XF86KbdBrightnessDown exec kbdBacklight down
+
+bindsym $mod+q exec ~/bin/sublime-dmenu
+
 exec --no-startup-id /usr/bin/syndaemon -R -d -K -i 1
