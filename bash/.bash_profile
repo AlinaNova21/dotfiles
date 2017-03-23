@@ -14,3 +14,9 @@ EDITOR=nano
 export EDITOR
 
 . ~/bin/tmuxinator.bash
+
+###-tns-completion-start-###
+if [ -f /home/adam/.tnsrc ]; then 
+    source /home/adam/.tnsrc 
+fi
+###-tns-completion-end-###

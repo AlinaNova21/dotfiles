@@ -117,3 +117,9 @@ function installScripts()
 export PATH="/usr/local/heroku/bin:$PATH"
 
 
+
+###-tns-completion-start-###
+if [ -f /home/adam/.tnsrc ]; then 
+    source /home/adam/.tnsrc 
+fi
+###-tns-completion-end-###

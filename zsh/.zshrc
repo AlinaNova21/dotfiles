@@ -107,3 +107,9 @@ fi
 setopt noautomenu 
 setopt nomenucomplete
 
+
+###-tns-completion-start-###
+if [ -f /home/adam/.tnsrc ]; then 
+    source /home/adam/.tnsrc 
+fi
+###-tns-completion-end-###
