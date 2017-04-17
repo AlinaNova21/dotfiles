@@ -177,9 +177,9 @@ for_window [title="NMerge NW"] floating enable;
 for_window [title="NMerge NW"] move center;
 
 bindsym $mod+l exec "~/bin/fuzzylock"
+
 exec xautolock -time 5 -locker '/home/adam/bin/fuzzylock' &
 exec parcellite
-
 exec --no-startup-id nm-applet
 exec --no-startup-id nitrogen --restore
 exec --no-startup-id blueman-applet

@@ -3,10 +3,14 @@
 	name = Adam Shumann
 [push]
 	default = tracking
+[diff]
+	tool = meld
+[difftool "meld"]
+	path = /usr/bin/meld "$LOCAL" "$REMOTE"
 [merge]
 	tool = meld
 [mergetool "meld"]
-	path = /usr/bin/meld
+	cmd = /usr/bin/meld "$LOCAL" "$BASE" "$REMOTE" --output "$MERGED"
 [alias]
 	# add
 	a = add                           # add

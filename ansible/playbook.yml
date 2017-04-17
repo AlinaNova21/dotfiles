@@ -1,8 +1,0 @@
----
-- hosts: all
-  become: yes 
-  vars:
-    user: adam
-    debug: false
-  tasks:
-  - include: tasks.yml
