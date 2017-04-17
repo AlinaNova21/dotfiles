@@ -9,6 +9,7 @@
 	],
 	"installed_packages":
 	[
+		"AlignTab",
 		"AngularJS",
 		"Ansible",
 		"AutoFileName",
@@ -16,19 +17,31 @@
 		"Color Highlighter",
 		"CSS3",
 		"Dart",
+		"EditorConfig",
 		"Emmet",
 		"Grunt",
+		"Gulp",
+		"Handlebars",
 		"HTML Underscore Syntax",
+		"HTML-CSS-JS Prettify",
+		"Modific",
 		"NodeRequirer",
 		"npm",
 		"Package Control",
 		"Protocol Buffer Syntax",
+		"Pug",
+		"Sass",
 		"Seti_UI",
 		"SideBarEnhancements",
 		"SideBarGit",
+		"StandardFormat",
+		"SublimeCodeIntel",
 		"SublimeGit",
 		"SublimeLinter",
+		"SublimeLinter-contrib-tslint",
 		"SublimeLinter-jshint",
-		"TypeScript"
+		"Syntax Highlighting for Sass",
+		"TypeScript",
+		"Vue Syntax Highlight"
 	]
 }

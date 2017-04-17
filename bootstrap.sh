@@ -23,7 +23,7 @@ pushd $HOME
 	done
 
 	usermod -s /bin/zsh $USER
-	
+
 	git clone https://github.com/robbyrussell/oh-my-zsh.git .oh-my-zsh
 	git clone https://github.com/milkbikis/powerline-shell src/powerline-shell
 
@@ -42,6 +42,7 @@ popd
 
 pushd $HOME/src/dotfiles
 	xstow -t $HOME bash zsh git shell tmux jshint i3
+	xstow -t $HOME/.config .config/*
 popd
 
 # if [ ! -e ~/src/dotfiles ]; then

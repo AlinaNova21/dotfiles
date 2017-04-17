@@ -1,9 +1,0 @@
-{
-	"cmd": ["npm","run-script","deploy","--loglevel=silent"],
-	"variants":[
-		{
-			"name": "Remote",
-			"cmd": ["npm","run-script","deploy-remote","--loglevel=silent"],
-		}
-	]
-}

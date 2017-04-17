@@ -4,6 +4,14 @@
 		{
 			"name": "Force Single",
 			"cmd": ["nodePush","$file","--single"],
+		},
+		{
+			"name": "Force Single - No Git",
+			"cmd": ["nodePush","$file","--single","--no-git"],
+		},
+		{
+			"name": "No Git",
+			"cmd": ["nodePush","$file","--no-git"],
 		}
 	],
 	"file_regex": "PHP Parse error:.+? in (...*?) on line ([0-9]*)"

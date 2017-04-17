@@ -1,6 +1,7 @@
 [
+	{ "keys": ["ctrl+q"], "command": "noop" },
 	{ "keys": ["ctrl+shift+n"], "command": "npm_install_save" },
-	{ "keys": ["ctrl+alt+s"], "command": "git_status"},
+	{ "keys": ["ctrl+shift+g"], "command": "git_status"},
 	{ "keys": ["ctrl+b"], "command": "git_push", "context": [{ "key": "selector", "operator": "equal", "operand": "text.git-status"}]},
 	// { "keys": ["ctrl+w"], "command": "show_panel", "args": {"panel": "find", "reverse": false} },
 ]
