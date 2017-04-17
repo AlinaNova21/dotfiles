@@ -22,7 +22,8 @@ pushd $HOME
 		git clone https://github.com/ags131/dotfiles src/dotfiles
 	done
 
-	chsh $USER /bin/zsh
+	usermod -s /bin/zsh $USER
+	
 	git clone https://github.com/robbyrussell/oh-my-zsh.git .oh-my-zsh
 	git clone https://github.com/milkbikis/powerline-shell src/powerline-shell
 
