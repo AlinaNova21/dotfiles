@@ -56,7 +56,7 @@ pushd $HOME
 	then
 		echo Removing symlinks
 		find -L . -maxdepth 1 -xdev -type l -delete
-		cp src/dotfiles/bootstrap.sh bin/dotfiles
+		ln -df $HOME/src/dotfiles/bootstrap.sh bin/dotfiles
 		chmod +x bin/dotfiles
 	fi
 	echo Setting NPM prefix
@@ -64,7 +64,7 @@ pushd $HOME
 	echo Symlinking
 	pushd src/dotfiles
 		xstow -t $HOME bash zsh git shell tmux jshint i3
-		xstow -t $HOME/.config .config/*
+		xstow -t $HOME/.config .config
 	popd
 popd
 
