@@ -6,7 +6,7 @@ read -p "Install GUI stuff?" -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
-	APT="$APT feh pnmixer nitrogen parcellite"
+	APT="$APT feh pnmixer nitrogen parcellite xfce4-terminal i3wm lightdm"
 fi
 
 apt update
