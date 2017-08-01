@@ -1,0 +1,3 @@
+scrot /tmp/lock.png
+mogrify -blur 0x12 /tmp/lock.png
+exec i3lock -i /tmp/lock.png

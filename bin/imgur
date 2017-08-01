@@ -1,0 +1,107 @@
+#!/bin/bash
+# Set API Key here
+IMGUR_CLIENT_ID=beebcf17d07bc54
+
+if [[ $0 != 'puush' ]]; then
+	1=${0/puush-/}
+fi
+
+function uploadFile (){
+	if [ -z "$1" ]; then
+		echo "No file specified"
+		exit 1
+	elif [ ! -f "$1" ]; then
+		echo "Upload cancelled"
+		exit 1
+	fi
+	resp=$(curl --request POST --url https://api.imgur.com/3/image -F "image=@"$1 --header 'authorization: Client-ID '$IMGUR_CLIENT_ID --header 'content-type: multipart/form-data') 
+	echo $resp
+	if [ ! -z "$resp" ]; then
+		#Copy link to clipboard, show notification
+		url=$(echo $resp | node -e "process.stdin.on('data',d=>console.log(JSON.parse(d).data.link))")
+		printf $url | xclip -selection "clipboard"
+		notify-send -i "$( cd "$( dirname "$0" )" && pwd )/icon.png" -t 2000 "Upload complete!" "$url"
+	fi
+}
+
+function helpText ()
+{
+  printf "_____________ Imgur Upload _____________\n"
+  printf "\n"
+  printf "Usage:\n"
+  printf "  imgur [OPTIONS] [PATH]\n"
+  printf "\n"
+  printf "OPTIONS:\n"
+  printf "  -a                 entire desktop\n"
+  printf "  -b                 select area\n"
+  printf "  -c                 current window\n"
+  printf "  -d                 specific file (opens file dialog)\n"
+  printf "\n"
+  printf "  --help,-h          show this page\n"
+  printf "\n"
+  printf "PATH:\n"
+  printf "  PATH               optional: path of file to puush\n"
+}
+
+function generateFileName () { echo "/tmp/imgur-($(date +"%Y-%m-%d_%I.%M.%S")).png"; }
+
+if [ -z "$IMGUR_CLIENT_ID" ]; then
+  echo "Set the variable IMGUR_CLIENT_ID in $0"
+  echo "You can find your API key at https://api.imgur.com/oauth2/addclient"
+
+  notify-send -i "$( cd "$( dirname "$0" )" && pwd )/icon.png" "Set the variable IMGUR_CLIENT_ID in $0" "You can find your API key at https://api.imgur.com/oauth2/addclient"
+
+  exit 1
+
+elif [ -z "$1" ]; then
+	echo "No file entered."
+	helpText
+  exit 1
+
+fi
+
+#Get file to puush and puush it
+case "$1" in
+	-a)
+		echo "Whole Desktop"
+			fileName=$(generateFileName)
+			gnome-screenshot -f "$fileName"
+			uploadFile "$fileName"
+		;;
+
+	-b)
+		echo "Area"
+			fileName=$(generateFileName)
+			gnome-screenshot -a -f "$fileName"
+			uploadFile "$fileName"
+		;;
+
+	-c)
+		echo "Window"
+			fileName=$(generateFileName)
+			gnome-screenshot -w -f "$fileName"
+			uploadFile "$fileName"
+		;;
+
+	-d)
+		echo "File Upload"
+			fileName=`zenity --file-selection`
+			uploadFile "$fileName"
+		;;
+       -g)
+                echo "GIF Capture"
+			fileName=out.gif
+			gif
+			uploadFile "$fileName"
+		;;
+	-h|--help)
+		helpText
+		exit 0
+		;;
+
+	*)
+		echo "Upload $1"
+			puushFile "$1"
+		;;
+
+esac

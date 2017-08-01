@@ -65,6 +65,7 @@ pushd $HOME
 	pushd src/dotfiles
 		xstow -t $HOME bash zsh git shell tmux jshint i3
 		xstow -t $HOME/.config .config
+		xstow -t $HOME/bin bin
 	popd
 popd
 
