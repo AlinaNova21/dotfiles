@@ -51,6 +51,10 @@ pushd $HOME
 			./install.py
 		popd
 	fi
+	ZSH_CUSTOM=~/.oh-my-zsh/custom
+	mkdir -p $ZSH_CUSTOM/themes
+	curl -o $ZSH_CUSTOM/themes/spaceship.zsh-theme https://raw.githubusercontent.com/denysdovhan/spaceship-zsh-theme/master/spaceship.zsh
+	curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash
 	rm -v .bashrc .bash_logout
 	if [[ $UPDATE == "n" ]]
 	then
