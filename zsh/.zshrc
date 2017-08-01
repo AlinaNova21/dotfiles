@@ -11,6 +11,8 @@ export ZSH=/home/adam/.oh-my-zsh
 # ZSH_THEME="agnoster"
 ZSH_THEME="spaceship"
 
+SPACESHIP_EXIT_CODE_SHOW=true
+
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 

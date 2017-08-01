@@ -42,15 +42,15 @@ pushd $HOME
 	then
 		git clone https://github.com/robbyrussell/oh-my-zsh.git .oh-my-zsh
 	fi
-	if [[ ! -e src/powerline-shell ]]
-	then
-		git clone https://github.com/milkbikis/powerline-shell src/powerline-shell
-		cp src/dotfiles/files/powerline-config.py src/powerline-shell/config.py
-
-		pushd src/powerline-shell
-			./install.py
-		popd
-	fi
+	#if [[ ! -e src/powerline-shell ]]
+	#then
+	#	git clone https://github.com/milkbikis/powerline-shell src/powerline-shell
+	#	cp src/dotfiles/files/powerline-config.py src/powerline-shell/config.py
+    #
+	#	pushd src/powerline-shell
+	#		./install.py
+	#	popd
+	#fi
 	ZSH_CUSTOM=~/.oh-my-zsh/custom
 	mkdir -p $ZSH_CUSTOM/themes
 	curl -o $ZSH_CUSTOM/themes/spaceship.zsh-theme https://raw.githubusercontent.com/denysdovhan/spaceship-zsh-theme/master/spaceship.zsh
