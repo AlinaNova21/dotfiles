@@ -154,7 +154,7 @@ mode "resize" {
         bindsym Escape mode "default"
 }
 
-bindsym Print exec puush -b
+bindsym Print exec imgur -b
 
 bindsym $mod+r mode "resize"
 
