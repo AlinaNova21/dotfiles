@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 if [ "$EUID" -ne 0 ]
 then
-	sudo $0 $@
-	exit
+	# sudo $0 $@
+	# exit
 fi
 
 
@@ -22,9 +22,8 @@ then
 	fi
 fi
 
-apt update
-
-apt install -y $APT
+sudo apt update
+sudo apt install -y $APT
 
 # http://ags131repo.s3-website-us-east-1.amazonaws.com/repo.ags131.com.gpg.key
 # 'deb https://s3.amazonaws.com/ags131repo/debian main main'
