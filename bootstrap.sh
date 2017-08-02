@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-if [ "$EUID" -ne 0 ]
-then
+#if [ "$EUID" -ne 0 ]
+#then
 	# sudo $0 $@
 	# exit
-fi
+#fi
 
 
 GUI=n
