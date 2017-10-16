@@ -1,9 +1,10 @@
+#!/bin/bash
 GUI=n
 APT="apt-transport-https zsh git nano xstow tmux htop curl wget chsh"
 UPDATE=n
-STOWFILES="bash zsh git shell tmux jshint i3"
+STOWFILES=(bash zsh git shell tmux jshint i3 .zsh_custom)
 STOWDIRS=".config bin"
-ENSUREDIRS="bin src .config"
+ENSUREDIRS=(bin src .config)
 
 [[ "$(basename $0)" == "dotfiles" ]] && UPDATE=y
 
@@ -38,11 +39,6 @@ pushd $HOME
 		git clone https://github.com/robbyrussell/oh-my-zsh.git .oh-my-zsh
 	fi
 	
-	# ZSH THEME
-	ZSH_CUSTOM=$HOME/.zsh_custom
-	mkdir -p $ZSH_CUSTOM/themes
-	curl -o $ZSH_CUSTOM/themes/spaceship.zsh-theme https://raw.githubusercontent.com/denysdovhan/spaceship-zsh-theme/master/spaceship.zsh
-
 	if [[ $UPDATE == "n" ]]
 	then
 		echo Removing symlinks
@@ -53,13 +49,10 @@ pushd $HOME
 	echo Symlinking
 	pushd src/dotfiles
 		xstow -t $HOME $STOWFILES
-		for D in ($STOWDIRS)
+		for D in $STOWDIRS
 		do
 			xstow -t $HOME/$D $D
 		done
-		# xstow -t $HOME bash zsh git shell tmux jshint i3
-		# xstow -t $HOME/.config .config
-		# xstow -t $HOME/bin bin
 	popd
 	curl -o - https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash
 popd
