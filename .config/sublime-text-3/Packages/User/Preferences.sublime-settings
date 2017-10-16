@@ -1,19 +1,22 @@
 {
+	"Seti_ClosedFolder_anim": true,
+	"Seti_sb_small_padding": true,
+	"Seti_tab_font_12": true,
+	"Seti_tabs_small": true,
 	"atomic_save": false,
 	"auto_upgrade_ignore":
 	[
 		"Seti_UI"
 	],
 	"codeintel_scan_files_in_project": false,
-	"color_scheme": "Packages/User/Scheme/Seti_monokai.tmTheme",
+	"color_scheme": "Packages/User/Scheme_/Seti_monokai.tmTheme",
 	"enable_tab_scrolling": true,
-	"font_size": 9,
+	"font_size": 10,
 	"ignore_inodes": true,
 	"ignored_packages":
 	[
 		"AngularJS",
 		"Color Highlighter",
-		"CSS",
 		"Gulp",
 		"Handlebars",
 		"Sass",

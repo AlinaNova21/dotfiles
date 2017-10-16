@@ -26,4 +26,5 @@ ColorBold=#93a1a1
 ColorBoldUseDefault=FALSE
 ColorPalette=#070736364242;#dcdc32322f2f;#858599990000;#b5b589890000;#26268b8bd2d2;#d3d336368282;#2a2aa1a19898;#eeeee8e8d5d5;#00002b2b3636;#ffff3e2c492d;#471abbfa3246;#c742ba0f3a51;#4793613ed7b6;#ffff640fcdc5;#79d8e940e940;#fdfdf6f6e3e3
 TabActivityColor=#dc322f
+ScrollingLines=3000
 

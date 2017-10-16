@@ -34,6 +34,7 @@
 		"Pug",
 		"Sass",
 		"Seti_UI",
+		"Seti_UX",
 		"SideBarEnhancements",
 		"SideBarGit",
 		"StandardFormat",
@@ -44,6 +45,7 @@
 		"SublimeLinter-contrib-tslint",
 		"SublimeLinter-jshint",
 		"Syntax Highlighting for Sass",
+		"TOML",
 		"TypeScript",
 		"Vue Syntax Highlight"
 	]
