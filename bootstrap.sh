@@ -14,7 +14,7 @@ then
 	echo
 	if [[ $REPLY =~ ^[Yy]$ ]]
 	then
-		APT="$APT feh pnmixer nitrogen parcellite xfce4-terminal i3wm lightdm"
+		APT="$APT feh pnmixer nitrogen parcellite xfce4-terminal i3wm lightdm rofi"
 	fi
 fi
 
