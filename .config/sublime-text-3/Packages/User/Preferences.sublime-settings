@@ -9,7 +9,7 @@
 		"Seti_UI"
 	],
 	"codeintel_scan_files_in_project": false,
-	"color_scheme": "Packages/User/Scheme_/Seti_monokai.tmTheme",
+	"color_scheme": "Packages/User/Scheme/Seti_monokai.tmTheme",
 	"enable_tab_scrolling": true,
 	"font_size": 9,
 	"ignore_inodes": true,

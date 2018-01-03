@@ -1,9 +1,9 @@
 #!/bin/bash
 GUI=n
-APT="apt-transport-https zsh git nano xstow tmux htop curl wget chsh"
+APT="apt-transport-https zsh git nano xstow tmux htop curl wget"
 UPDATE=n
 STOWFILES=(bash zsh git shell tmux jshint i3 .zsh_custom)
-STOWDIRS=".config bin"
+STOWDIRS=".config .zsh_custom bin"
 ENSUREDIRS=(bin src .config)
 
 [[ "$(basename $0)" == "dotfiles" ]] && UPDATE=y
@@ -14,7 +14,7 @@ then
 	echo
 	if [[ $REPLY =~ ^[Yy]$ ]]
 	then
-		APT="$APT feh pnmixer nitrogen parcellite xfce4-terminal i3wm lightdm rofi i3blocks lm-sensors acpi fonts-font-awesome"
+		APT="$APT feh pnmixer nitrogen parcellite xfce4-terminal i3 lightdm rofi i3blocks lm-sensors acpi fonts-font-awesome"
 	fi
 fi
 
@@ -36,7 +36,7 @@ pushd $HOME
 	fi
 
 	# Default shell
-	chsh /bin/zsh
+	# chsh /bin/zsh
 
 	# oh-my-zsh
 	if [[ ! -e .oh-my-zsh ]]
@@ -53,14 +53,14 @@ pushd $HOME
 	fi
 	echo Symlinking
 	pushd src/dotfiles
-		xstow -t $HOME $STOWFILES
-		mkdir -p $HOME/.local/share/fonts
-		xstow -t $HOME/.local/share/fonts fonts
-		fc-cache -fv
+		xstow -R -t $HOME $STOWFILES
 		for D in $STOWDIRS
 		do
-			xstow -t $HOME/$D $D
+			xstow -R -t $HOME/$D $D
 		done
+		mkdir -p $HOME/.local/share/fonts
+		xstow -R -t $HOME/.local/share/fonts fonts
+		fc-cache -fv
 	popd
 	curl -o - https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash
 popd
