@@ -54,6 +54,7 @@ pushd $HOME
 	echo Symlinking
 	pushd src/dotfiles
 		xstow -t $HOME $STOWFILES
+		mkdir -p $HOME/.local/share/fonts
 		xstow -t $HOME/.local/share/fonts fonts
 		fc-cache -fv
 		for D in $STOWDIRS
