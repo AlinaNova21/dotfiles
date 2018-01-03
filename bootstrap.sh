@@ -14,7 +14,7 @@ then
 	echo
 	if [[ $REPLY =~ ^[Yy]$ ]]
 	then
-		APT="$APT feh pnmixer nitrogen parcellite xfce4-terminal i3wm lightdm rofi"
+		APT="$APT feh pnmixer nitrogen parcellite xfce4-terminal i3wm lightdm rofi i3blocks lm-sensors acpi fonts-font-awesome"
 	fi
 fi
 
@@ -28,6 +28,11 @@ pushd $HOME
 	if [[ ! -e src/dotfiles ]]
 	then
 		git clone https://github.com/ags131/dotfiles src/dotfiles
+	fi
+
+	if [[ ! -e src/i3blocks-contrib ]]
+	then
+		git clone https://github.com/vivien/i3blocks-contrib src/i3blocks-contrib
 	fi
 
 	# Default shell
@@ -49,6 +54,8 @@ pushd $HOME
 	echo Symlinking
 	pushd src/dotfiles
 		xstow -t $HOME $STOWFILES
+		xstow -t $HOME/.local/share/fonts fonts
+		fc-cache -fv
 		for D in $STOWDIRS
 		do
 			xstow -t $HOME/$D $D
