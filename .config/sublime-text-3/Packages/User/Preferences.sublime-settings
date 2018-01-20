@@ -20,6 +20,7 @@
 		"Gulp",
 		"Handlebars",
 		"Sass",
+		"SideBarGit",
 		"Vintage"
 	],
 	"index_exclude_patterns":

@@ -29,7 +29,7 @@ bindsym $mod+Alt_L mode "passthrough"
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
-font pango:DejaVu Sans Mono 8
+font pango: Noto Mono 6
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -161,7 +161,7 @@ bindsym $mod+r mode "resize"
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-    font pango:DejaVu Sans Mono, FontAwesome 8
+    font pango: Noto Mono, FontAwesome 6
 	position top
     #status_command i3status
 	#status_command /home/adam/bin/net-speed.sh
@@ -198,6 +198,7 @@ exec --no-startup-id nm-applet
 exec --no-startup-id nitrogen --restore
 exec --no-startup-id blueman-applet
 exec --no-startup-id pnmixer
+exec --no-startup-id compton -b -C
 
 bindsym XF86TouchpadToggle exec toggleTouchPad.js
 bindsym XF86KbdBrightnessUp exec kbdBacklight up
