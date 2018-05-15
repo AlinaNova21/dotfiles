@@ -20,7 +20,8 @@
 		"Color Highlighter",
 		"Gulp",
 		"Handlebars",
-		"SublimeLinter-jshint",
+		"Sass",
+		"SideBarGit",
 		"Vintage"
 	],
 	"index_exclude_patterns":

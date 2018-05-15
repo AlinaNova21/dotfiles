@@ -20,6 +20,7 @@ source $ZSH/oh-my-zsh.sh
 # User configuration
 
 export editor="nano"
+export GIT_EDITOR="nano"
 export TERMINAL="xfce4-terminal"
 
 alias zshconfig="subl ~/.zshrc"
