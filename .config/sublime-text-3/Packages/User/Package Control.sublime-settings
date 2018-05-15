@@ -33,6 +33,7 @@
 		"Pretty JSON",
 		"Protocol Buffer Syntax",
 		"Pug",
+		"SAS Syntax and Theme",
 		"Sass",
 		"Seti_UI",
 		"Seti_UX",
@@ -43,9 +44,8 @@
 		"SublimeGit",
 		"SublimeLinter",
 		"SublimeLinter-contrib-standard",
-		"SublimeLinter-contrib-tslint",
 		"SublimeLinter-jshint",
-		"Syntax Highlighting for Sass",
+		"SublimeLinter-tslint",
 		"TOML",
 		"TypeScript",
 		"Vue Syntax Highlight"

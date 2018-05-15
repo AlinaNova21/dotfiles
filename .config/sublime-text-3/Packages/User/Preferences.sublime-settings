@@ -11,7 +11,8 @@
 	"codeintel_scan_files_in_project": false,
 	"color_scheme": "Packages/User/Scheme/Seti_monokai.tmTheme",
 	"enable_tab_scrolling": true,
-	"font_size": 9,
+	"font_face": "Noto Mono",
+	"font_size": 10,
 	"ignore_inodes": true,
 	"ignored_packages":
 	[
@@ -19,7 +20,7 @@
 		"Color Highlighter",
 		"Gulp",
 		"Handlebars",
-		"Sass",
+		"SublimeLinter-jshint",
 		"Vintage"
 	],
 	"index_exclude_patterns":

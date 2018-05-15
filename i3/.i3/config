@@ -112,16 +112,16 @@ bindsym $mod+9 workspace $w9
 bindsym $mod+0 workspace $w10
 
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace number $w1
-bindsym $mod+Shift+2 move container to workspace number $w2
-bindsym $mod+Shift+3 move container to workspace number $w3
-bindsym $mod+Shift+4 move container to workspace number $w4
-bindsym $mod+Shift+5 move container to workspace number $w5
-bindsym $mod+Shift+6 move container to workspace number $w6
-bindsym $mod+Shift+7 move container to workspace number $w7
-bindsym $mod+Shift+8 move container to workspace number $w8
-bindsym $mod+Shift+9 move container to workspace number $w9
-bindsym $mod+Shift+0 move container to workspace number $w10
+bindsym $mod+Shift+1 move container to workspace $w1
+bindsym $mod+Shift+2 move container to workspace $w2
+bindsym $mod+Shift+3 move container to workspace $w3
+bindsym $mod+Shift+4 move container to workspace $w4
+bindsym $mod+Shift+5 move container to workspace $w5
+bindsym $mod+Shift+6 move container to workspace $w6
+bindsym $mod+Shift+7 move container to workspace $w7
+bindsym $mod+Shift+8 move container to workspace $w8
+bindsym $mod+Shift+9 move container to workspace $w9
+bindsym $mod+Shift+0 move container to workspace $w10
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -166,22 +166,23 @@ bar {
     #status_command i3status
 	#status_command /home/adam/bin/net-speed.sh
     status_command SCRIPT_DIR=~/src/i3blocks-contrib i3blocks
-    tray_output primary
+    #tray_output 0
 }
 
 
-for_window [class="rdesktop"] move workspace number 9;
+for_window [class="rdesktop"] move workspace number $w9;
 for_window [class="rdesktop"] floating disable;
 
 #for_window [class="zoiper"] move absolute position 2680 px 0 px;
 #for_window [class="Zoiper"] move absolute position 2680 px 0 px;
 
-for_window [class="chrome"] move workspace number 1;
-for_window [class="vivaldi"] move workspace number 1;
+for_window [class="chrome"] move workspace number $w1;
+for_window [class="vivaldi"] move workspace number $w1;
 
-for_window [class="Sublime_text"] move workspace number 4;
+for_window [class="Sublime_text"] move workspace number $w4;
 
-for_window [class="TeamViewer"] move workspace number 10;
+for_window [class="TeamViewer"] move workspace number $w10;
+for_window [instance="microsip.exe"] move workspace number $w10;
 
 for_window [title="NMerge NW"] floating enable;
 for_window [title="NMerge NW"] move center;
