@@ -6,18 +6,19 @@
 	"bootstrapped": true,
 	"in_process_packages":
 	[
-		"SideBarGit"
 	],
 	"installed_packages":
 	[
+		"A File Icon",
 		"AlignTab",
-		"AngularJS",
 		"Ansible",
 		"AutoFileName",
 		"BracketHighlighter",
 		"Color Highlighter",
 		"CSS3",
+		"DA UI",
 		"Dart",
+		"Dockerfile Syntax Highlighting",
 		"EditorConfig",
 		"Emmet",
 		"GraphQL",
@@ -26,6 +27,7 @@
 		"Handlebars",
 		"HTML Underscore Syntax",
 		"HTML-CSS-JS Prettify",
+		"i3 wm",
 		"MakeCommands",
 		"Modific",
 		"NodeRequirer",
@@ -34,10 +36,6 @@
 		"Pretty JSON",
 		"Protocol Buffer Syntax",
 		"Pug",
-		"SAS Syntax and Theme",
-		"Sass",
-		"Seti_UI",
-		"Seti_UX",
 		"SideBarEnhancements",
 		"SideBarGit",
 		"StandardFormat",
@@ -46,6 +44,7 @@
 		"SublimeLinter",
 		"SublimeLinter-contrib-standard",
 		"SublimeLinter-jshint",
+		"SublimeLinter-php",
 		"SublimeLinter-tslint",
 		"TOML",
 		"TypeScript",

@@ -9,19 +9,16 @@
 		"Seti_UI"
 	],
 	"codeintel_scan_files_in_project": false,
-	"color_scheme": "Packages/User/Scheme/Seti_monokai.tmTheme",
+	"color_scheme": "Packages/Color Scheme - Default/Monokai.sublime-color-scheme",
 	"enable_tab_scrolling": true,
 	"font_face": "Noto Mono",
-	"font_size": 10,
+	"font_size": 12,
 	"ignore_inodes": true,
 	"ignored_packages":
 	[
-		"AngularJS",
 		"Color Highlighter",
 		"Gulp",
 		"Handlebars",
-		"Sass",
-		"SideBarGit",
 		"Vintage"
 	],
 	"index_exclude_patterns":
@@ -32,7 +29,8 @@
 	],
 	"index_files": false,
 	"show_encoding": true,
-	"theme": "Seti_orig.sublime-theme",
+	"skin": "DA UI/Minimal",
+	"theme": "DA.sublime-theme",
 	"typescript_plugin_tsc_version": "1.7.3",
 	"word_wrap": false
 }

@@ -3,6 +3,7 @@ export ZSH=$HOME/.oh-my-zsh
 
 ZSH_THEME="spaceship"
 SPACESHIP_EXIT_CODE_SHOW=true
+SPACESHIP_BATTERY_SHOW=false
 HYPHEN_INSENSITIVE="true"
 ENABLE_CORRECTION="true"
 COMPLETION_WAITING_DOTS="true"
@@ -13,7 +14,7 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Would you like to use another custom folder than $ZSH/custom?
 ZSH_CUSTOM=$HOME/.zsh_custom
 
-plugins=(git kubectl kubectx)
+plugins=(git kubectl kubectx httpie lol node nvm sublime sudo yarn)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -36,9 +37,7 @@ if [ -f $HOME/.tnsrc ]; then
 fi
 ###-tns-completion-end-###
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+#[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/home/adam/google-cloud-sdk/path.zsh.inc' ]; then source '/home/adam/google-cloud-sdk/path.zsh.inc'; fi
@@ -46,3 +45,4 @@ if [ -f '/home/adam/google-cloud-sdk/path.zsh.inc' ]; then source '/home/adam/go
 # The next line enables shell command completion for gcloud.
 if [ -f '/home/adam/google-cloud-sdk/completion.zsh.inc' ]; then source '/home/adam/google-cloud-sdk/completion.zsh.inc'; fi
 
+. "/home/adam/.acme.sh/acme.sh.env"
