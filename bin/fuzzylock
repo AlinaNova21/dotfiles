@@ -1,3 +1,6 @@
 scrot /tmp/lock.png
-mogrify -blur 0x12 /tmp/lock.png
+#mogrify -blur 0x12 /tmp/lock.png
+gm mogrify -colorspace gray -blur 0x10 /tmp/lock.png
+#gm mogrify -scale 10% -scale 1000% /tmp/lock.png
+gm mogrify -scale 20% -scale $(identify -format "%wx%h" /tmp/lock.png) /tmp/lock.png
 exec i3lock -i /tmp/lock.png

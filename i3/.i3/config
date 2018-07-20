@@ -222,6 +222,7 @@ exec --no-startup-id nm-applet
 exec --no-startup-id nitrogen --restore
 exec --no-startup-id blueman-applet
 exec --no-startup-id pnmixer
+exec --no-startup-id solaar
 exec --no-startup-id compton -b -C
 
 bindsym XF86TouchpadToggle exec toggleTouchPad.js
