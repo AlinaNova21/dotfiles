@@ -12,7 +12,7 @@
 	"color_scheme": "Packages/Color Scheme - Default/Monokai.sublime-color-scheme",
 	"enable_tab_scrolling": true,
 	"font_face": "Noto Mono",
-	"font_size": 12,
+	"font_size": 11,
 	"ignore_inodes": true,
 	"ignored_packages":
 	[

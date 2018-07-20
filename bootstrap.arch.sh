@@ -1,6 +1,6 @@
 #!/bin/bash
 GUI=n
-PACMAN="zsh git nano stow tmux htop curl wget"
+PACMAN="zsh git nano stow tmux htop curl wget dstat"
 UPDATE=n
 STOWFILES=(bash zsh git shell tmux jshint i3 .zsh_custom)
 STOWDIRS=".config .zsh_custom bin"

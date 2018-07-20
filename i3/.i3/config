@@ -2,6 +2,15 @@
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
+# class                 border  backgr. text    indicator child_border
+client.focused          #00000000 #00000000 #ffffff #2e9ef4   #285577
+client.focused_inactive #00000000 #00000000 #ffffff #484e50   #5f676a
+client.unfocused        #00000000 #00000000 #888888 #292d2e   #222222
+client.urgent           #2f343a #900000 #ffffff #900000   #900000
+client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
+
+client.background       #ffffff
+
 set $mod Mod4
 
 set $w1 1 🌎 Browser
@@ -14,6 +23,17 @@ set $w7 7
 set $w8 8
 set $w9 9
 set $w10 10
+
+workspace "$w1" output DVI-I-1
+workspace "$w2" output HDMI-0
+workspace "$w3" output DVI-I-1
+workspace "$w4" output HDMI-0
+workspace "$w5" output DVI-I-1
+workspace "$w6" output HDMI-0 
+workspace "$w7" output DVI-I-1
+workspace "$w8" output HDMI-0
+workspace "$w9" output DVI-I-1
+workspace "$w10" output HDMI-0
 
 bindsym $mod+x move workspace to output right
 bindsym $mod+z move container to output right
@@ -160,14 +180,14 @@ bindsym $mod+r mode "resize"
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
-bar {
-    font pango: Noto Mono, FontAwesome 6
-	position top
-    #status_command i3status
-	#status_command /home/adam/bin/net-speed.sh
-    status_command SCRIPT_DIR=~/src/i3blocks-contrib i3blocks
-    #tray_output 0
-}
+#bar {
+#    font pango: Noto Mono, FontAwesome 6
+#	position top
+#    #status_command i3status
+#	#status_command /home/adam/bin/net-speed.sh
+#    status_command SCRIPT_DIR=~/src/i3blocks-contrib i3blocks
+#    #tray_output 0
+#}
 
 
 for_window [class="rdesktop"] move workspace number $w9;
@@ -177,9 +197,12 @@ for_window [class="rdesktop"] floating disable;
 #for_window [class="Zoiper"] move absolute position 2680 px 0 px;
 
 for_window [class="chrome"] move workspace number $w1;
+for_window [class="chrome"] floating disable;
 for_window [class="vivaldi"] move workspace number $w1;
 
 for_window [class="Sublime_text"] move workspace number $w4;
+
+for_window [class="slack"] move workspace number $w6;
 
 for_window [class="TeamViewer"] move workspace number $w10;
 for_window [instance="microsip.exe"] move workspace number $w10;
@@ -213,3 +236,13 @@ bindsym $mod+Shift+s exec rofi -show ssh
 bindsym $mod+Shift+w exec rofi -show window
 
 exec --no-startup-id /usr/bin/syndaemon -R -d -K -i 1
+exec --no-startup-id $HOME/.config/polybar/launch.sh
+
+default_border pixel 1
+for_window [class="^.*"] border pixel 1
+hide_edge_borders smart
+
+gaps inner 10
+gaps outer 0
+smart_gaps on
+smart_borders on

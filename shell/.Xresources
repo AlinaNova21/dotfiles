@@ -4,11 +4,13 @@ xterm*font: 7x13
 xterm*termName: xterm-256color
 *customization: -color
 
+rofi.theme: solarized
+
 ! Foreground color
 rofi.fg:                             #839496
 
 ! Background color
-rofi.bg:                             #00151B
+rofi.bg:                             #00151BCC
 
 ! Foreground color for active row
 rofi.fg-active:                      #268BD2
