@@ -55,7 +55,7 @@ font-4 = siji:pixelsize=10;1
 
 modules-left = i3
 modules-center = mpd
-modules-right = updates-arch filesystem xbacklight volume xkeyboard memory cpu wlan eth battery temperature date powermenu
+modules-right = updates-arch filesystem xbacklight xkeyboard memory cpu wlan eth battery temperature date volume powermenu
 
 tray-position = right
 tray-padding = 2
@@ -304,13 +304,30 @@ label = %date% %time%
 [module/volume]
 type = internal/volume
 
-format-volume = <label-volume> <bar-volume>
+format-volume = <ramp-volume> <bar-volume>
 label-volume = VOL
 label-volume-foreground = ${root.foreground}
 
-format-muted-prefix = " "
+format-muted-prefix = "婢 "
 format-muted-foreground = ${colors.foreground-alt}
-label-muted = sound muted
+label-muted = muted
+label-muted-foreground = #66
+
+; Only applies if <ramp-volume> is used
+ 奄 奔 墳 婢
+ramp-volume-0 = 奄
+ramp-volume-1 = 奔
+ramp-volume-2 = 墳
+
+master-soundcard = default
+;speaker-soundcard = 2
+;headphone-soundcard = 2
+
+master-mixer = Headphone
+headphone-mixer = Headphone
+headphone-id = 6
+
+
 
 bar-volume-width = 10
 bar-volume-foreground-0 = #55aa55
