@@ -1,0 +1,27 @@
+#!/bin/bash
+ACTION=$1
+SEARCH=$2
+PLAYLIST=${SEARCH// /-}
+FILE="$HOME/.mpd/playlists/$PLAYLIST.m3u"
+mkdir -p $HOME/.mpd/playlists
+#http://gmusicproxy.net/#gmusicproxy-google-play-music-proxy-usage-examples-of-integration
+
+case $1 in
+  create-artist)
+	FILE="$HOME/.mpd/playlists/$PLAYLIST-artist.m3u"
+	http GET "http://localhost:9999/get_by_search" type==artist artist=="$SEARCH" num_tracks==${3-1000} > $FILE
+    mpc update
+    ;;
+  create-radio)
+	FILE="$HOME/.mpd/playlists/$PLAYLIST-radio.m3u"
+    http GET "http://localhost:9999/get_new_station_by_search" type==artist artist=="$SEARCH" num_tracks==${3-1000} > $FILE
+    mpc update
+    ;;
+  play)
+    [ ! -f $FILE] && echo "Playlist not found" && exit 404
+    mpc clear
+    mpc load $PLAYLIST
+    mpc shuffle
+    mpc play
+    ;;
+esac

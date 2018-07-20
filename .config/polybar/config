@@ -47,14 +47,14 @@ module-margin-left = 1
 module-margin-right = 2
 
 font-0 = NotoMono Nerd Font:style=Book:pixelsize=10;1
-font-1 = Noto Color Emoji:style=Regular:pixelsize=10;1
-font-2 = Noto Sans Mono:style=Regular:pixelsize=10;1
-font-3 = fixed:pixelsize=10;1
-font-4 = unifont:fontformat=truetype:size=8:antialias=false;0
-font-5 = siji:pixelsize=10;1
+font-1 = Noto Sans Mono:style=Regular:pixelsize=10;2
+font-2 = fixed:pixelsize=10;1
+font-3 = unifont:fontformat=truetype:size=8:antialias=false;0
+font-4 = siji:pixelsize=10;1
+;font-2 = Noto Color Emoji:style=Regular:pixelsize=14;1
 
 modules-left = i3
-modules-center = 
+modules-center = mpd
 modules-right = updates-arch filesystem xbacklight volume xkeyboard memory cpu wlan eth battery temperature date powermenu
 
 tray-position = right
@@ -171,15 +171,42 @@ ws-icon-default =
 
 [module/mpd]
 type = internal/mpd
-format-online = <label-song>  <icon-prev> <icon-stop> <toggle> <icon-next>
+;format-online = <label-song>  <icon-prev> <icon-stop> <toggle> <icon-next>
+;format-online = <icon-prev> <icon-seekb> <icon-stop> <toggle> <icon-seekf> <icon-next>  <icon-repeat> <icon-random>  <bar-progress> <label-time>  <label-song>
+;format-online = <label-song> <label-time> <icon-prev> <icon-seekb> <icon-stop> <toggle> <icon-seekf> <icon-next>  <icon-repeat> <icon-random>
+format-online = <label-song> - <label-time> <icon-prev> <icon-stop> <toggle> <icon-next> <icon-repeat> <icon-repeatone> <icon-random>
+label-time = %elapsed%/%total%
 
-icon-prev = 
-icon-stop = 
-icon-play = 
-icon-pause = 
-icon-next = 
+label-song = %artist% - %title%
+label-offline = 🎜 mpd is offline
 
-label-song-maxlen = 25
+label-song-foreground = #00C1E9
+label-time-foreground = #00C1E9
+format-online-foreground = #00C1E9
+;         
+;  凌 稜 綾 菱
+icon-play = 
+icon-pause = 
+icon-stop = 
+icon-prev = 
+icon-next = 
+icon-seekb = 
+icon-seekf = 
+icon-random = 
+icon-repeat = 凌
+icon-repeatone = 綾
+icon-single = 綾
+icon-consume = 
+
+toggle-on-foreground = #00C1E9
+toggle-off-foreground = #55
+
+bar-progress-width = 45
+bar-progress-indicator = |
+bar-progress-fill = ─
+bar-progress-empty = ─
+
+label-song-maxlen = 64
 label-song-ellipsis = true
 
 [module/xbacklight]

@@ -1,8 +1,8 @@
 [Configuration]
-FontName=Noto Sans Mono 9
+FontName=NotoSansMono Nerd Font 9
 MiscAlwaysShowTabs=FALSE
 MiscBell=FALSE
-MiscBordersDefault=TRUE
+MiscBordersDefault=FALSE
 MiscCursorBlinks=FALSE
 MiscCursorShape=TERMINAL_CURSOR_SHAPE_BLOCK
 MiscDefaultGeometry=80x24
@@ -27,7 +27,7 @@ ColorBoldUseDefault=FALSE
 ColorPalette=#070736364242;#dcdc32322f2f;#858599990000;#b5b589890000;#26268b8bd2d2;#d3d336368282;#2a2aa1a19898;#eeeee8e8d5d5;#00002b2b3636;#ffff3e2c492d;#471abbfa3246;#c742ba0f3a51;#4793613ed7b6;#ffff640fcdc5;#79d8e940e940;#fdfdf6f6e3e3
 TabActivityColor=#dc322f
 ScrollingLines=3000
-MiscBellUrgent=FALSE
+MiscBellUrgent=TRUE
 MiscMouseWheelZoom=TRUE
 MiscMiddleClickOpensUri=FALSE
 MiscCopyOnSelect=FALSE
@@ -40,4 +40,5 @@ ShortcutsNoMenukey=TRUE
 ShortcutsNoMnemonics=TRUE
 MiscShowRelaunchDialog=TRUE
 MiscNewTabAdjacent=FALSE
+ScrollingBar=TERMINAL_SCROLLBAR_NONE
 
