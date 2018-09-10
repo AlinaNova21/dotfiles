@@ -174,10 +174,10 @@ type = internal/mpd
 ;format-online = <label-song>  <icon-prev> <icon-stop> <toggle> <icon-next>
 ;format-online = <icon-prev> <icon-seekb> <icon-stop> <toggle> <icon-seekf> <icon-next>  <icon-repeat> <icon-random>  <bar-progress> <label-time>  <label-song>
 ;format-online = <label-song> <label-time> <icon-prev> <icon-seekb> <icon-stop> <toggle> <icon-seekf> <icon-next>  <icon-repeat> <icon-random>
-format-online = <label-song> - <label-time> <icon-prev> <icon-stop> <toggle> <icon-next> <icon-repeat> <icon-repeatone> <icon-random>
+format-online = <label-song> <label-time> <icon-prev> <icon-stop> <toggle> <icon-next> <icon-repeat> <icon-repeatone> <icon-random>
 label-time = %elapsed%/%total%
 
-label-song = %artist% - %title%
+label-song = %artist% - %title% -
 label-offline = 🎜 mpd is offline
 
 label-song-foreground = #00C1E9

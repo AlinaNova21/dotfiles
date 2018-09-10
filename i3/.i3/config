@@ -174,7 +174,7 @@ mode "resize" {
         bindsym Escape mode "default"
 }
 
-bindsym Print exec imgur -b
+# bindsym Print exec imgur -b
 
 bindsym $mod+r mode "resize"
 
@@ -190,7 +190,7 @@ bindsym $mod+r mode "resize"
 #}
 
 
-for_window [class="rdesktop"] move workspace number $w9;
+for_window [class="rdesktop"] move workspace number $w10;
 for_window [class="rdesktop"] floating disable;
 
 #for_window [class="zoiper"] move absolute position 2680 px 0 px;
@@ -217,13 +217,16 @@ bindsym --release Num_Lock  exec pkill -SIGRTMIN+11 i3blocks
 
 
 exec xautolock -time 5 -locker '/home/adam/bin/fuzzylock' &
-exec parcellite
-exec --no-startup-id nm-applet
 exec --no-startup-id nitrogen --restore
-exec --no-startup-id blueman-applet
 exec --no-startup-id pnmixer
-exec --no-startup-id solaar
 exec --no-startup-id compton -b -C
+
+#exec parcellite
+#exec --no-startup-id nm-applet
+#exec --no-startup-id solaar
+#exec --no-startup-id blueman-applet
+
+exec dex -ae i3
 
 bindsym XF86TouchpadToggle exec toggleTouchPad.js
 bindsym XF86KbdBrightnessUp exec kbdBacklight up

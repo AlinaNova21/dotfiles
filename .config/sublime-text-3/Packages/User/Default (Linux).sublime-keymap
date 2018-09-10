@@ -1,4 +1,5 @@
 [
+	{ "keys": ["alt+m"], "command": "markdown_preview", "args": {"target": "browser", "parser":"markdown"} },
 	{ "keys": ["ctrl+q"], "command": "noop" },
 	{ "keys": ["ctrl+shift+n"], "command": "npm_install_save" },
 	{ "keys": ["ctrl+shift+g"], "command": "git_status"},

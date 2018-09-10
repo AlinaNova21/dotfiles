@@ -12,13 +12,14 @@
 	"color_scheme": "Packages/Color Scheme - Default/Monokai.sublime-color-scheme",
 	"enable_tab_scrolling": true,
 	"font_face": "Noto Mono",
-	"font_size": 11,
+	"font_size": 10,
 	"ignore_inodes": true,
 	"ignored_packages":
 	[
 		"Color Highlighter",
 		"Gulp",
 		"Handlebars",
+		"SublimeLinter-php",
 		"Vintage"
 	],
 	"index_exclude_patterns":

@@ -2,26 +2,41 @@
 ACTION=$1
 SEARCH=$2
 PLAYLIST=${SEARCH// /-}
-FILE="$HOME/.mpd/playlists/$PLAYLIST.m3u"
-mkdir -p $HOME/.mpd/playlists
+PLAYLIST_DIR="$HOME/.mpd/playlists"
+mkdir -p $PLAYLIST_DIR
+cd $PLAYLIST_DIR
 #http://gmusicproxy.net/#gmusicproxy-google-play-music-proxy-usage-examples-of-integration
 
 case $1 in
   create-artist)
-	FILE="$HOME/.mpd/playlists/$PLAYLIST-artist.m3u"
-	http GET "http://localhost:9999/get_by_search" type==artist artist=="$SEARCH" num_tracks==${3-1000} > $FILE
-    mpc update
+	  FILE="$PLAYLIST-artist.m3u"
+	  http GET "http://localhost:9999/get_by_search" type==artist artist=="$SEARCH" num_tracks==${3-1000} > $FILE
+    mpc -q update
     ;;
   create-radio)
-	FILE="$HOME/.mpd/playlists/$PLAYLIST-radio.m3u"
+	  FILE="$PLAYLIST-radio.m3u"
     http GET "http://localhost:9999/get_new_station_by_search" type==artist artist=="$SEARCH" num_tracks==${3-1000} > $FILE
-    mpc update
+    mpc -q update
     ;;
   play)
     [ ! -f $FILE] && echo "Playlist not found" && exit 404
-    mpc clear
-    mpc load $PLAYLIST
-    mpc shuffle
+    mpc -q clear
+    mpc -q load $PLAYLIST
+    mpc -q shuffle
     mpc play
+    ;;
+  ifl)
+    http GET "http://localhost:9999/get_ifl_station" num_tracks==${3-1000} > ifl.m3u
+    mpc -q update
+    mpc -q crop
+    mpc -q load ifl
+    mpc next
+    ;;
+  ifl-save)
+    cp ifl.m3u $SEARCH.m3u
+    echo Copied current ifl to $SEARCH
+    ;;    
+  list)
+    mpc lsplaylists
     ;;
 esac
