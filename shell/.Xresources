@@ -49,10 +49,10 @@ rofi.hlbg:                           #586E75
 rofi.bc:                             #002B36
 
 ! Terminal to use
-rofi.terminal:                       xfce4-terminal
+rofi.terminal:                       kitty
 
 ! Ssh client to use
-rofi.ssh-client:                     ssh
+rofi.ssh-client:                     /usr/bin/ssh
 
 ! Ssh command to execute
 rofi.ssh-command:                    {terminal} -e "{ssh-client} {host}"

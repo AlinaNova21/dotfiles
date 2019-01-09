@@ -57,7 +57,7 @@ floating_modifier $mod
 # start a terminal
 #bindsym $mod+Return exec i3-sensible-terminal --login -i
 #bindsym $mod+Return exec uxterm -ls
-bindsym $mod+Return exec xfce4-terminal
+bindsym $mod+Return exec kitty #xfce4-terminal
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -234,8 +234,8 @@ bindsym XF86KbdBrightnessDown exec kbdBacklight down
 
 bindsym $mod+q exec rofi -show window -filter "sublime_text "
 
-bindsym $mod+d exec rofi -show run
-bindsym $mod+Shift+d exec rofi -show run
+bindsym $mod+d exec zsh -c "rofi -show run"
+bindsym $mod+Shift+d zsh -c "exec rofi -show run"
 bindsym $mod+Shift+s exec rofi -show ssh
 bindsym $mod+Shift+w exec rofi -show window
 

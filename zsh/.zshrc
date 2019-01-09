@@ -1,5 +1,6 @@
 export PATH=$HOME/bin:$HOME/npm-global/bin:/usr/local/bin:/usr/local/go/bin:$PATH
 export ZSH=$HOME/.oh-my-zsh
+export GPG_TTY=`tty`
 
 ZSH_THEME="spaceship"
 SPACESHIP_EXIT_CODE_SHOW=true
@@ -20,13 +21,24 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
-export editor="nano"
-export GIT_EDITOR="nano"
-export TERMINAL="xfce4-terminal"
+export editor="micro"
+export EDITOR="micro"
+export VISUAL="micro"
+export GIT_EDITOR="micro"
+export TERMINAL="kitty"
 
 alias zshconfig="subl ~/.zshrc"
 alias ohmyzsh="subl ~/.oh-my-zsh"
 alias git="hub"
+alias nano="echo Use micro!; # "
+
+function fixTERM() {
+  infocmp | ssh $@ "tic -"
+}
+
+function getmicro() {
+  ssh $@ "mkdir -p ~/bin; cd ~/bin; curl -L getmic.ro | bash"
+}
 
 setopt noautomenu 
 setopt nomenucomplete

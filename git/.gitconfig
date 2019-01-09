@@ -1,6 +1,7 @@
 [user]
 	email = ashumann13@gmail.com
 	name = Adam Shumann
+	signingkey = EBFE66383E5164DB
 [push]
 	default = tracking
 [diff]
@@ -93,3 +94,5 @@
 	lg = log --color --graph --pretty=format:'%C(auto)%h%Creset -%C(auto)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit
 [core]
 	editor = nano
+[commit]
+	gpgsign = true
