@@ -2,10 +2,6 @@
 # Set API Key here
 IMGUR_CLIENT_ID=beebcf17d07bc54
 
-if [[ $0 != 'puush' ]]; then
-	1=${0/puush-/}
-fi
-
 function uploadFile (){
 	if [ -z "$1" ]; then
 		echo "No file specified"
@@ -14,8 +10,9 @@ function uploadFile (){
 		echo "Upload cancelled"
 		exit 1
 	fi
-	resp=$(curl --request POST --url https://api.imgur.com/3/image -F "image=@"$1 --header 'authorization: Client-ID '$IMGUR_CLIENT_ID --header 'content-type: multipart/form-data') 
-	echo $resp
+        echo Uploading $1
+	resp=$(curl --request POST --url https://api.imgur.com/3/image -F "image=@"$1 --header 'authorization: Client-ID '$IMGUR_CLIENT_ID --header 'content-type: multipart/form-data')
+	echo RESP: $resp
 	if [ ! -z "$resp" ]; then
 		#Copy link to clipboard, show notification
 		url=$(echo $resp | node -e "process.stdin.on('data',d=>console.log(JSON.parse(d).data.link))")
@@ -90,7 +87,7 @@ case "$1" in
 		;;
        -g)
                 echo "GIF Capture"
-			fileName=out.gif
+			fileName=/tmp/out.gif
 			gif
 			uploadFile "$fileName"
 		;;
@@ -101,7 +98,7 @@ case "$1" in
 
 	*)
 		echo "Upload $1"
-			puushFile "$1"
+			uploadFile "$1"
 		;;
 
 esac
