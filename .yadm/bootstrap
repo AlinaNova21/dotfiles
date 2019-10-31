@@ -9,8 +9,8 @@ cd "$HOME"
 echo "Init submodules"
 yadm submodule update --recursive --init
 
-grep 'Host dotfiles' ~/.ssh/config
-if ! $? ; then
+
+if ! grep 'Host dotfiles' ~/.ssh/config ; then
   cat - << EOF >> ~/.ssh/config
 Host dotfiles
   Hostname github.com
