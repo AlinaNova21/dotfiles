@@ -18,7 +18,6 @@ ZSH_CUSTOM=$HOME/.zsh_custom
 plugins=(git kubectl kubectx httpie lol node nvm sublime sudo yarn)
 
 source $ZSH/oh-my-zsh.sh
-
 # User configuration
 
 export editor="micro"
