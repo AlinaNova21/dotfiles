@@ -8,3 +8,13 @@ yadm remote set-url origin "git@github.com:ags131/dotfiles"
 cd "$HOME"
 echo "Init submodules"
 yadm submodule update --recursive --init
+
+grep 'Host dotfiles' ~/.ssh/config
+if ! $? ; then
+  cat - <<< EOF >> ~/.ssh/config
+Host dotfiles
+  Hostname github.com
+  User git
+  IdentityFile ~/.ssh/dotfiles
+EOF
+fi
