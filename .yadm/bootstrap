@@ -3,7 +3,7 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/mas
 sudo chsh -s /usr/bin/zsh
 
 echo "Updating the yadm repo origin URL"
-yadm remote set-url origin "git@github.com:ags131/dotfiles"
+yadm remote set-url origin "dotfiles:ags131/dotfiles"
 
 cd "$HOME"
 echo "Init submodules"
