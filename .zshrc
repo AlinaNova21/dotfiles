@@ -57,3 +57,5 @@ if [ -f '/home/adam/google-cloud-sdk/path.zsh.inc' ]; then source '/home/adam/go
 if [ -f '/home/adam/google-cloud-sdk/completion.zsh.inc' ]; then source '/home/adam/google-cloud-sdk/completion.zsh.inc'; fi
 
 . "/home/adam/.acme.sh/acme.sh.env"
+isSSH=$( [[ -n "$SSH_CLIENT" ]] || [[ -n "$SSH_TTY" ]] )
+[[ -n "$DISPLAY" ]] && [[ "$TERM" -eq "xterm-kitty" ]] && $isSSH && alias ssh="kitty +kitten ssh"

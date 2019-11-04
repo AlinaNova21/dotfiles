@@ -18,3 +18,6 @@ Host dotfiles
   IdentityFile ~/.ssh/dotfiles
 EOF
 fi
+
+echo "Decrypt files"
+yadm decrypt
