@@ -55,7 +55,7 @@ font-4 = siji:pixelsize=10;1
 
 modules-left = i3
 modules-center = mpd
-modules-right = updates-arch filesystem xbacklight xkeyboard memory cpu wlan eth battery temperature date volume powermenu
+modules-right = updates-arch filesystem xkeyboard memory cpu wlan eth battery temperature date volume powermenu
 
 tray-position = right
 tray-padding = 2
@@ -289,10 +289,10 @@ format-disconnected =
 type = internal/date
 interval = 5
 
-date =
-date-alt = " %Y-%m-%d"
+date = "%Y/%m/%d"
+date-alt = "%Y-%m-%d"
 
-time = %H:%M
+time = %H:%M:%S
 time-alt = %H:%M:%S
 
 format-prefix = 
