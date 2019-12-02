@@ -1,4 +1,4 @@
-export PATH=$HOME/bin:$HOME/npm-global/bin:/usr/local/bin:/usr/local/go/bin:$PATH
+export PATH=$HOME/bin:$HOME/npm-global/bin:/usr/local/bin:/usr/local/go/bin:/home/adam/.gem/ruby/2.6.0/bin:$PATH
 export ZSH=$HOME/.oh-my-zsh
 export GPG_TTY=`tty`
 
