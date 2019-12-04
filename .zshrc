@@ -15,7 +15,7 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Would you like to use another custom folder than $ZSH/custom?
 ZSH_CUSTOM=$HOME/.zsh_custom
 
-plugins=(git kubectl kubectx httpie lol node nvm sublime sudo yarn)
+plugins=(git kubectl kubectx httpie lol node nvm sublime sudo)
 
 source $ZSH/oh-my-zsh.sh
 # User configuration
