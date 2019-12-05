@@ -20,6 +20,8 @@ plugins=(git kubectl kubectx httpie lol node nvm sublime sudo)
 source $ZSH/oh-my-zsh.sh
 # User configuration
 
+export ZSH_THEME_TERM_TAB_TITLE_IDLE="%m: %15<..<%~%<<"
+
 export editor="micro"
 export EDITOR="micro"
 export VISUAL="micro"
