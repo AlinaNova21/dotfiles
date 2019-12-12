@@ -1,0 +1,2 @@
+#!/bin/bash
+step ssh certificate -n adam -n root -n admin -f --sign adam@ims-adam-vm id_ecdsa.pub
