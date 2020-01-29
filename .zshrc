@@ -63,3 +63,11 @@ isSSH=$( [[ -n "$SSH_CLIENT" ]] || [[ -n "$SSH_TTY" ]] )
 [[ -n "$DISPLAY" ]] && [[ "$TERM" -eq "xterm-kitty" ]] && [[ ! $isSSH ]] && alias ssh="kitty +kitten ssh"
 
 command -v yarn >/dev/null 2>&1 && export PATH=$(yarn global dir)/node_modules/.bin:$PATH
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
+[ -z "$GOPATH" ] && export GOPATH=$HOME/go
+[ ! -z "$GOPATH" ] && export PATH=$PATH:$GOPATH/bin
