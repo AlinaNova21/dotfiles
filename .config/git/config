@@ -1,17 +1,21 @@
 [user]
 	email = ashumann13@gmail.com
-	name = Adam Shumann
+	name = Alina Shumann
 	signingkey = EBFE66383E5164DB
 [push]
 	default = tracking
 [diff]
-	tool = meld
+	tool = vscode
 [difftool "meld"]
-	path = /usr/bin/meld "$LOCAL" "$REMOTE"
+	path = /usr/bin/meld "$LOCAL" "$REMOTE"	
+[difftool "vscode"]
+	path = code --wait --diff "$LOCAL" "$REMOTE"
 [merge]
 	tool = meld
 [mergetool "meld"]
 	cmd = /usr/bin/meld "$LOCAL" "$BASE" "$REMOTE" --output "$MERGED"
+[mergetool "vscode"]
+  cmd = code --wait $MERGED
 [alias]
 	# add
 	a = add                           # add
@@ -93,6 +97,6 @@
 	svnl = svn log --oneline --show-commit
 	lg = log --color --graph --pretty=format:'%C(auto)%h%Creset -%C(auto)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit
 [core]
-	editor = nano
+	editor = code --wait
 [commit]
 	gpgsign = true
