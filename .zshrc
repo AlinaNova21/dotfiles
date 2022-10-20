@@ -59,9 +59,9 @@ if [ -f '/home/alina/google-cloud-sdk/path.zsh.inc' ]; then source '/home/alina/
 # The next line enables shell command completion for gcloud.
 if [ -f '/home/alina/google-cloud-sdk/completion.zsh.inc' ]; then source '/home/alina/google-cloud-sdk/completion.zsh.inc'; fi
 
-. "/home/alina/.acme.sh/acme.sh.env"
+#. "/home/alina/.acme.sh/acme.sh.env"
 isSSH=$( [[ -n "$SSH_CLIENT" ]] || [[ -n "$SSH_TTY" ]] )
-[[ -n "$DISPLAY" ]] && [[ "$TERM" -eq "xterm-kitty" ]] && [[ ! $isSSH ]] && alias ssh="kitty +kitten ssh"
+#[[ -n "$DISPLAY" ]] && [[ "$TERM" -eq "xterm-kitty" ]] && [[ ! $isSSH ]] && alias ssh="kitty +kitten ssh"
 
 command -v yarn >/dev/null 2>&1 && export PATH=$(yarn global dir)/node_modules/.bin:$PATH
 

@@ -99,4 +99,4 @@
 [core]
 	editor = code --wait
 [commit]
-	gpgsign = true
+#	gpgsign = true
