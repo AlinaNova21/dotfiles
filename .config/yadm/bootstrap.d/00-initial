@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended
+sudo chsh -s /usr/bin/zsh
+
+echo "Updating the yadm repo origin URL"
+yadm remote set-url origin "dotfiles:ags131/dotfiles"
+
+cd "$HOME"
+echo "Init submodules"
+yadm submodule update --recursive --init
+
+
+if ! grep 'Host dotfiles' ~/.ssh/config ; then
+  cat - << EOF >> ~/.ssh/config
+Host dotfiles
+  Hostname github.com
+  User git
+  IdentityFile ~/.ssh/dotfiles
+EOF
+fi
+
+echo "Decrypt files"
+yadm decrypt
