@@ -33,7 +33,7 @@ alias zshconfig="code ~/.zshrc"
 alias ohmyzsh="code ~/.oh-my-zsh"
 alias git="hub"
 
-if command -v exa >/dev/null 2>&1 then
+if [ command -v exa >/dev/null 2>&1 ]; then
 do
   alias ls="exa"
   alias ll="exa --long"
