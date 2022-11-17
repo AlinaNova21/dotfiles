@@ -2,9 +2,9 @@ export PATH=$HOME/bin:$HOME/npm-global/bin:/usr/local/bin:/usr/local/go/bin:/hom
 export ZSH=$HOME/.oh-my-zsh
 export GPG_TTY=`tty`
 
-ZSH_THEME="spaceship"
-SPACESHIP_EXIT_CODE_SHOW=true
-SPACESHIP_BATTERY_SHOW=false
+ZSH_THEME="starship"
+# SPACESHIP_EXIT_CODE_SHOW=true
+# SPACESHIP_BATTERY_SHOW=false
 HYPHEN_INSENSITIVE="true"
 ENABLE_CORRECTION="true"
 COMPLETION_WAITING_DOTS="true"
@@ -15,7 +15,7 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Would you like to use another custom folder than $ZSH/custom?
 ZSH_CUSTOM=$HOME/.zsh_custom
 
-plugins=(git kubectl kubectx httpie lol node nvm sudo)
+plugins=(git kubectl kubectx httpie lol node nvm sudo zsh-autosuggestions zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 # User configuration
@@ -32,6 +32,13 @@ export GIT_EDITOR=$EDITOR
 alias zshconfig="code ~/.zshrc"
 alias ohmyzsh="code ~/.oh-my-zsh"
 alias git="hub"
+
+if command -v exa >/dev/null 2>&1 then
+do
+  alias ls="exa"
+  alias ll="exa --long"
+fi
+
 #alias nano="echo Use micro!; # "
 
 function fixTERM() {
