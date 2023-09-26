@@ -100,3 +100,5 @@
 	editor = code --wait
 [commit]
 #	gpgsign = true
+[init]
+	defaultBranch = main

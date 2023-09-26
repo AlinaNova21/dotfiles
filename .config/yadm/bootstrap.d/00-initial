@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 echo "Updating the yadm repo origin URL"
-yadm remote set-url origin "dotfiles:ags131/dotfiles"
+yadm remote set-url origin "dotfiles:alinanova21/dotfiles"
 
 cd "$HOME"
 echo "Init submodules"

@@ -1,0 +1,10 @@
+#!/bin/bash
+mkdir __fonts
+pushd __fonts
+wget https://github.com/ryanoasis/nerd-fonts/releases/download/v2.2.2/FiraCode.zip
+unzip FiraCode.zip
+rm *Windows*
+mv *.ttf ~/.local/share/fonts/
+popd
+rm -rfv __fonts
+fc-cache -fv

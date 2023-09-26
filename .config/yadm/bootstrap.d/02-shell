@@ -1,14 +1,16 @@
 #!/bin/bash
 
 # Install oh-my-zsh
-KEEP_ZSHRC=yes sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended
+#KEEP_ZSHRC=yes sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended
 
 # Install extra plugins
-git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh_custom/plugins/zsh-autosuggestions
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh_custom/plugins/zsh-syntax-highlighting
+#git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh_custom/plugins/zsh-autosuggestions
+#git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh_custom/plugins/zsh-syntax-highlighting
 
 # set shell to zsh
 sudo chsh -s $(which zsh)
 
 # install starship prompt
 curl -sS https://starship.rs/install.sh | sh
+
+antidote update
