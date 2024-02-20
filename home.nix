@@ -14,6 +14,9 @@
   # environment.
   home.packages = [
     pkgs.httpie
+    pkgs.curl
+    pkgs.wget
+    pkgs.yq
   ];
 
   home.file = {};
