@@ -60,6 +60,7 @@
         pkgs = nixpkgs.legacyPackages.${hosts.ims-alina.system};
         modules = [
           ./home.nix
+          ./home.personal.nix
           {
             home = {
               username = "alina";
@@ -68,7 +69,7 @@
           }
         ];
       };
-      "alinashumann@alinas-mbp" = home-manager.lib.homeManagerConfiguration {
+      "alinashumann" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.${hosts.alinas-mbp.system};
         modules = [
           ./home.nix
