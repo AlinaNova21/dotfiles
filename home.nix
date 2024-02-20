@@ -13,8 +13,7 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = [
-    pkgs.kubectl
-    pkgs.kubectx
+    pkgs.httpie
   ];
 
   home.file = {};
@@ -95,7 +94,6 @@
     enable = true;
     delta.enable = true;
 	  extraConfig = {
-      user.signingkey = "EBFE66383E5164DB";
       push = {
         	default = "tracking";
         	autoSetupRemote = true;
@@ -126,7 +124,6 @@
 
 
   programs.bat.enable = true;
-  programs.k9s.enable = true;
   programs.htop.enable = true;
   programs.jq.enable = true;
 
@@ -138,7 +135,4 @@
     enableZshIntegration = true;
     nix-direnv.enable = true;
   };
-
-  services.kbfs.enable = true;
-  services.keybase.enable = true;
 }

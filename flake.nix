@@ -65,10 +65,6 @@
               username = "alina";
               homeDirectory = "/home/alina";
             };
-            programs.git = {
-              userName = "Alina Shumann";
-              userEmail = "alina@alinanova.dev";
-            };
           }
         ];
       };
@@ -76,14 +72,11 @@
         pkgs = nixpkgs.legacyPackages.${hosts.alinas-mbp.system};
         modules = [
           ./home.nix
+          ./home.work.nix
           {
             home = {
               username = "alinashumann";
               homeDirectory = "/Users/alinashumann";
-            };
-            programs.git = {
-              userName = "Alina Shumann";
-              userEmail = "alinashumann@kyndryl.net";
             };
           }
         ];
