@@ -1,0 +1,65 @@
+header: AlinaNova21's Dotfiles {
+    near: top-center
+    shape: text
+    style: {
+        font-size: 42
+        italic: true
+    }
+}
+
+home: home.nix
+flake: flake.nix
+personal: home.personal.nix
+work: home.work.nix
+
+
+flake {
+    home-manager {
+        alina@ims-alina: Personal Dev Box {
+            personal -> _._._.personal
+            home -> _._._.home
+        }
+        alinashumann: Work Laptop {
+            home -> _._._.home
+            work -> _._._.work
+        }
+    }
+}
+
+home { 
+    packages: |md
+        - bat
+        - curl
+        - direnv
+        - eza
+        - git
+        - home-manager
+        - htop
+        - httpie
+        - jq
+        - starship
+        - thefuck
+        - tmux
+        - wget
+        - yq
+        - zoxide
+        - zsh
+    |
+}
+
+personal {
+    packages: |md
+    - k9s
+    - kbfs
+    - keybase
+    - kubectl
+    - kubectx
+    |
+}
+
+work {
+    packages: |md
+    - google-cloud-sdk
+    - d2
+    |
+}
