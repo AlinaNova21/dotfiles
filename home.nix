@@ -35,6 +35,18 @@
     shellAliases = {
       cat = "bat";
     };
+    history = {
+      size = 10000;
+      save = 10000;
+      ignoreDups = true;
+      ignoreSpace = true;
+      share = true;
+    };
+    envExtra = "HISTDUP=erase";
+    initExtra = ''
+      bindkey '^[[A' history-search-backward # Up
+      bindkey '^[[B' history-search-forward  # Down
+    '';
 
     antidote = {
       enable = true;
