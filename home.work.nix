@@ -6,7 +6,7 @@
   ];
   programs.git = {
     userName = "Alina Shumann";
-    userEmail = "alinashumann@kyndryl.net";
+    userEmail = "alina.shumann@kyndryl.net";
   };
   programs.zsh.initExtra = "if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
     . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
