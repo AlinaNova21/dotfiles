@@ -3,6 +3,8 @@
   home.packages = [
     pkgs.kubectl
     pkgs.kubectx
+    pkgs.fuse
+    pkgs.flyctl
   ];
   programs.git = {
     userName = "Alina Shumann";

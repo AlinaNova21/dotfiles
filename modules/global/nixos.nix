@@ -1,5 +1,9 @@
 { config, pkgs, ... }:
 {
-  services.tailscale.enable = true;
-  services.tailscale.useRoutingFeatures = "both";
+  
+  environment.systemPackages = with pkgs; [
+    wget
+    curl
+    git
+  ];
 }
