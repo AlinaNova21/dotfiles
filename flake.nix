@@ -12,9 +12,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
       url = "github:LnL7/nix-darwin";
     };
+    nixos-wsl.url = "github:nix-community/nixos-wsl";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, nix-darwin, home-manager, ... }@inputs: let
+  outputs = { self, nixpkgs, nixpkgs-unstable, nix-darwin, nixos-wsl, home-manager, ... }@inputs: let
     globalModules = [ 
       { 
         system.configurationRevision = self.rev or self.dirtyRev or null; 
@@ -75,7 +76,9 @@
       laptop-wsl = {
         username = "alina";
         system = "x86_64-linux";
-        modules = [];
+        modules = [
+          nixos-wsl.nixosModules.wsl
+        ];
         homeModules = [
           ./home.nix
         ];
