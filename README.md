@@ -5,4 +5,6 @@ git clone https://github.com/alinanova21/dotfiles ~/.config/home-manager
 nix run ~/.config/home-manager
 ```
 
-![Flow](./docs/flow.svg)
+TODO:
+* Finish porting hosts to new layout
+* redo readme
