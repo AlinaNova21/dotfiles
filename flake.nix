@@ -93,6 +93,7 @@
       #   }) hosts;
       nixosConfigurations = {
         ims-alina = import ./hosts/ims-alina { inherit inputs globals overlays; };
+        laptop-wsl = import ./hosts/laptop-wsl { inherit inputs globals overlays; };
       };
       darwinConfigurations = {
         alinas-mbp = import ./hosts/alinas-mbp { inherit inputs globals overlays; };
@@ -100,6 +101,7 @@
       homeConfigurations = { 
         ims-alina = nixosConfigurations.ims-alina.config.home-manager.users.${globals.user}.home;
         nix-dev = nixosConfigurations.nix-dev.config.home-manager.users.${globals.user}.home;
+        laptop-wsl = nixosConfigurations.laptop-wsl.config.home-manager.users.${globals.user}.home;
         alinas-mbp = darwinConfigurations.alinas-mbp.config.home-manager.users."Alina.Shumann".home;
       };
       # homeConfigurations = nixpkgs.lib.mapAttrs' (name: value:
@@ -115,7 +117,7 @@
         in {
           # Used to run commands and edit files in this repo
           default = pkgs.mkShell {
-            buildInputs = with pkgs; [ git nixfmt shfmt shellcheck ];
+            buildInputs = with pkgs; [ git nixfmt shfmt shellcheck nixos-rebuild nixos-config];
           };
 
           # Used for cloud and systems development and administration

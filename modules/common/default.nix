@@ -88,5 +88,6 @@
     };
     
     home-manager.users.root.home.stateVersion = stateVersion;
+    system.stateVersion = stateVersion;
   };
 }
