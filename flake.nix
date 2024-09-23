@@ -31,67 +31,8 @@
           globalModules = [{
             system.configurationRevision = self.rev or self.dirtyRev or null;
           }
-          # ./modules/global/global.nix 
         ];
-      # globalModulesNixos = globalModules
-      #   ++ [ ./modules/global/nixos.nix home-manager.nixosModules.default ];
-      # globalModulesMacos = globalModules
-      #   ++ [ ./modules/global/macos.nix home-manager.darwinModules.default ];
-      hosts = {
-        ims-alina = {
-          username = "alina";
-          system = "x86_64-linux";
-          modules = [ ./modules/tailscale.nix ];
-          homeModules = [
-            ./home.personal.nix
-            {
-              home = {
-                username = "alina";
-                homeDirectory = "/home/alina";
-              };
-            }
-          ];
-        };
-        nix-dev = {
-          username = "alina";
-          system = "x86_64-linux";
-          modules = [ ./modules/tailscale.nix ];
-          homeModules = [ ./home.nix ];
-        };
-        alinas-mbp = {
-          username = "alinashumann";
-          system = "aarch64-darwin";
-          modules = [ ];
-          homeModules = [
-            ./home.work.nix
-            {
-              home = {
-                username = "alinashumann";
-                homeDirectory = "/Users/alinashumann";
-              };
-            }
-          ];
-        };
-        laptop-wsl = {
-          username = "alina";
-          system = "x86_64-linux";
-          modules = [ nixos-wsl.nixosModules.wsl ];
-          homeModules = [ ./home.nix ];
-        };
-      };
     in rec {
-      # nixosConfigurations = nixpkgs.lib.mapAttrs (name: value:
-      #   nixpkgs.lib.nixosSystem {
-      #     system = hosts.${name}.system;
-      #     modules = globalModulesNixos ++ hosts.${name}.modules
-      #       ++ [ ./hosts/${name}/configuration.nix ];
-      #     specialArgs = {
-      #       pkgs-unstable = import nixpkgs-unstable {
-      #         system = hosts.${name}.system;
-      #         config.allowUnfree = true;
-      #       };
-      #     };
-      #   }) hosts;
       nixosConfigurations = {
         ims-alina = import ./hosts/ims-alina { inherit inputs globals overlays; };
         laptop-wsl = import ./hosts/laptop-wsl { inherit inputs globals overlays; };
@@ -103,14 +44,8 @@
         ims-alina = nixosConfigurations.ims-alina.config.home-manager.users.${globals.user}.home;
         nix-dev = nixosConfigurations.nix-dev.config.home-manager.users.${globals.user}.home;
         laptop-wsl = nixosConfigurations.laptop-wsl.config.home-manager.users.${globals.user}.home;
-        alinas-mbp = darwinConfigurations.alinas-mbp.config.home-manager.users."Alina.Shumann".home;
+        alinas-mbp = darwinConfigurations.alinas-mbp.config.home-manager.users."alinashumann".home;
       };
-      # homeConfigurations = nixpkgs.lib.mapAttrs' (name: value:
-      #   nixpkgs.lib.nameValuePair ("${value.username}@${name}")
-      #   (home-manager.lib.homeManagerConfiguration {
-      #     pkgs = nixpkgs.legacyPackages.${value.system};
-      #     modules = value.homeModules;
-      #   })) hosts;
 
       # Development environments
       devShells = forAllSystems (system:
@@ -127,6 +62,3 @@
         });
     };
 }
-
-#references
-# https://github.com/diego-vicente/dotfiles/

@@ -1,18 +1,18 @@
 { inputs, globals, overlays, ... }:
 with inputs;
-nix-darwin.lib.system {
-  system = "aarh64-darwin";
+nix-darwin.lib.darwinSystem {
+  system = "aarch64-darwin";
   modules = [
-    ../../modules/common
-    ../../modules/darwin
     (
       globals
       // rec {
-        user = "Alina.Shumann";
+        user = "alinashumann";
         gitName = "Alina Shumann";
-        gitEmail = "${user}@kyndryl.com";
+        gitEmail = "Alina.Shumann@kyndryl.com";
       }
     )
+    ../../modules/common
+    ../../modules/darwin
     inputs.home-manager.darwinModules.home-manager
   ];
 }
