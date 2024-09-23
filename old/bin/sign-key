@@ -1,6 +1,0 @@
-#!/bin/bash
-if [[ -f ~/.ssh/id_ecdsa.pub ]]; then
-  step-cli ssh certificate -n adam -n root -n admin -f --sign adam@$(hostname --fqdn) ~/.ssh/id_ecdsa.pub
-else
-  step-cli ssh certificate -n adam -n root -n admin adam@$(hostname --fqdn) ~/.ssh/id_ecdsa
-fi

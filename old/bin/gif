@@ -1,5 +1,0 @@
-#!/bin/bash
-TMPF=$(mktemp /tmp/outXXXXXXX.mp4)
-ffcast -s % ffmpeg -y -f x11grab -show_region 1 -r 10 -framerate 10 \
-    -video_size %s -i %D+%c                   \
-    -vf crop="iw-mod(iw\\,2):ih-mod(ih\\,2)" -f image2pipe -vcodec ppm - | convert -loop 0 -delay 6 -loop 0 - /tmp/out.gif

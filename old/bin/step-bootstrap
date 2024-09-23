@@ -1,2 +1,0 @@
-#!/bin/bash
-step-cli ca bootstrap --fingerprint 5fa4706ef056d4e82aeea07e7bfb1b4594caed350223416fd74abababca183b5 --ca-url https://ca.ags131.com:4443

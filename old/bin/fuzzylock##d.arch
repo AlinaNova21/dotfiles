@@ -1,9 +1,0 @@
-#!/bin/bash
-rm -f /tmp/lock.png
-scrot -zo /tmp/lock.png
-#mogrify -blur 0x12 /tmp/lock.png
-gm mogrify -colorspace gray -blur 0x10 /tmp/lock.png
-#gm mogrify -scale 10% -scale 1000% /tmp/lock.png
-gm mogrify -scale 20% -scale $(identify -format "%wx%h" /tmp/lock.png) /tmp/lock.png
-i3lock -n -i /tmp/lock.png
-rm -f /tmp/lock.png

@@ -1,6 +1,7 @@
 {config, lib, pkgs, ...}: {
   imports = [
     ./applications
+    ./desktop
     ./programming
     ./repositories
     ./shell

@@ -13,6 +13,7 @@
       url = "github:LnL7/nix-darwin";
     };
     nixos-wsl.url = "github:nix-community/nixos-wsl";
+    hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
   };
 
   outputs = { self, nixpkgs, nixpkgs-unstable, nix-darwin, nixos-wsl, ... }@inputs:
@@ -117,7 +118,7 @@
         in {
           # Used to run commands and edit files in this repo
           default = pkgs.mkShell {
-            buildInputs = with pkgs; [ git nixfmt shfmt shellcheck nixos-rebuild nixos-config];
+            buildInputs = with pkgs; [ git nixfmt shfmt shellcheck nixos-rebuild home-manager];
           };
 
           # Used for cloud and systems development and administration
