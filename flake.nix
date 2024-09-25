@@ -13,6 +13,10 @@
       url = "github:LnL7/nix-darwin";
     };
     nixos-wsl.url = "github:nix-community/nixos-wsl";
+    nix-on-droid = {
+      url = "github:nix-community/nix-on-droid/release-24.05";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
   };
 
@@ -40,6 +44,9 @@
       };
       darwinConfigurations = {
         alinas-mbp = import ./hosts/alinas-mbp { inherit inputs globals overlays; };
+      };
+      nixOnDroidConfigurations = {
+        droid = import ./hosts/droid { inherit inputs globals overlays; };
       };
       homeConfigurations = { 
         ims-alina = nixosConfigurations.ims-alina.config.home-manager.users.${globals.user}.home;

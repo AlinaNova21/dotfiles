@@ -26,7 +26,7 @@ nixpkgs.lib.nixosSystem rec {
             ];
             
             monitor = [
-              "Unknown-1,disable"
+              "Unknown-1,disabled"
               "HEADLESS-2,1920x1080@60,0x0,1"
             ];
 
