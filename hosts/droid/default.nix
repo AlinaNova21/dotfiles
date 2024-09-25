@@ -1,4 +1,4 @@
-{ self, nixpkgs, nix-on-droid, ... }:
+{ inputs, globals, overlays, ... }:
 with inputs;
 nix-on-droid.lib.nixOnDroidConfiguration {
   pkgs = import nixpkgs { system = "aarch64-linux"; };
