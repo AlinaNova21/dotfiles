@@ -3,6 +3,7 @@ with inputs;
 nixpkgs.lib.nixosSystem rec {
   system = "x86_64-linux";
   modules = [
+    ./configuration.nix
     globals
     home-manager.nixosModules.home-manager
     
@@ -10,14 +11,33 @@ nixpkgs.lib.nixosSystem rec {
     ../../modules/common
     ../../modules/nixos
     ({config, lib, pkgs, ...}: {
+      passwordHash = "$6$NTUzZTYyYjI$yI3zdkAdbXoq4m4PppDjvsfjkHfdsu4F/8pZhogkRfvX1SHk/j1Jmq6OcCyx8.GRylSVAX1PfwbYJVtPnGM7d0";
       kubernetes.enable = true;
       tailscale.enable = true;
+      gui.enable = true;
+      unfreePackages = [
+        "vscode"
+      ];
       # hyprland.enable = true;
+      environment.systemPackages = with pkgs; [
+        mesa
+        libdrm
+        intel-media-driver
+        libvdpau-va-gl
+      ];
+      security.polkit.enable = true;
       home-manager.users.${globals.user} = {
-        # wayland.windowManager.hyprland = {
-        #   enable = true;
-        #   # set the flake package
-        #   package = inputs.hyprland.packages.${system}.hyprland;
+        programs.vscode = {
+          enable = true;
+          extensions = with pkgs.vscode-extensions; [
+            mkhl.direnv
+            bbenoist.nix
+          ];
+        };
+        wayland.windowManager.hyprland = {
+          enable = false;
+          # set the flake package
+          package = inputs.hyprland.packages.${system}.hyprland;
         #   settings = {
         #     env = [
         #       "LIBVA_DRIVER_NAME,nvidia"
@@ -34,9 +54,10 @@ nixpkgs.lib.nixosSystem rec {
         #     cursor = {
         #       no_hardware_cursors = true;
         #     };
-        #   };
-        # };
+        #  };
+        };
         home.packages = with pkgs; [
+	  kitty
           # sunshine
         ];
         # systemd.user.services.sunshine = {
