@@ -1,7 +1,6 @@
-{config, lib, pkgs, ...}: {
+{config, lib, pkgs, pkgs-unstable, ...}: {
   imports = [
     ./applications
-    ./desktop
     ./programming
     ./repositories
     ./shell
@@ -82,7 +81,6 @@
     # Retrieves package object based on string name
     nixpkgs.config.allowUnfreePredicate = pkg:
       builtins.elem (lib.getName pkg) config.unfreePackages;
-
     # Pin a state version to prevent warnings
     home-manager.users.${config.user} = {
       home = {
