@@ -14,6 +14,7 @@ nixpkgs.lib.nixosSystem rec {
       passwordHash = "$6$NTUzZTYyYjI$yI3zdkAdbXoq4m4PppDjvsfjkHfdsu4F/8pZhogkRfvX1SHk/j1Jmq6OcCyx8.GRylSVAX1PfwbYJVtPnGM7d0";
       kubernetes.enable = true;
       tailscale.enable = true;
+      steam.enable = true;
       gui.enable = true;
       unfreePackages = [
         "vscode"

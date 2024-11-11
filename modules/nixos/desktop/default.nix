@@ -1,7 +1,8 @@
-{...}: {
+{config,...}: {
   imports = [
-    # ./hyprland.nix
+    ./ags.nix
     ./gui.nix
+    ./greetd.nix
     ./sway
   ];
 }
