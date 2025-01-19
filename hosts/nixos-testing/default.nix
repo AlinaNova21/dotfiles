@@ -1,7 +1,8 @@
-{
+{config, ...}: {
   networking.hostName = "nixos-testing";
   facter.reportPath = ./facter.json;
   acme = {
+    role = "dev";
     disko = {
       enable = true;
       rootDevice = "/dev/sda";

@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  sysConfig,
   ...
 }: let
   cfg = config.acme;
@@ -13,7 +14,10 @@ in {
   options = {
     acme.role = lib.mkOption {
       type = lib.types.str;
-      default = "minimal";
+      default =
+        if cfg.isRoot
+        then "minimal"
+        else sysConfig.acme.role;
       description = "Role to apply to the system";
     };
   };

@@ -28,10 +28,10 @@ in {
         ];
       };
     }
-    // lib.mkIf (cfg.enable && cfg.gh-copilot) {
+    // lib.mkIf (cfg.enable && cfg.copilot) {
       acme.unfreePackages = ["gh-copilot"];
       programs.gh.extensions = [
-        pkgs.unstable.gh-copilot
+        pkgs.gh-copilot
       ];
       programs.zsh.initExtra = ''
         eval "$(${pkgs.gh}/bin/gh copilot alias -- zsh)"

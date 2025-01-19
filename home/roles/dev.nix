@@ -16,7 +16,7 @@ in
 
       acme.dotfiles.enable = true;
       acme.gh.enable = true;
-      acme.gh.copilot = true;
+      # acme.gh.copilot = true;
       acme.kubernetes.enable = true;
     };
   }
