@@ -1,14 +1,6 @@
-{ inputs, globals, overlays, ... }:
-with inputs;
-nix-on-droid.lib.nixOnDroidConfiguration {
-  pkgs = import nixpkgs { system = "aarch64-linux"; };
-  modules = [
-    ../../modules/common
-    {
-      system.stateVersion = "24.05";
-      nix.extraOptions = ''
-        experimental-features = nix-command flakes
-      '';
-    }
-  ];
+{
+  acme.role = "minimal";
+  home-manager.users.alina = import ../../home "nixOnDroid" "alina" {};
+
+  system.stateVersion = "24.11";
 }

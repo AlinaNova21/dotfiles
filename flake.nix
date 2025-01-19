@@ -1,74 +1,190 @@
 {
-  description = "Home Manager configuration";
+  description = "Your new nix config";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    alejandra.url = "github:kamadorueda/alejandra/3.1.0";
+    alejandra.inputs.nixpkgs.follows = "nixpkgs";
+
+    disko.url = "github:nix-community/disko";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
+
+    flake-utils.url = "github:numtide/flake-utils";
+
+    # Home manager
+    home-manager.url = "github:nix-community/home-manager/release-24.11";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    impermanence.url = "github:nix-community/impermanence";
+
+    nix-darwin.url = "github:LnL7/nix-darwin/nix-darwin-24.11";
+    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+
+    nix-on-droid.url = "github:nix-community/nix-on-droid/release-24.05";
+    nix-on-droid.inputs.nixpkgs.follows = "nixpkgs";
+
+    nixos-anywhere.url = "github:nix-community/nixos-anywhere";
+
+    nixos-facter-modules.url = "github:numtide/nixos-facter-modules";
+
+    nixos-images.url = "github:nix-community/nixos-images";
+
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
+
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-    home-manager = {
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    nix-darwin = {
-      inputs.nixpkgs.follows = "nixpkgs";
-      url = "github:LnL7/nix-darwin";
-    };
+
     nixos-wsl.url = "github:nix-community/nixos-wsl";
-    nix-on-droid = {
-      url = "github:nix-community/nix-on-droid/release-24.05";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
-    ags.url = "github:Aylur/ags";
+
+    sops-nix.url = "github:Mic92/sops-nix";
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+
+    # TODO: swap back to upstream when PR is merged: https://github.com/space-wizards/SS14.Watchdog/pull/35
+    ss14-watchdog.url = "github:AlinaNova21/SS14.Watchdog/update-nix";
+    # ss14-watchdog.url = "github:space-wizards/SS14.Watchdog";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, nix-darwin, nixos-wsl, ... }@inputs:
-    let
-      globals = rec {
-        user = "alina";
-        gitName = "Alina Shumann";
-        gitEmail = "alina@alinanova.dev";
-        dotfilesRepo = "git@github.com:AlinaNova21/dotfiles";
+  outputs = {
+    self,
+    alejandra,
+    disko,
+    flake-utils,
+    home-manager,
+    impermanence,
+    nixos-anywhere,
+    nixos-facter-modules,
+    nixos-images,
+    nixpkgs,
+    sops-nix,
+    ss14-watchdog,
+    ...
+  } @ inputs:
+    with inputs; let
+      inherit (self) outputs;
+      utils = import ./utils.nix {inherit inputs outputs;};
+      staticModule = {
+        acme = {
+          gitName = "Alina Shumann";
+          gitEmail = "alina@alinanova.dev";
+          dotfilesRepo = "git@github.com:AlinaNova21/dotfiles";
+          sshKeys = [
+            "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDlPf3egS4avuZs9+BCqO7mW1/uk1UOIBLX5oj9qtO3IHbHAJCXCAKcRmZPc6uGQpv2HZjcpkSnr1pxGT3mubcc8/tFR6JO3ZeTMfA6UcrOQjPJXv+/5w8sopdPjFETnnsaXxBKkjKh7aswiYzYoiXTYkUTuSIvh50uAs2HI+C18xYkKSMLOF+G6CQTMRFD+ZaqAZW1M0/L4gWvA/A2r6kzJzXrTLQTqaJ62KfuRbVL5YqYziO/cuXxbvnq2qP6bfk/6i+K7VnC7DZNu17XIYjU4ajy5YWBns7GksE5MopMUyOhLFuGRYGgNtqf1q621fcz+7b13OfM4hLCCU/N7oVB"
+          ];
+        };
       };
-      overlays = [ ];
-      supportedSystems = [ "x86_64-linux" "aarch64-darwin" ];
-      # Helper function to generate an attrset '{ x86_64-linux = f "x86_64-linux"; ... }'.
-      forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
-          globalModules = [{
-            system.configurationRevision = self.rev or self.dirtyRev or null;
-          }
+      hosts = {
+        darwin = [];
+        droid = [];
+        nixos = ["liminality-srv1" "nixos-testing"];
+      };
+      systems = {
+        nixos = ["ims-alina" "nixos-testing" "liminality-srv1"];
+        darwin = ["work-mbp"];
+        nixOnDroid = ["droid"];
+      };
+      nixosSystems = nixpkgs.lib.genAttrs systems.nixos (mapSystem "nixos");
+      darwinSystems = nixpkgs.lib.genAttrs systems.darwin (mapSystem "darwin");
+      nixOnDroidSystems =
+        nixpkgs.lib.genAttrs systems.nixOnDroid (mapSystem "nixOnDroid");
+      mapSystem = system: host: {
+        specialArgs = {inherit inputs outputs;};
+        modules = [
+          staticModule
+          ./hosts/${host}
+          ./modules/common
+          ./modules/${system}
+          ./roles
         ];
-    in rec {
-      nixosConfigurations = {
-        ims-alina = import ./hosts/ims-alina { inherit inputs globals overlays; };
-        laptop-wsl = import ./hosts/laptop-wsl { inherit inputs globals overlays; };
-        pixelbook = import ./hosts/pixelbook { inherit inputs globals overlays; };
       };
-      darwinConfigurations = {
-        alinas-mbp = import ./hosts/alinas-mbp { inherit inputs globals overlays; };
-      };
-      nixOnDroidConfigurations = {
-        droid = import ./hosts/droid { inherit inputs globals overlays; };
-      };
-      homeConfigurations = { 
-        ims-alina = nixosConfigurations.ims-alina.config.home-manager.users.${globals.user}.home;
-        nix-dev = nixosConfigurations.nix-dev.config.home-manager.users.${globals.user}.home;
-        laptop-wsl = nixosConfigurations.laptop-wsl.config.home-manager.users.${globals.user}.home;
-        pixelbook = nixosConfigurations.pixelbook.config.home-manager.users.${globals.user}.home;
-        alinas-mbp = darwinConfigurations.alinas-mbp.config.home-manager.users."alinashumann".home;
-      };
-
-      # Development environments
-      devShells = forAllSystems (system:
-        let pkgs = import nixpkgs { inherit system overlays; };
-        in {
-          # Used to run commands and edit files in this repo
-          default = pkgs.mkShell {
-            buildInputs = with pkgs; [ git nixfmt shfmt shellcheck nixos-rebuild home-manager];
+    in {
+      inherit nixosSystems darwinSystems nixOnDroidSystems;
+      # NixOS configuration entrypoint
+      # Available through 'nixos-rebuild --flake .#your-hostname'
+      nixosConfigurations = nixpkgs.lib.mapAttrs (_: system:
+        nixpkgs.lib.nixosSystem {inherit (system) specialArgs modules;})
+      nixosSystems;
+      darwinConfigurations = nixpkgs.lib.mapAttrs (_: system:
+        nix-darwin.lib.darwinSystem {inherit (system) specialArgs modules;})
+      darwinSystems;
+      nixOnDroidConfigurations = nixpkgs.lib.mapAttrs (_: system:
+        nix-on-droid.lib.nixOnDroidConfiguration {
+          inherit (system) modules;
+          extraSpecialArgs = system.specialArgs;
+          pkgs = import nixpkgs {
+            overlays = [nix-on-droid.overlays.default];
+            system = "aarch64-linux";
           };
+        })
+      nixOnDroidSystems;
 
-          # Used for cloud and systems development and administration
-          devops = pkgs.mkShell { buildInputs = with pkgs; [ git ]; };
+      # Standalone home-manager configuration entrypoint
+      # Available through 'home-manager --flake .#your-username@your-hostname'
+      homeConfigurations =
+        utils.homesFromConfigurations outputs.nixosConfigurations
+        // utils.homesFromConfigurations outputs.darwinConfigurations
+        // utils.homesFromConfigurations outputs.nixOnDroidConfigurations;
 
+      utils = utils;
+      colmena = {
+        meta = {
+          nixpkgs = import nixpkgs {
+            overlays = [];
+            system = "x86_64-linux";
+          };
+          specialArgs = {inherit inputs outputs;};
+        };
+        nixos-testing = {
+          deployment = {
+            targetHost = "192.168.2.114";
+            targetUser = "root";
+          };
+          imports = nixosSystems.nixos-testing.modules;
+        };
+        liminality-srv1 = {
+          deployment = {
+            targetHost = "152.53.82.201";
+            targetUser = "root";
+          };
+          imports = nixosSystems.liminality-srv1.modules;
+        };
+      };
+      devShells = flake-utils.lib.eachDefaultSystemPassThrough (system: let
+        pkgs = nixpkgs.legacyPackages.${system};
+        deploy-testing = pkgs.writeShellScriptBin "deploy-testing" ''
+          ${pkgs.nixos-anywhere.outPath}/bin/nixos-anywhere \
+            --flake .#nixos-testing \
+            --extra-files tests \
+            --copy-host-keys \
+            --generate-hardware-config nixos-facter ./hosts/nixos-testing/facter.json \
+            root@192.168.2.114 \
+            $@
+        '';
+        deploy-liminality-srv1 = pkgs.writeShellScriptBin "deploy-liminality-srv1" ''
+          ${pkgs.nixos-anywhere.outPath}/bin/nixos-anywhere \
+            --flake .#liminality-srv1 \
+            --extra-files tests \
+            --copy-host-keys \
+            --generate-hardware-config nixos-facter ./hosts/liminality-srv1/facter.json \
+            root@152.53.82.201 \
+            $@
+        '';
+        age-keyscan = pkgs.writeShellScriptBin "age-keyscan" ''
+          ssh-keyscan $1 | ${pkgs.ssh-to-age}/bin/ssh-to-age
+        '';
+      in
+        with pkgs; {
+          ${system}.default = mkShell {
+            buildInputs = with pkgs; [
+              alejandra.defaultPackage.${system}
+              colmena
+              home-manager.defaultPackage.${system}
+              nixfmt
+              nixos-anywhere.outPath
+              nixos-rebuild
+              nixos-rebuild
+              shellcheck
+              shfmt
+            ];
+            packages = [age-keyscan deploy-liminality-srv1 deploy-testing];
+          };
         });
     };
 }

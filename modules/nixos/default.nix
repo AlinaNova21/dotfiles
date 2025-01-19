@@ -1,7 +1,24 @@
-{...}: {
+{
+  config,
+  inputs,
+  lib,
+  ...
+}: {
   imports = [
-    ./desktop
-    ./user.nix
+    inputs.home-manager.nixosModules.home-manager
+    inputs.nixos-facter-modules.nixosModules.facter
+    inputs.sops-nix.nixosModules.sops
+    inputs.ss14-watchdog.nixosModules.default
+    ./disko.nix
+    ./grub.nix
+    ./networking.nix
+    ./openssh.nix
+    ./persistence.nix
+    ./rescue
     ./tailscale.nix
+    ./users.nix
+    ./vscode-server.nix
   ];
+
+  security.sudo.wheelNeedsPassword = false;
 }
