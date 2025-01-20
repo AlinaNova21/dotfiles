@@ -77,7 +77,7 @@ in {
           # Workaround: cannot import 'zroot': I/O error in disko tests
           options.cachefile = "none";
           rootFsOptions = {
-            # compression = "zstd";
+            compression = "zstd";
             mountpoint = "none";
           };
 

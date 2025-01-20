@@ -70,13 +70,8 @@
           ];
         };
       };
-      hosts = {
-        darwin = [];
-        droid = [];
-        nixos = ["liminality-srv1" "nixos-testing"];
-      };
       systems = {
-        nixos = ["ims-alina" "nixos-testing" "liminality-srv1"];
+        nixos = ["ims-alina" "lab" "liminality-srv1" "nixos-testing"];
         darwin = ["work-mbp"];
         nixOnDroid = ["droid"];
       };
@@ -131,6 +126,13 @@
           };
           specialArgs = {inherit inputs outputs;};
         };
+        lab = {
+          deployment = {
+            targetHost = "192.168.2.86";
+            targetUser = "root";
+          };
+          imports = nixosSystems.lab.modules;
+        };
         nixos-testing = {
           deployment = {
             targetHost = "192.168.2.114";
@@ -148,24 +150,28 @@
       };
       devShells = flake-utils.lib.eachDefaultSystemPassThrough (system: let
         pkgs = nixpkgs.legacyPackages.${system};
-        deploy-testing = pkgs.writeShellScriptBin "deploy-testing" ''
+        lib = nixpkgs.lib;
+        deploy = pkgs.writeShellScriptBin "deploy" ''
+          if [ $# -lt 2 ]; then
+            echo "Usage: deploy <HOSTNAME> <HOST> [args...]"
+            exit 1
+          fi
+          end
+          SYS=$1
+          HOST=$2
+          shift 2
           ${pkgs.nixos-anywhere.outPath}/bin/nixos-anywhere \
-            --flake .#nixos-testing \
+            --flake .#$SYS \
             --extra-files tests \
             --copy-host-keys \
-            --generate-hardware-config nixos-facter ./hosts/nixos-testing/facter.json \
-            root@192.168.2.114 \
+            --generate-hardware-config nixos-facter ./hosts/$SYS/facter.json \
+            $HOST \
             $@
         '';
-        deploy-liminality-srv1 = pkgs.writeShellScriptBin "deploy-liminality-srv1" ''
-          ${pkgs.nixos-anywhere.outPath}/bin/nixos-anywhere \
-            --flake .#liminality-srv1 \
-            --extra-files tests \
-            --copy-host-keys \
-            --generate-hardware-config nixos-facter ./hosts/liminality-srv1/facter.json \
-            root@152.53.82.201 \
-            $@
+        deployVariant = profile: deployment: pkgs.writeShellScriptBin "deploy-${profile}" ''
+          ${deploy}/bin/deploy ${profile} ${deployment.targetUser}@${deployment.targetHost} $@
         '';
+        deployments = pkgs.lib.filterAttrs (name: config: pkgs.lib.hasAttr "deployment" config) outputs.colmena;
         age-keyscan = pkgs.writeShellScriptBin "age-keyscan" ''
           ssh-keyscan $1 | ${pkgs.ssh-to-age}/bin/ssh-to-age
         '';
@@ -183,7 +189,10 @@
               shellcheck
               shfmt
             ];
-            packages = [age-keyscan deploy-liminality-srv1 deploy-testing];
+            packages = [
+              age-keyscan
+              deploy
+            ] ++ lib.mapAttrsToList (name: config: deployVariant name config.deployment) deployments;
           };
         });
     };
