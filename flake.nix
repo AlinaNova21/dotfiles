@@ -162,7 +162,6 @@
           shift 2
           ${pkgs.nixos-anywhere.outPath}/bin/nixos-anywhere \
             --flake .#$SYS \
-            --extra-files tests \
             --copy-host-keys \
             --generate-hardware-config nixos-facter ./hosts/$SYS/facter.json \
             $HOST \
