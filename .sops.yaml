@@ -1,13 +1,15 @@
 keys:
 - &admin_alina age1n7q5q5z3xkufhlysrt3mrrxnyhqa3myseu7pyc47hwf5l67qssqse2jdh5
 - &dev age163u3n7pk3t63zut6kh2wezmdznu3ed2jv6w2hw5pc38d5qkksu5q4rznuw
-- &nixos-testing age19kx9crtmpdz8m0cxzgc2g852nufjrnsxu7lhh6tlh9xm88pcep2q20hc6m
+- &lab age10zyrgjuvsd8w00g3nvud7nk7pvf23jceg0jzkmdaph49vyaqkgpq659tqn
 - &liminality-srv1 age12pl646jf86eldch3shj48fhl0hx6fhx7z9x34un5gkjz085hjf6syxvsqt
+- &nixos-testing age19kx9crtmpdz8m0cxzgc2g852nufjrnsxu7lhh6tlh9xm88pcep2q20hc6m
 creation_rules:
   - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
     - age:
       - *admin_alina
       - *dev
-      - *nixos-testing 
+      - *lab
       - *liminality-srv1
+      - *nixos-testing

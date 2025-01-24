@@ -13,7 +13,7 @@
 
       # Install packages to /etc/profiles instead of ~/.nix-profile, useful when
       # using multiple profiles for one user
-      # useUserPackages = true;
+      useUserPackages = true;
       extraSpecialArgs = {
         inherit inputs outputs;
         sysConfig = config;

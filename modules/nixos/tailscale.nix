@@ -13,6 +13,7 @@ in {
     };
   };
   config = mkIf cfg.enable {
+    networking.firewall.trustedInterfaces = ["tailscale0"];
     services.tailscale = {
       enable = true;
       authKeyFile = config.sops.secrets.tailscaleAuthKey.path;

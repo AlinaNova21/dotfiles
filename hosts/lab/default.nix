@@ -1,6 +1,6 @@
 {
   imports = [
-    # ./mounts.nix
+    ./mounts.nix
   ];
   networking.hostName = "lab";
   facter.reportPath = ./facter.json;

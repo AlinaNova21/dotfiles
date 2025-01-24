@@ -128,7 +128,7 @@
         };
         lab = {
           deployment = {
-            targetHost = "192.168.2.86";
+            targetHost = "192.168.2.87";
             targetUser = "root";
           };
           imports = nixosSystems.lab.modules;
@@ -187,6 +187,7 @@
               nixos-rebuild
               shellcheck
               shfmt
+              sops
             ];
             packages = [
               age-keyscan

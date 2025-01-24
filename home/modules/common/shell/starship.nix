@@ -17,7 +17,7 @@
       };
       nix_shell = {
         format = "[$symbol $name]($style) ";
-        symbol = "❄️";
+        symbol = "";
       };
     };
   };
