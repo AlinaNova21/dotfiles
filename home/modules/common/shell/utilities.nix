@@ -11,9 +11,9 @@
     home.packages = with pkgs; [
       curl
       dig
-      ethtool
+      # ethtool
       httpie
-      iperf
+      # iperf
       rsync
       wget
       yq

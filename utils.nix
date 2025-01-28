@@ -15,18 +15,21 @@
   homesFromConfiguration = {
     hostname,
     configuration,
-  }: {
-    # not using root as home-manager typically will only be used directly for non-root users
-    "alina@${hostname}" =
-      configuration.config.home-manager.users.alina.home;
-    # // {
-    #   modules = [
-    #     {
-    #       nixpkgs.hostPlatform = configuration.config.nixpkgs.hostPlatform;
-    #     }
-    #   ];
-    # };
-  };
+  }: lib.mapAttrs' (name: value: lib.nameValuePair "${name}@${hostname}" value.home)
+    # configuration.config.home-manager.users;
+    (lib.filterAttrs (name: user: name != "root") configuration.config.home-manager.users);
+  # {
+  #   # not using root as home-manager typically will only be used directly for non-root users
+  #   "alina@${hostname}" =
+  #     configuration.config.home-manager.users.alina.home;
+  #   # // {
+  #   #   modules = [
+  #   #     {
+  #   #       nixpkgs.hostPlatform = configuration.config.nixpkgs.hostPlatform;
+  #   #     }
+  #   #   ];
+  #   # };
+  # };
   homesFromConfigurations = configurations:
     lib.attrsets.mergeAttrsList (lib.mapAttrsToList (
         hostname: configuration:

@@ -4,6 +4,7 @@ keys:
 - &lab age10zyrgjuvsd8w00g3nvud7nk7pvf23jceg0jzkmdaph49vyaqkgpq659tqn
 - &liminality-srv1 age12pl646jf86eldch3shj48fhl0hx6fhx7z9x34un5gkjz085hjf6syxvsqt
 - &nixos-testing age19kx9crtmpdz8m0cxzgc2g852nufjrnsxu7lhh6tlh9xm88pcep2q20hc6m
+- &work-mbp age1jssvn6z2apef3x43dy6ndlwyxpu3y046ulp54ymn826k2ggngfaq3fgl8z
 creation_rules:
   - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
@@ -13,3 +14,6 @@ creation_rules:
       - *lab
       - *liminality-srv1
       - *nixos-testing
+  - path_regex: secrets/work-mbp/[^/]+\.(yaml|json|env|ini)$
+      - *admin_alina
+      - *work-mbp

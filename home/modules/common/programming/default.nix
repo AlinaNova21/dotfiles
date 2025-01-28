@@ -5,6 +5,7 @@
 }: {
   imports = [
     ./direnv.nix
+    ./docker.nix
     ./helix.nix
     ./kubernetes.nix
     ./gh.nix
