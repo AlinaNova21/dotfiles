@@ -9,6 +9,7 @@
     inputs.nixos-facter-modules.nixosModules.facter
     inputs.sops-nix.nixosModules.sops
     inputs.ss14-watchdog.nixosModules.default
+    ./desktop
     ./disko.nix
     ./grub.nix
     ./networking.nix

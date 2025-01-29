@@ -4,14 +4,14 @@
   lib,
   pkgs,
   ...
-}: {
-  options.gui.enable = lib.mkEnableOption "gui.";
-  config = lib.mkIf config.gui.enable {
-    sway.enable = true;
-    greetd.enable = true;
+}: let
+  cfg = config.acme.fonts;
+in {
+  options.acme.fonts.enable = lib.mkEnableOption "fonts.";
+  config = lib.mkIf cfg.enable {
     fonts.packages = with pkgs; [
       noto-fonts
-      noto-fonts-cjk
+      noto-fonts-cjk-sans
       noto-fonts-emoji
       fira-code
       fira-code-symbols

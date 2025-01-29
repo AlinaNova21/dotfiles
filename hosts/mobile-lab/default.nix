@@ -10,6 +10,9 @@
     };
     rescue.enableAlt = true;
     tailscale.enable = true;
+
+    hyprland.enable = true;
+    greetd.enable = true;
     # vscode-server-fix.enable = true;
   };
 

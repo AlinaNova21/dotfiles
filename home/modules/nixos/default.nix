@@ -1,6 +1,6 @@
 {pkgs, ...}: {
   imports = [
-    # ./desktop
+    ./desktop
     ./persistence.nix
   ];
   home.packages = with pkgs; [
