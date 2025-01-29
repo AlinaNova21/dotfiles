@@ -19,6 +19,10 @@
     ./users.nix
     ./vscode-server.nix
   ];
+  hardware = {
+    enableRedistributableFirmware = true;
+    enableAllFirmware = true;
+  };
 
   security.sudo.wheelNeedsPassword = false;
 }

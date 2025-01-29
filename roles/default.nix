@@ -8,6 +8,7 @@ in {
   imports = [
     ./dev.nix
     ./minimal.nix
+    ./mobile.nix
     ./server.nix
   ];
   options = {

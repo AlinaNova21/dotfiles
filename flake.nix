@@ -70,8 +70,9 @@
           ];
         };
       };
+      roles = ["dev" "minimal" "server"];
       systems = {
-        nixos = ["ims-alina" "lab" "liminality-srv1" "nixos-testing"];
+        nixos = ["ims-alina" "lab" "liminality-srv1" "mobile-lab" "nixos-testing"];
         darwin = ["work-mbp"];
         nixOnDroid = [];
         # nixOnDroid = ["droid"];
@@ -102,7 +103,7 @@
       darwinSystems;
       nixOnDroidConfigurations = nixpkgs.lib.mapAttrs (_: system:
         nix-on-droid.lib.nixOnDroidConfiguration {
-          inherit (system) modules;
+          inherit (system) specialArgs modules;
           extraSpecialArgs = system.specialArgs;
           pkgs = import nixpkgs {
             overlays = [nix-on-droid.overlays.default];
@@ -116,7 +117,24 @@
       homeConfigurations =
         utils.homesFromConfigurations outputs.nixosConfigurations
         // utils.homesFromConfigurations outputs.darwinConfigurations
-        // utils.homesFromConfigurations outputs.nixOnDroidConfigurations;
+        // utils.homesFromConfigurations outputs.nixOnDroidConfigurations
+        // flake-utils.lib.eachDefaultSystemPassThrough (
+          system:
+            nixpkgs.lib.genAttrs roles (role: {
+              ${system} = home-manager.lib.homeManagerConfiguration {
+                pkgs = import nixpkgs {inherit system;};
+                modules = [
+                  (import ./home "standalone" "alina" {})
+                ];
+                extraSpecialArgs = {
+                  inherit inputs outputs;
+                  sysConfig = {
+                    acme = staticModule.acme // {inherit role;};
+                  };
+                };
+              };
+            })
+        );
 
       utils = utils;
       colmena = {
@@ -133,6 +151,12 @@
             targetUser = "root";
           };
           imports = nixosSystems.lab.modules;
+        };
+        mobile-lab = {
+          deployment = {
+            targetHost = "192.168.2.110";
+            targetUser = "root";
+          };
         };
         nixos-testing = {
           deployment = {
@@ -157,20 +181,19 @@
             echo "Usage: deploy <HOSTNAME> <HOST> [args...]"
             exit 1
           fi
-          end
           SYS=$1
           HOST=$2
           shift 2
           ${pkgs.nixos-anywhere.outPath}/bin/nixos-anywhere \
             --flake .#$SYS \
             --copy-host-keys \
-            --generate-hardware-config nixos-facter ./hosts/$SYS/facter.json \
             $HOST \
             $@
         '';
-        deployVariant = profile: deployment: pkgs.writeShellScriptBin "deploy-${profile}" ''
-          ${deploy}/bin/deploy ${profile} ${deployment.targetUser}@${deployment.targetHost} $@
-        '';
+        deployVariant = profile: deployment:
+          pkgs.writeShellScriptBin "deploy-${profile}" ''
+            ${deploy}/bin/deploy ${profile} ${deployment.targetUser}@${deployment.targetHost} $@
+          '';
         deployments = pkgs.lib.filterAttrs (name: config: pkgs.lib.hasAttr "deployment" config) outputs.colmena;
         age-keyscan = pkgs.writeShellScriptBin "age-keyscan" ''
           ssh-keyscan $1 | ${pkgs.ssh-to-age}/bin/ssh-to-age
@@ -190,10 +213,12 @@
               shfmt
               sops
             ];
-            packages = [
-              age-keyscan
-              deploy
-            ] ++ lib.mapAttrsToList (name: config: deployVariant name config.deployment) deployments;
+            packages =
+              [
+                age-keyscan
+                deploy
+              ]
+              ++ lib.mapAttrsToList (name: config: deployVariant name config.deployment) deployments;
           };
         });
     };

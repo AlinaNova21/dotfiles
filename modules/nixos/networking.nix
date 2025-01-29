@@ -7,4 +7,10 @@
 
   systemd.services.NetworkManager-wait-online.enable = false;
   systemd.network.wait-online.enable = false;
+  users.users.alina.extraGroups = ["networkmanager"];
+  environment.persistence."/persist" = {
+    directories = [
+      "/etc/NetworkManager/system-connections"
+    ];
+  };
 }
