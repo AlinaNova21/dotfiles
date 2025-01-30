@@ -7,18 +7,8 @@
 }: let
   flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
 in {
-  options = {
-    acme = {
-      unfreePackages = lib.mkOption {
-        type = lib.types.listOf lib.types.str;
-        description = "List of unfree packages to allow.";
-        default = [];
-      };
-    };
-  };
   config = {
     nixpkgs.config.allowUnfree = true;
-    nixpkgs.config.allowUnfreePredicate = pkg: lib.elem (lib.getName pkg) config.acme.unfreePackages;
     nix = {
       gc = {
         automatic = true;

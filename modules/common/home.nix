@@ -1,6 +1,7 @@
 {
   inputs,
   config,
+  flake,
   lib,
   outputs,
   pkgs,
@@ -13,10 +14,12 @@
 
       # Install packages to /etc/profiles instead of ~/.nix-profile, useful when
       # using multiple profiles for one user
-      useUserPackages = if pkgs.stdenv.isDarwin then false else true;
+      useUserPackages =
+        if pkgs.stdenv.isDarwin
+        then false
+        else true;
       extraSpecialArgs = {
-        inherit inputs outputs;
-        sysConfig = config;
+        inherit inputs outputs flake;
       };
     };
   };

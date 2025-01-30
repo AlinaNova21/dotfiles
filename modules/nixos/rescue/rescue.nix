@@ -1,7 +1,7 @@
 {
   config,
+  flake,
   lib,
-  sysConfig,
   pkgs,
   ...
 }: {
@@ -23,7 +23,7 @@
       nixos.extraGroups = ["networkmanager"];
       root = {
         initialHashedPassword = lib.mkForce null;
-        openssh.authorizedKeys.keys = sysConfig.acme.sshKeys;
+        openssh.authorizedKeys.keys = flake.acme.sshKeys;
       };
     };
     # hardware.enableAllHardware = true;

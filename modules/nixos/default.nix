@@ -8,18 +8,15 @@
     inputs.home-manager.nixosModules.home-manager
     inputs.nixos-facter-modules.nixosModules.facter
     inputs.sops-nix.nixosModules.sops
-    inputs.ss14-watchdog.nixosModules.default
-    ./desktop
     ./disko.nix
     ./grub.nix
     ./networking.nix
     ./openssh.nix
     ./persistence.nix
-    ./rescue
+    ./sops.nix
     ./tailscale.nix
     ./users.nix
     ./vscode-server.nix
-    ./wifi.nix
   ];
   hardware = {
     enableRedistributableFirmware = true;

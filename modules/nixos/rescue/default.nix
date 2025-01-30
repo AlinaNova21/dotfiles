@@ -1,6 +1,7 @@
 {
   config,
   inputs,
+  flake,
   lib,
   pkgs,
   specialArgs,
@@ -11,8 +12,7 @@
   nixos = configuration: let
     c = import (pkgs.path + "/nixos/lib/eval-config.nix") {
       specialArgs = {
-        inherit (specialArgs) inputs outputs;
-        sysConfig = config;
+        inherit (specialArgs) inputs outputs flake;
       };
       modules =
         [
@@ -37,6 +37,7 @@
     inputs.nixos-facter-modules.nixosModules.facter
     ./rescue.nix
     {
+      nixpkgs.config.allowUnfree = true;
       facter.reportPath = config.facter.reportPath;
       networking.hostId = config.networking.hostId;
       netboot.squashfsCompression = "zstd -Xcompression-level 6";
@@ -86,10 +87,10 @@ in {
               (args:
                 import ./rescue.nix (args
                   // {
-                    inherit pkgs;
-                    sysConfig = config;
+                    inherit pkgs flake;
                   }))
             ];
+            nixpkgs.config.allowUnfree = true;
             boot.initrd.systemd.emergencyAccess = true;
             documentation.enable = false;
             documentation.man.man-db.enable = false;
