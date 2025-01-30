@@ -13,6 +13,6 @@
     iperf
   ];
   acme = {
-    desktop.enable = lib.mkIf sysConfig.acme.desktop.enable true;
+    desktop.enable = lib.mkIf (sysConfig.acme.desktop.enable && !acme.isRoot) true;
   };
 }
