@@ -10,7 +10,9 @@
     ./kubernetes.nix
     ./gh.nix
   ];
-  home.packages = [
+  home.packages = with pkgs; [
     inputs.alejandra.defaultPackage.${pkgs.stdenv.hostPlatform.system}
+    vscode
+    google-chrome
   ];
 }

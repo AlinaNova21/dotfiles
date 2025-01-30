@@ -3,15 +3,13 @@
   lib,
   ...
 }: let
-  cfg = config.acme.roles;
+  cfg = config.acme.wifi;
 in
   with lib; {
-    options = {
-      acme.roles.mobile = {
-        enable = mkEnableOption "mobile";
-      };
+    options.acme.wifi = {
+      enable = mkEnableOption "wifi config";
     };
-    config = mkIf (cfg.mobile.enable) {
+    config = mkIf (cfg.enable) {
       sops.secrets."wifi/home/ssid" = {};
       sops.secrets."wifi/home/psk" = {};
       hardware.enableRedistributableFirmware = true;

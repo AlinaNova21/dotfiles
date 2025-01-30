@@ -20,10 +20,11 @@ in {
       systemd.enable = false;
       settings = {
         "$mod" = "SUPER";
+        monitor = "eDP-1, 1920x1080@60, 0x0, 1";
         bind =
           [
             "$mod, Return, exec, ${pkgs.kitty}/bin/kitty"
-            "$mod, m, close"
+            "$mod, m, exit"
           ]
           ++ (
             # workspaces
@@ -38,6 +39,7 @@ in {
               )
               9)
           );
+        source = "~/.config/hypr/local.conf";
       };
     };
   };

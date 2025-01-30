@@ -2,7 +2,6 @@
   networking.hostName = "nixos-testing";
   facter.reportPath = ./facter.json;
   acme = {
-    role = "dev";
     disko = {
       enable = true;
       rootDevice = "/dev/sda";
@@ -12,7 +11,9 @@
     vscode-server-fix.enable = true;
   };
 
-  home-manager.users.alina = import ../../home "nixos" "alina" {};
+  home-manager.users.alina = import ../../home "nixos" "alina" {
+    acme.dev.enable = true;
+  };
   home-manager.users.root = import ../../home "nixos" "root" {};
 
   system.stateVersion = "24.11";

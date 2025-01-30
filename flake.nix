@@ -14,6 +14,9 @@
     home-manager.url = "github:nix-community/home-manager/release-24.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
+    hyprpanel.url = "github:jas-singhfsu/hyprpanel/e19518ad60599569e4859ecf3d3eaa83b772268e";
+    hyprpanel.inputs.nixpkgs.follows = "nixpkgs";
+
     impermanence.url = "github:nix-community/impermanence";
 
     nix-darwin.url = "github:LnL7/nix-darwin/nix-darwin-24.11";
@@ -60,6 +63,9 @@
     with inputs; let
       inherit (self) outputs;
       utils = import ./utils.nix {inherit inputs outputs;};
+      acme = import ./utils2.nix {
+        inherit (nixpkgs) lib;
+      };
       staticModule = {
         acme = {
           gitName = nixpkgs.lib.mkDefault "Alina Shumann";
@@ -77,18 +83,23 @@
         nixOnDroid = [];
         # nixOnDroid = ["droid"];
       };
+      overlays = [
+        inputs.hyprpanel.overlay
+      ];
       nixosSystems = nixpkgs.lib.genAttrs systems.nixos (mapSystem "nixos");
       darwinSystems = nixpkgs.lib.genAttrs systems.darwin (mapSystem "darwin");
       nixOnDroidSystems =
         nixpkgs.lib.genAttrs systems.nixOnDroid (mapSystem "nixOnDroid");
       mapSystem = system: host: {
-        specialArgs = {inherit inputs outputs;};
+        specialArgs = {inherit inputs outputs acme;};
         modules = [
           staticModule
           ./hosts/${host}
           ./modules/common
           ./modules/${system}
-          ./roles
+          {
+            nixpkgs.overlays = overlays;
+          }
         ];
       };
     in {
@@ -122,12 +133,12 @@
           system:
             nixpkgs.lib.genAttrs roles (role: {
               ${system} = home-manager.lib.homeManagerConfiguration {
-                pkgs = import nixpkgs {inherit system;};
+                pkgs = import nixpkgs {inherit system overlays;};
                 modules = [
                   (import ./home "standalone" "alina" {})
                 ];
                 extraSpecialArgs = {
-                  inherit inputs outputs;
+                  inherit inputs outputs acme;
                   sysConfig = {
                     acme = staticModule.acme // {inherit role;};
                   };
@@ -136,14 +147,13 @@
             })
         );
 
-      utils = utils;
       colmena = {
         meta = {
           nixpkgs = import nixpkgs {
-            overlays = [];
+            inherit overlays;
             system = "x86_64-linux";
           };
-          specialArgs = {inherit inputs outputs;};
+          specialArgs = {inherit inputs outputs acme;};
         };
         lab = {
           deployment = {

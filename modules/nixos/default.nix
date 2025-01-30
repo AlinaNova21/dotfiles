@@ -19,6 +19,7 @@
     ./tailscale.nix
     ./users.nix
     ./vscode-server.nix
+    ./wifi.nix
   ];
   hardware = {
     enableRedistributableFirmware = true;

@@ -6,6 +6,7 @@
   home-manager.users.alinashumann = import ../../home "darwin" "alinashumann" {
     programs.git.ignores = [".envrc" "flake.nix"];
 
+    acme.dev.enable = true;
     acme.docker.enable = true;
   };
 

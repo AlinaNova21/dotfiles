@@ -4,17 +4,13 @@
   pkgs,
   ...
 }: let
-  cfg = config.acme.roles;
+  cfg = config.acme.dev;
 in
   with lib; {
-    options = {
-      acme.roles.dev = {
-        enable = mkEnableOption "dev";
-      };
+    options.acme.dev = {
+      enable = mkEnableOption "dev";
     };
-    config = mkIf (cfg.dev.enable) {
-      acme.roles.minimal.enable = true;
-
+    config = mkIf (cfg.enable) {
       acme.direnv.enable = true;
       acme.dotfiles.enable = true;
       acme.gh.enable = true;

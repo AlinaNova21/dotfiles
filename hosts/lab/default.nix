@@ -5,7 +5,6 @@
   networking.hostName = "lab";
   facter.reportPath = ./facter.json;
   acme = {
-    role = "dev";
     disko = {
       enable = true;
       rootDevice = "/dev/disk/by-id/ata-ST1000DM003-1SB102_W9A37KSP";
@@ -17,7 +16,9 @@
 
   boot.loader.grub.useOSProber = true;
 
-  home-manager.users.alina = import ../../home "nixos" "alina" {};
+  home-manager.users.alina = import ../../home "nixos" "alina" {
+    acme.dev.enable = true;
+  };
   home-manager.users.root = import ../../home "nixos" "root" {};
 
   system.stateVersion = "24.11";

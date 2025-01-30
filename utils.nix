@@ -1,8 +1,4 @@
-{
-  inputs,
-  outputs,
-  ...
-}: let
+{inputs, ...}: let
   lib = inputs.nixpkgs.lib;
   # homesFromConfiguration = {
   #   hostname,
@@ -15,7 +11,8 @@
   homesFromConfiguration = {
     hostname,
     configuration,
-  }: lib.mapAttrs' (name: value: lib.nameValuePair "${name}@${hostname}" value.home)
+  }:
+    lib.mapAttrs' (name: value: lib.nameValuePair "${name}@${hostname}" value.home)
     # configuration.config.home-manager.users;
     (lib.filterAttrs (name: user: name != "root") configuration.config.home-manager.users);
   # {

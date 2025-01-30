@@ -1,4 +1,9 @@
-{pkgs, ...}: {
+{
+  lib,
+  pkgs,
+  sysConfig,
+  ...
+}: {
   imports = [
     ./desktop
     ./persistence.nix
@@ -7,4 +12,7 @@
     ethtool
     iperf
   ];
+  acme = {
+    desktop.enable = lib.mkIf sysConfig.acme.desktop.enable true;
+  };
 }
