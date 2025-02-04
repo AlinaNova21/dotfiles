@@ -1,5 +1,6 @@
-{
+{inputs, ...}: {
   imports = [
+    ./catppuccin.nix
     ./desktop
     ./dev.nix
     ./dotfiles.nix

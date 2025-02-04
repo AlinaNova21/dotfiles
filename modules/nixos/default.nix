@@ -8,6 +8,7 @@
     inputs.home-manager.nixosModules.home-manager
     inputs.nixos-facter-modules.nixosModules.facter
     inputs.sops-nix.nixosModules.sops
+    ./catppuccin.nix
     ./disko.nix
     ./grub.nix
     ./networking.nix

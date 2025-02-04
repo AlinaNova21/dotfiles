@@ -19,6 +19,9 @@ in {
       UpdateType = "Manifest";
       Updates.ManifestUrl = "https://cdn.liminality-project.space/fork/liminality-project/manifest";
       Updates.HybridACZ = true;
+      # UpdateType = "Git";
+      # Updates.BaseUrl = "https://github.com/Liminality-Project/Liminality-Project/";
+      # Updates.Branch = "master";
       TimeoutSeconds = 60;
     };
     instances.dev.configuration = {

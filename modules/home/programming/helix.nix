@@ -11,7 +11,7 @@ in {
       enable = true;
       defaultEditor = true;
       settings = {
-        theme = "sonokai";
+        # theme = "sonokai";
         editor.true-color = true;
       };
     };
