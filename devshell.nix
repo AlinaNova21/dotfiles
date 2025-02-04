@@ -30,11 +30,12 @@
 in
   pkgs.mkShell {
     buildInputs = with pkgs; [
+      colmena
+      nil
       nixfmt-rfc-style
       nixos-anywhere.outPath
       nixos-rebuild
       perSystem.alejandra.default
-      colmena
       perSystem.home-manager.default
       sops
       shellcheck
