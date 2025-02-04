@@ -1,6 +1,5 @@
 {
-  config,
-  lib,
+  perSystem,
   pkgs,
   ...
 }: {
@@ -54,6 +53,16 @@
     programs.jq.enable = true;
     programs.ripgrep.enable = true;
     programs.thefuck.enable = true;
+    programs.yazi = {
+      enable = true;
+      theme.flavor = {
+        light = "catppuccin-mocha";
+        dark = "catppuccin-mocha";
+      };
+      flavors = {
+        "catppuccin-mocha" = perSystem.self.yazi-flavors + "/catppuccin-mocha.yazi/";
+      };
+    };
     programs.zoxide = {
       enable = true;
       options = ["--cmd" "cd"];

@@ -58,5 +58,6 @@
     programs.fzf.enableZshIntegration = true;
     programs.thefuck.enableZshIntegration = true;
     programs.zoxide.enableZshIntegration = true;
+    programs.yazi.enableZshIntegration = true;
   };
 }
