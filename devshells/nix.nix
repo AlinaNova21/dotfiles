@@ -1,4 +1,4 @@
-{pkgs, ...}:
+{perSystem, pkgs, ...}:
 with pkgs;
   mkShell {
     buildInputs = [

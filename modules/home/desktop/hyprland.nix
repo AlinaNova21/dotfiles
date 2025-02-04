@@ -35,7 +35,7 @@ in {
               )
               9)
           );
-        source = "~/.config/hypr/local.conf";
+        source = ["~/.config/hypr/local.conf"];
       };
     };
   };
