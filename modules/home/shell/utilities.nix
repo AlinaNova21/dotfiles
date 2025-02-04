@@ -18,7 +18,9 @@
       yq
     ];
 
-    programs.zsh.shellAliases = {cat = "bat";};
+    programs.zsh.shellAliases = {
+      cat = "bat";
+    };
 
     programs.bat.enable = true;
     programs.eza.enable = true;

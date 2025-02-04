@@ -13,4 +13,8 @@
   home.packages = with pkgs; [
     d2
   ];
+  programs.zsg.shellAliases = {
+    # Shortcut since hostname doesn't match the flake name
+    home-switch = "pushd ${config.acme.dotfiles.path}; nixos-rebuild switch --flake .#alinashumann@work-mbp; popd";
+  };
 }
