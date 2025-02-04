@@ -12,7 +12,7 @@ in {
     path = lib.mkOption {
       type = lib.types.str;
       description = "Path of dotfiles repository.";
-      default = "~/.config/home-manager";
+      default = "${config.home.homeDirectory}/.config/home-manager";
     };
     repo = lib.mkOption {
       type = lib.types.str;

@@ -28,23 +28,24 @@
     ssh-keyscan $1 | ${pkgs.ssh-to-age}/bin/ssh-to-age
   '';
 in
-  pkgs.mkShell {
-    buildInputs = with pkgs; [
-      colmena
-      nil
-      nixfmt-rfc-style
-      nixos-anywhere.outPath
-      nixos-rebuild
-      perSystem.alejandra.default
-      perSystem.home-manager.default
-      sops
-      shellcheck
-      shfmt
-    ];
-    packages =
-      [
-        age-keyscan
-        deploy
-      ]
-      ++ lib.mapAttrsToList (name: config: deployVariant name config.deployment) deployments;
-  }
+  with pkgs;
+    mkShell {
+      buildInputs = [
+        colmena
+        nil
+        nixfmt-rfc-style
+        nixos-anywhere.outPath
+        nixos-rebuild
+        perSystem.alejandra.default
+        perSystem.home-manager.default
+        sops
+        shellcheck
+        shfmt
+      ];
+      packages =
+        [
+          age-keyscan
+          deploy
+        ]
+        ++ lib.mapAttrsToList (name: config: deployVariant name config.deployment) deployments;
+    }

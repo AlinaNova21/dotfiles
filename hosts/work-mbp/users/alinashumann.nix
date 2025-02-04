@@ -1,4 +1,8 @@
-{flake, ...}: {
+{
+  flake,
+  pkgs,
+  ...
+}: {
   imports = [
     flake.homeModules.default
   ];
@@ -6,4 +10,7 @@
   acme.docker.enable = true;
   acme.git.email = "Alina.Shumann@kyndryl.com";
   programs.git.ignores = [".envrc" "flake.nix" "flake.lock"];
+  home.packages = with pkgs; [
+    d2
+  ];
 }
