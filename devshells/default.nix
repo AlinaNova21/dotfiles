@@ -3,7 +3,7 @@
   perSystem,
   pkgs,
   ...
-}: let
+} @ inputs: let
   lib = pkgs.lib;
   deploy = pkgs.writeShellScriptBin "deploy" ''
     if [ $# -lt 2 ]; then
@@ -30,17 +30,13 @@
 in
   with pkgs;
     mkShell {
+      fromInputs = [(import ./nix.nix inputs)];
       buildInputs = [
         colmena
-        nil
-        nixfmt-rfc-style
         nixos-anywhere.outPath
         nixos-rebuild
-        perSystem.alejandra.default
         perSystem.home-manager.default
         sops
-        shellcheck
-        shfmt
       ];
       packages =
         [
