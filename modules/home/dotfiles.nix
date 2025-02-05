@@ -38,8 +38,12 @@ in {
           fi
         '';
     };
-    programs.direnv.config.whitelist.prefix = [cfg.path];
     # Set a variable for dotfiles repo, not necessary but convenient
     home.sessionVariables.DOTS = cfg.path;
+
+    programs.direnv.config.whitelist.prefix = [cfg.path];
+    programs.zsh.shellAliases = {
+      nixos-rebuild-switch = "pushd ${config.acme.dotfiles.path}; sudo nixos-rebuild switch --flake .; popd";
+    };
   };
 }

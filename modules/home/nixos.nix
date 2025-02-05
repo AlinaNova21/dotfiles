@@ -10,7 +10,4 @@
       ethtool
       iperf
     ];
-  programs.zsh.shellAliases = {
-    nixos-rebuild-switch = "pushd ${config.acme.dotfiles.path}; sudo nixos-rebuild switch --flake .; popd";
-  };
 }
