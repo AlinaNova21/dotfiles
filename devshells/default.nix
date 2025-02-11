@@ -23,6 +23,10 @@
     pkgs.writeShellScriptBin "deploy-${profile}" ''
       ${deploy}/bin/deploy ${profile} ${deployment.targetUser}@${deployment.targetHost} $@
     '';
+  switchVariant = profile: deployment:
+    pkgs.writeShellScriptBin "switch-${profile}" ''
+      ${pkgs.nixos-rebuild}/bin/nixos-rebuild switch --flake '.#${profile}' --target-host ${deployment.targetUser}@${deployment.targetHost} $@
+    '';
   deployments = pkgs.lib.filterAttrs (name: config: pkgs.lib.hasAttr "deployment" config) flake.colmena;
   age-keyscan = pkgs.writeShellScriptBin "age-keyscan" ''
     ssh-keyscan $1 | ${pkgs.ssh-to-age}/bin/ssh-to-age
@@ -30,18 +34,19 @@
 in
   with pkgs;
     mkShell {
-      fromInputs = [(import ./nix.nix inputs)];
-      buildInputs = [
-        colmena
-        nixos-anywhere.outPath
-        nixos-rebuild
-        perSystem.home-manager.default
-        sops
+      inputsFrom = [
+        (import ./nix.nix inputs)
       ];
       packages =
         [
+          colmena
+          nixos-anywhere.outPath
+          nixos-rebuild
+          perSystem.home-manager.default
+          sops
           age-keyscan
           deploy
         ]
-        ++ lib.mapAttrsToList (name: config: deployVariant name config.deployment) deployments;
+        ++ (lib.mapAttrsToList (name: config: deployVariant name config.deployment) deployments)
+        ++ (lib.mapAttrsToList (name: config: switchVariant name config.deployment) deployments);
     }

@@ -3,5 +3,6 @@
     flake.homeModules.default
     flake.homeModules.nixos
   ];
-  acme.dotfiles.enable = true;
+  acme.desktop.enable = true;
+  acme.dev.enable = true;
 }

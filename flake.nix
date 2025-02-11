@@ -27,8 +27,9 @@
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
     # TODO: swap back to upstream when PR is merged: https://github.com/space-wizards/SS14.Watchdog/pull/35
-    ss14-watchdog.url = "github:AlinaNova21/SS14.Watchdog/update-nix";
+    ss14-watchdog.url = "github:AlinaNova21/SS14.Watchdog/debug-nix";
     # ss14-watchdog.url = "github:space-wizards/SS14.Watchdog";
+    ss14-watchdog.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = {

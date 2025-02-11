@@ -36,4 +36,11 @@
     };
     # imports = nixosSystems.liminality-srv1.modules;
   };
+  monitoring = {
+    deployment = {
+      targetHost = "192.168.2.63";
+      targetUser = "root";
+    };
+    # imports = nixosSystems.liminality-srv1.modules;
+  };
 }

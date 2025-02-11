@@ -1,0 +1,13 @@
+{
+  flake,
+  perSystem,
+  system,
+  ...
+}:
+flake
+.nixosConfigurations
+.installer
+.config
+.system
+.build
+.diskoImageScript

@@ -41,6 +41,7 @@ in {
       disk = {
         root = {
           type = "disk";
+          imageSize = "4G";
           device = cfg.rootDevice;
           content = {
             type = "gpt";

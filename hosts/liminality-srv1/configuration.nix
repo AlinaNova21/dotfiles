@@ -20,7 +20,6 @@
       enable = true;
       rootDevice = "/dev/vda";
     };
-    dotfiles.enable = true;
     rescue.enable = true;
     tailscale.enable = true;
   };

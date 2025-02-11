@@ -589,11 +589,11 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1738546358,
-        "narHash": "sha256-nLivjIygCiqLp5QcL7l56Tca/elVqM9FG1hGd9ZSsrg=",
+        "lastModified": 1738680400,
+        "narHash": "sha256-ooLh+XW8jfa+91F1nhf9OF7qhuA/y1ChLx6lXDNeY5U=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "c6e957d81b96751a3d5967a0fd73694f303cc914",
+        "rev": "799ba5bffed04ced7067a91798353d360788b30d",
         "type": "github"
       },
       "original": {
@@ -663,22 +663,6 @@
       "original": {
         "owner": "nixos",
         "ref": "nixos-24.11",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nixpkgs_6": {
-      "locked": {
-        "lastModified": 1737062634,
-        "narHash": "sha256-1/WZ7juTZp6oWAFb14WeANN2veJFGZ4AFSNRpk4Jiw8=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "4bbb7630d8211ca57c8d67ad75f2ca7100f6d248",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "release-24.11",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -814,19 +798,21 @@
     },
     "ss14-watchdog": {
       "inputs": {
-        "nixpkgs": "nixpkgs_6"
+        "nixpkgs": [
+          "nixpkgs"
+        ]
       },
       "locked": {
-        "lastModified": 1738596493,
-        "narHash": "sha256-XSBFuxebm4jnMbt3i21URzdwjKciKWcaV8ViFpY4WQY=",
+        "lastModified": 1738721402,
+        "narHash": "sha256-lAmSrhttSoDN6M+eVNsAOG3ycePD6fJA7alO6XYvOhU=",
         "owner": "AlinaNova21",
         "repo": "SS14.Watchdog",
-        "rev": "c7e21decad8648c1749bbe443ec2c3bf6569d0b9",
+        "rev": "46a33fc71c177b5ccf2bc96a0be13882deb83e08",
         "type": "github"
       },
       "original": {
         "owner": "AlinaNova21",
-        "ref": "update-nix",
+        "ref": "debug-nix",
         "repo": "SS14.Watchdog",
         "type": "github"
       }

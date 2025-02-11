@@ -6,6 +6,7 @@
   imports = [
     flake.nixosModules.default
     flake.nixosModules.rescue
+    flake.nixosModules.monitoring
     flake.modules.common.nix
   ];
   networking.hostName = "nixos-testing";

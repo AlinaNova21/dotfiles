@@ -64,6 +64,14 @@ in {
       auth = {
         mode = 1;
       };
+      database = {
+        engine = "postgres";
+        pg_host = "127.0.0.1";
+        pg_port = 5432;
+        pg_database = "ss14";
+        pg_username = "postgres";
+        pg_password = "postgres";
+      };
     };
   };
 }

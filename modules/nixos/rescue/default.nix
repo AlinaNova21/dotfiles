@@ -8,7 +8,6 @@
   ...
 }: let
   cfg = config.acme.rescue;
-  nixpkgs = inputs.nixpkgs;
   nixos = configuration: let
     c = import (pkgs.path + "/nixos/lib/eval-config.nix") {
       specialArgs = {
@@ -85,7 +84,7 @@ in {
               # inputs.nixos-images.nixosModules.netboot-installer
               inputs.nixos-facter-modules.nixosModules.facter
               (args:
-                import ./rescue.nix (args
+                flake.modules.nixos.installer (args
                   // {
                     inherit pkgs flake;
                   }))

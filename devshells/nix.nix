@@ -1,7 +1,11 @@
-{perSystem, pkgs, ...}:
+{
+  perSystem,
+  pkgs,
+  ...
+}:
 with pkgs;
   mkShell {
-    buildInputs = [
+    packages = [
       nil
       nixfmt-rfc-style
       perSystem.alejandra.default
