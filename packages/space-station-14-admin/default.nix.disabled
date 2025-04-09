@@ -36,7 +36,7 @@ in
   buildFHSEnv {
     name = "SS14.Admin";
 
-    targetPkgs = pkgs: [admin git python3 dotnet-sdk zstd];
+    targetPkgs = pkgs: with pkgs; [admin git python3 dotnet-sdk zstd];
 
     runScript = "SS14.Admin";
 

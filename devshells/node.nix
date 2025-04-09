@@ -2,7 +2,7 @@
 with pkgs;
   mkShell {
     buildInputs = [
-      nodejs
+      nodejs_23
       nodePackages."@angular/cli"
     ];
   }

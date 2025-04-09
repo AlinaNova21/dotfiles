@@ -13,6 +13,7 @@
       # ethtool
       httpie
       # iperf
+      just
       rsync
       wget
       yq

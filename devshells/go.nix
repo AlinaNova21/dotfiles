@@ -9,6 +9,7 @@ with pkgs;
       protoc-gen-go
       protoc-gen-go-grpc
       grpc-gateway
+      go-swagger
     ];
     shellHook = ''
       export GOPATH=$HOME/go
