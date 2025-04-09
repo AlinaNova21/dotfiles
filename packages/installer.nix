@@ -10,4 +10,4 @@ flake
 .config
 .system
 .build
-.diskoImageScript
+.diskoImagesScript

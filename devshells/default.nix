@@ -39,14 +39,18 @@ in
       ];
       packages =
         [
-          colmena
-          nixos-anywhere.outPath
-          nixos-rebuild
           perSystem.home-manager.default
           sops
-          age-keyscan
-          deploy
         ]
-        ++ (lib.mapAttrsToList (name: config: deployVariant name config.deployment) deployments)
-        ++ (lib.mapAttrsToList (name: config: switchVariant name config.deployment) deployments);
+        ++ lib.lists.optionals (!pkgs.stdenv.isDarwin) (
+          [
+            colmena
+            nixos-anywhere.outPath
+            nixos-rebuild
+            age-keyscan
+            deploy
+          ]
+          ++ (lib.mapAttrsToList (name: config: deployVariant name config.deployment) deployments)
+          ++ (lib.mapAttrsToList (name: config: switchVariant name config.deployment) deployments)
+        );
     }

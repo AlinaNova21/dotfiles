@@ -10,7 +10,8 @@
     ./kubernetes.nix
     ./gh.nix
   ];
-  home.packages = with pkgs; [
+  home.packages = [
+    # perSystem.alejandra.defaultPackage
     inputs.alejandra.defaultPackage.${pkgs.stdenv.hostPlatform.system}
   ];
 }

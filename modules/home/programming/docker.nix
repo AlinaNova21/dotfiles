@@ -13,6 +13,7 @@ in {
     home.packages = with pkgs; [
       docker-compose
       docker-client
+      docker-buildx
     ];
   };
 }
