@@ -55,7 +55,8 @@
     };
     programs.jq.enable = true;
     programs.ripgrep.enable = true;
-    programs.thefuck.enable = true;
+    # programs.thefuck.enable = true;
+    programs.pay-respects.enable = true;
     programs.yazi = {
       enable = true;
       # theme.flavor = {

@@ -16,6 +16,7 @@
     ./persistence.nix
     ./sops.nix
     ./tailscale.nix
+    ./time.nix
     ./users.nix
     ./vscode-server.nix
   ];

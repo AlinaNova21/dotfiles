@@ -16,7 +16,10 @@ in {
     programs.direnv = {
       enable = true;
       nix-direnv.enable = true;
-      config.whitelist.prefix = cfg.whitelist;
+      config = {
+        whitelist.prefix = cfg.whitelist;
+        global.hide_env_diff = true;
+      };
     };
   };
 }

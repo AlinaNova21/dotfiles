@@ -9,7 +9,7 @@
 in
   with lib; {
     imports = [
-      inputs.hyprpanel.homeManagerModules.hyprpanel
+      # inputs.hyprpanel.homeManagerModules.hyprpanel
     ];
     options.acme.hyprpanel = {
       enable = mkEnableOption "Hyprpanel";
@@ -19,8 +19,11 @@ in
       home.packages = with pkgs; [hyprpanel];
       programs.hyprpanel = {
         enable = true;
-        hyprland.enable = true;
-        theme = "catppuccin_mocha";
+        # hyprland.enable = true;
+        systemd.enable = true;
+        settings = {
+          theme = "catppuccin_mocha";
+        };
       };
     };
   }

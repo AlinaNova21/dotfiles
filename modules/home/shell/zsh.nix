@@ -18,7 +18,7 @@
         share = true;
       };
       envExtra = "HISTDUP=erase";
-      initExtra = ''
+      initContent = ''
         bindkey '^[[A' history-search-backward # Up
         bindkey '^[[B' history-search-forward  # Down
       '';
@@ -56,7 +56,7 @@
 
     programs.direnv.enableZshIntegration = true;
     programs.fzf.enableZshIntegration = true;
-    programs.thefuck.enableZshIntegration = true;
+    programs.pay-respects.enableZshIntegration = true;
     programs.zoxide.enableZshIntegration = true;
     programs.yazi.enableZshIntegration = true;
   };
