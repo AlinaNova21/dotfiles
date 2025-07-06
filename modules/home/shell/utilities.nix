@@ -24,8 +24,9 @@
     };
 
     programs.bat.enable = true;
-    programs.eza.enable = true;
     programs.btop.enable = true;
+    programs.eza.enable = true;
+    programs.fd.enable = true;
     programs.fzf.enable = true;
     programs.htop = {
       enable = true;
@@ -54,6 +55,7 @@
       };
     };
     programs.jq.enable = true;
+    programs.nix-index.enable = true;
     programs.ripgrep.enable = true;
     # programs.thefuck.enable = true;
     programs.pay-respects.enable = true;
@@ -71,5 +73,6 @@
       enable = true;
       options = ["--cmd" "cd"];
     };
+    programs.zellij.enable = true;
   };
 }

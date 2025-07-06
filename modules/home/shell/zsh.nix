@@ -57,7 +57,8 @@
     programs.direnv.enableZshIntegration = true;
     programs.fzf.enableZshIntegration = true;
     programs.pay-respects.enableZshIntegration = true;
-    programs.zoxide.enableZshIntegration = true;
     programs.yazi.enableZshIntegration = true;
+    programs.zellij.enableZshIntegration = true;
+    programs.zoxide.enableZshIntegration = true;
   };
 }
