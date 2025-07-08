@@ -12,6 +12,9 @@
       kubectx
       kubernetes-helm
       kustomize
+      krew
+      kubelogin
+      kubelogin-oidc
     ];
     programs.k9s.enable = true;
   };

@@ -3,7 +3,8 @@
   pkgs,
   lib,
   ...
-}: {
+}:
+{
   config = {
     programs.zsh = {
       enable = true;
@@ -58,7 +59,7 @@
     programs.fzf.enableZshIntegration = true;
     programs.pay-respects.enableZshIntegration = true;
     programs.yazi.enableZshIntegration = true;
-    programs.zellij.enableZshIntegration = true;
+    #programs.zellij.enableZshIntegration = true;
     programs.zoxide.enableZshIntegration = true;
   };
 }

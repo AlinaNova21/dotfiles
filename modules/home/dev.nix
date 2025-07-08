@@ -15,7 +15,8 @@ in
       acme.dotfiles.enable = true;
       acme.gh.enable = true;
       # acme.gh.copilot = true;
-      acme.helix.enable = true;
+      # acme.helix.enable = true;
+      acme.nvim.enable = true;
       acme.kubernetes.enable = true;
 
       home.packages = with pkgs;

@@ -10,5 +10,6 @@
     ./kubernetes.nix
     ./gh.nix
     ./langs.nix
+    ./nvim.nix
   ];
 }
