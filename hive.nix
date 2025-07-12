@@ -2,12 +2,13 @@
   inputs,
   outputs,
   ...
-}: {
+}:
+{
   meta = {
     nixpkgs = import inputs {
       system = "x86_64-linux";
     };
-    specialArgs = {inherit inputs outputs;};
+    specialArgs = { inherit inputs outputs; };
   };
   lab = {
     deployment = {
@@ -31,7 +32,8 @@
   };
   liminality-srv1 = {
     deployment = {
-      targetHost = "152.53.82.201";
+      #targetHost = "152.53.82.201";
+      targetHost = "100.116.70.74";
       targetUser = "root";
     };
     # imports = nixosSystems.liminality-srv1.modules;

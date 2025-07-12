@@ -42,7 +42,7 @@
     inherit (self) outputs;
     staticModule = {
       acme = {
-        gitName = "Alina Shumann";
+        gitName = "AlinaNova21";
         gitEmail = "alina@alinanova.dev";
         dotfilesRepo = "git@github.com:AlinaNova21/dotfiles";
         sshKeys = [

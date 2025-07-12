@@ -1,7 +1,12 @@
-{flake, ...}: {
+{ flake, ... }:
+{
   imports = [
     flake.homeModules.default
     flake.homeModules.nixos
   ];
-  acme.dotfiles.enable = true;
+  acme = {
+    docker.enable = true;
+    dotfiles.enable = true;
+    nvim.enable = true;
+  };
 }
