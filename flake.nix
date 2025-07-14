@@ -9,6 +9,7 @@
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
     flake-utils.url = "github:numtide/flake-utils";
+    gomod2nix.url = "github:nix-community/gomod2nix";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     hyprpanel.url = "github:jas-singhfsu/hyprpanel";
@@ -33,44 +34,49 @@
     ss14-watchdog.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = {
-    self,
-    flake-utils,
-    nixpkgs,
-    ...
-  } @ inputs: let
-    inherit (self) outputs;
-    staticModule = {
-      acme = {
-        gitName = "AlinaNova21";
-        gitEmail = "alina@alinanova.dev";
-        dotfilesRepo = "git@github.com:AlinaNova21/dotfiles";
-        sshKeys = [
-          "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDlPf3egS4avuZs9+BCqO7mW1/uk1UOIBLX5oj9qtO3IHbHAJCXCAKcRmZPc6uGQpv2HZjcpkSnr1pxGT3mubcc8/tFR6JO3ZeTMfA6UcrOQjPJXv+/5w8sopdPjFETnnsaXxBKkjKh7aswiYzYoiXTYkUTuSIvh50uAs2HI+C18xYkKSMLOF+G6CQTMRFD+ZaqAZW1M0/L4gWvA/A2r6kzJzXrTLQTqaJ62KfuRbVL5YqYziO/cuXxbvnq2qP6bfk/6i+K7VnC7DZNu17XIYjU4ajy5YWBns7GksE5MopMUyOhLFuGRYGgNtqf1q621fcz+7b13OfM4hLCCU/N7oVB"
-        ];
-      };
-    };
-  in (inputs.blueprint {
-      inherit inputs;
-    }
-    // {
-      inherit (staticModule) acme;
-      colmena = import ./hive.nix {inherit inputs outputs;};
-      nixOnDroidConfigurations = {
-        droid = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
-          modules = [
-            ./modules/common
-            ./modules/nixOnDroid
+  outputs =
+    {
+      self,
+      flake-utils,
+      nixpkgs,
+      ...
+    }@inputs:
+    let
+      inherit (self) outputs;
+      staticModule = {
+        acme = {
+          gitName = "AlinaNova21";
+          gitEmail = "alina@alinanova.dev";
+          dotfilesRepo = "git@github.com:AlinaNova21/dotfiles";
+          sshKeys = [
+            "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDlPf3egS4avuZs9+BCqO7mW1/uk1UOIBLX5oj9qtO3IHbHAJCXCAKcRmZPc6uGQpv2HZjcpkSnr1pxGT3mubcc8/tFR6JO3ZeTMfA6UcrOQjPJXv+/5w8sopdPjFETnnsaXxBKkjKh7aswiYzYoiXTYkUTuSIvh50uAs2HI+C18xYkKSMLOF+G6CQTMRFD+ZaqAZW1M0/L4gWvA/A2r6kzJzXrTLQTqaJ62KfuRbVL5YqYziO/cuXxbvnq2qP6bfk/6i+K7VnC7DZNu17XIYjU4ajy5YWBns7GksE5MopMUyOhLFuGRYGgNtqf1q621fcz+7b13OfM4hLCCU/N7oVB"
           ];
-          extraSpecialArgs = {
-            inherit inputs outputs;
-            flake = self;
-          };
-          pkgs = import nixpkgs {
-            overlays = [inputs.nix-on-droid.overlays.default];
-            system = "aarch64-linux";
-          };
         };
       };
-    });
+    in
+    (
+      inputs.blueprint {
+        inherit inputs;
+      }
+      // {
+        inherit (staticModule) acme;
+        colmena = import ./hive.nix { inherit inputs outputs; };
+        nixOnDroidConfigurations = {
+          droid = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
+            modules = [
+              ./modules/common
+              ./modules/nixOnDroid
+            ];
+            extraSpecialArgs = {
+              inherit inputs outputs;
+              flake = self;
+            };
+            pkgs = import nixpkgs {
+              overlays = [ inputs.nix-on-droid.overlays.default ];
+              system = "aarch64-linux";
+            };
+          };
+        };
+      }
+    );
 }
