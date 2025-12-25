@@ -10,16 +10,18 @@ in {
   options.acme.hyprland.enable = lib.mkEnableOption "Enable Hyprland";
   config = lib.mkIf cfg.enable {
     home.sessionVariables.NIXOS_OZONE_WL = "1";
-    programs.kitty.enable = true;
+    programs.kitty.enable = false;
+    
     wayland.windowManager.hyprland = {
       enable = true;
       systemd.enable = false;
+      package = null;
       settings = {
         "$mod" = "SUPER";
         monitor = "eDP-1, 1920x1080@60, 0x0, 1";
         bind =
           [
-            "$mod, Return, exec, ${pkgs.kitty}/bin/kitty"
+            "$mod, Return, exec, kitty"
             "$mod, m, exit"
           ]
           ++ (
