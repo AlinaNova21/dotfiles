@@ -1,5 +1,6 @@
 {...}: {
   imports = [
+    ./shells.nix
     ./fish.nix
     ./git.nix
     ./nushell.nix

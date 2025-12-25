@@ -3,13 +3,24 @@
   pkgs,
   lib,
   ...
-}: {
-  programs.nushell.enable = true;
+}: let
+  cfg = config.acme.nushell;
+in
+  with lib; {
+    options.acme.nushell = {
+      enable = mkOption {
+        type = types.bool;
+        default = true;
+        description = "Enable nushell with integrations";
+      };
+    };
 
-  programs.direnv.enableNushellIntegration = true;
-  #programs.fzf.enableNushellIntegration = true;
-  programs.pay-respects.enableNushellIntegration = true;
-  programs.yazi.enableNushellIntegration = true;
-  #programs.zellij.enableNushellIntegration = true;
-  programs.zoxide.enableNushellIntegration = true;
-}
+    config = mkIf cfg.enable {
+      # Add nushell to the shells list for automatic tool integrations
+      acme.shells.enabled = ["nushell"];
+
+      programs.nushell.enable = true;
+
+      # Tool integrations now handled by shells.nix
+    };
+  }

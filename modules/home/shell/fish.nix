@@ -11,15 +11,13 @@ in
       enable = mkEnableOption "fish";
     };
     config = mkIf (cfg.enable) {
+      # Add fish to the shells list for automatic tool integrations
+      acme.shells.enabled = ["fish"];
+
       programs.fish = {
         enable = true;
       };
 
-      # Enable tool integrations for fish
-      programs.direnv.enableFishIntegration = true;
-      programs.fzf.enableFishIntegration = true;
-      programs.pay-respects.enableFishIntegration = true;
-      programs.yazi.enableFishIntegration = true;
-      programs.zoxide.enableFishIntegration = true;
+      # Tool integrations now handled by shells.nix
     };
   }
