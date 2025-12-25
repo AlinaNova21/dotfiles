@@ -9,6 +9,7 @@
   ];
   acme.desktop.enable = true;
   acme.dev.enable = true;
+  acme.testing.enable = true;
 
   # Disable Hyprland and Hyprpanel nix management on this host
   acme.hyprland.enable = lib.mkForce false;

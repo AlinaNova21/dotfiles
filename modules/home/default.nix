@@ -7,6 +7,7 @@
     ./keybase.nix
     ./programming
     ./shell
+    ./testing.nix
   ];
   config = {
     programs.home-manager.enable = true;
