@@ -12,6 +12,7 @@ in
     };
     config = mkIf (cfg.enable) {
       acme.dev.enable = true;
+      acme.fish.enable = true;
 
       home.packages = with pkgs; [
         jujutsu
