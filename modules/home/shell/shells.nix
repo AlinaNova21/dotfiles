@@ -4,7 +4,6 @@
   ...
 }: let
   cfg = config.acme.shells;
-  hasShell = shell: builtins.elem shell cfg.enabled;
 in
   with lib; {
     options.acme.shells = {
@@ -12,38 +11,17 @@ in
         type = types.listOf types.str;
         default = [];
         internal = true;
-        description = "List of shells to enable with full tool integrations. Automatically populated by individual shell modules.";
+        description = ''
+          List of shells to enable. Automatically populated by individual shell modules.
+
+          Note: Shell integrations for tools (direnv, fzf, yazi, zoxide, pay-respects) are
+          automatically enabled by home-manager when both the tool and shell are enabled.
+          This module simply tracks which shells are active for reference.
+        '';
       };
     };
 
-    config = {
-      # Direnv integrations
-      programs.direnv.enableZshIntegration = mkIf (hasShell "zsh") true;
-      programs.direnv.enableFishIntegration = mkIf (hasShell "fish") true;
-      programs.direnv.enableNushellIntegration = mkIf (hasShell "nushell") true;
-      programs.direnv.enableBashIntegration = mkIf (hasShell "bash") true;
-
-      # FZF integrations
-      programs.fzf.enableZshIntegration = mkIf (hasShell "zsh") true;
-      programs.fzf.enableFishIntegration = mkIf (hasShell "fish") true;
-      programs.fzf.enableBashIntegration = mkIf (hasShell "bash") true;
-
-      # Pay-respects integrations
-      programs.pay-respects.enableZshIntegration = mkIf (hasShell "zsh") true;
-      programs.pay-respects.enableFishIntegration = mkIf (hasShell "fish") true;
-      programs.pay-respects.enableNushellIntegration = mkIf (hasShell "nushell") true;
-      programs.pay-respects.enableBashIntegration = mkIf (hasShell "bash") true;
-
-      # Yazi integrations
-      programs.yazi.enableZshIntegration = mkIf (hasShell "zsh") true;
-      programs.yazi.enableFishIntegration = mkIf (hasShell "fish") true;
-      programs.yazi.enableNushellIntegration = mkIf (hasShell "nushell") true;
-      programs.yazi.enableBashIntegration = mkIf (hasShell "bash") true;
-
-      # Zoxide integrations
-      programs.zoxide.enableZshIntegration = mkIf (hasShell "zsh") true;
-      programs.zoxide.enableFishIntegration = mkIf (hasShell "fish") true;
-      programs.zoxide.enableNushellIntegration = mkIf (hasShell "nushell") true;
-      programs.zoxide.enableBashIntegration = mkIf (hasShell "bash") true;
-    };
+    # No config needed - integrations are automatic in modern home-manager
+    # When a tool (e.g., direnv) and a shell (e.g., fish) are both enabled,
+    # the tool's shell integration is automatically enabled.
   }
