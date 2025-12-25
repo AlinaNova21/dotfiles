@@ -20,12 +20,17 @@ in {
     };
   };
   config = {
+    programs.delta = {
+      enable = true;
+      enableGitIntegration = true;
+    };
     programs.git = {
       enable = true;
-      userName = cfg.name;
-      userEmail = cfg.email;
-      delta.enable = true;
-      extraConfig = {
+      settings = {
+	user = {
+	  name = cfg.name;
+          email = cfg.email;
+        };
         push = {
           default = "tracking";
           autoSetupRemote = true;
