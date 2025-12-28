@@ -19,7 +19,11 @@
       yq
     ];
 
+    # Shell aliases - shared across shells
     programs.zsh.shellAliases = {
+      cat = "bat";
+    };
+    programs.fish.shellAliases = {
       cat = "bat";
     };
 
