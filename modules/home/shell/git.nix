@@ -35,6 +35,15 @@ in {
           default = "tracking";
           autoSetupRemote = true;
         };
+        diff = {
+          tool = "nvimdiff";
+        };
+        difftool = {
+          prompt = false;
+          nvimdiff = {
+            cmd = "${pkgs.neovim}/bin/nvim -d \"$LOCAL\" \"$REMOTE\"";
+          };
+        };
         safe.directory = "*";
         init.defaultBranch = "main";
       };
