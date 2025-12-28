@@ -18,6 +18,7 @@ in
       # acme.helix.enable = true;
       acme.nvim.enable = true;
       acme.kubernetes.enable = true;
+      acme.onepassword.enable = true;
 
       home.packages = with pkgs;
         [

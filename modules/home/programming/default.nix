@@ -11,5 +11,6 @@
     ./gh.nix
     ./langs.nix
     ./nvim.nix
+    ./onepassword.nix
   ];
 }
