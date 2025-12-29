@@ -1,0 +1,40 @@
+{
+  "theme": "catppuccin_mocha",
+  "bar.layouts": {
+    "*": {
+      "left": [
+        "dashboard",
+        "workspaces",
+        "windowtitle"
+      ],
+      "middle": [
+        "media"
+      ],
+      "right": [
+        "volume",
+        "clock",
+        "notifications"
+      ]
+    },
+    "DP-2": {
+      "left": [
+        "dashboard",
+        "workspaces",
+        "windowtitle"
+      ],
+      "middle": [
+        "media"
+      ],
+      "right": [
+        "volume",
+        "network",
+        "bluetooth",
+        "custom/updates",
+        "systray",
+        "clock",
+        "notifications"
+      ]
+    }
+  },
+  "scalingPriority": "hyprland"
+}

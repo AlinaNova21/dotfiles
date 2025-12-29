@@ -1,0 +1,25 @@
+export XCURSOR_THEME=Bibata-Modern-Classic
+export XCURSOR_SIZE=24
+export QT_QPA_PLATFORMTHEME=qt6ct
+export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+export QT_AUTO_SCREEN_SCALE_FACTOR=1
+export GDK_BACKEND=wayland,x11
+export QT_QPA_PLATFORM=wayland;xcb
+export SDL_VIDEODRIVER=wayland,x11,windows
+export CLUTTER_BACKEND=wayland
+export ELECTRON_OZONE_PLATFORM_HINT=auto
+export _JAVA_AWT_WM_NONREPARENTING=1
+export NIXOS_OZONE_WL=1
+
+# GTK Scaling (2 * 0.667 = 1.334)
+export GDK_SCALE=2
+export GDK_DPI_SCALE=0.667
+
+# Qt Scaling
+export QT_SCALE_FACTOR=1.334
+
+# GTK Dark Mode
+export GTK_THEME=Adwaita:dark
+
+# Qt Theming
+export QT_STYLE_OVERRIDE=kvantum

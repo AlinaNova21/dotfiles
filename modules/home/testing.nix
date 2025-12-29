@@ -15,7 +15,6 @@ in
       acme.fish.enable = true;
 
       home.packages = with pkgs; [
-        jujutsu
       ];
     };
   }

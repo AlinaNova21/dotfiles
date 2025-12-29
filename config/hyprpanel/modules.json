@@ -1,0 +1,13 @@
+{
+  "custom/updates": {
+    "icon": "󰣇",
+    "label": "{total}",
+    "tooltip": "Pacman: {pacman}\nAUR: {aur}\nTotal: {total} updates\nClick to update system",
+    "execute": "~/.config/hyprpanel/update-check.sh",
+    "interval": 60000,
+    "actions": {
+      "on-click": "kitty -e yay -Syu"
+    },
+    "truncationSize": -1
+  }
+}

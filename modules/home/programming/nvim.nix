@@ -10,10 +10,10 @@ in {
   config = lib.mkIf cfg.enable {
     xdg.configFile = {
       "nvim/init.lua" = {
-        source = config.lib.file.mkOutOfStoreSymlink "${config.acme.dotfiles.path}/nvim/init.lua";
+        source = config.lib.file.mkOutOfStoreSymlink "${config.acme.dotfiles.path}/config/nvim/init.lua";
       };
       "nvim/lua" = {
-        source = config.lib.file.mkOutOfStoreSymlink "${config.acme.dotfiles.path}/nvim/lua";
+        source = config.lib.file.mkOutOfStoreSymlink "${config.acme.dotfiles.path}/config/nvim/lua";
       };
     };
     catppuccin.nvim.enable = false;

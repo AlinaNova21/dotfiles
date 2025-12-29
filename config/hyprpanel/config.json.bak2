@@ -1,0 +1,64 @@
+{
+  "theme": "catppuccin_mocha",
+  "theme.font.name": "JetBrainsMonoNL Nerd Font",
+  "bar.layouts": {
+    "*": {
+      "left": [
+        "dashboard",
+        "workspaces",
+        "windowtitle"
+      ],
+      "middle": [
+        "media"
+      ],
+      "right": [
+        "volume",
+        "clock",
+        "notifications"
+      ]
+    },
+    "DP-2": {
+      "left": [
+        "dashboard",
+        "workspaces",
+        "windowtitle"
+      ],
+      "middle": [
+        "media"
+      ],
+      "right": [
+        "volume",
+        "network",
+        "bluetooth",
+        "custom/updates",
+        "systray",
+        "clock",
+        "notifications"
+      ]
+    }
+  },
+  "scalingPriority": "hyprland",
+  "bar.workspaces.numbered_active_indicator": "underline",
+  "bar.workspaces.show_numbered": true,
+  "bar.workspaces.workspaces": 10,
+  "bar.workspaces.monitorSpecific": true,
+  "bar.workspaces.showWsIcons": false,
+  "bar.workspaces.wsIcons": {
+    "1": "💬",
+    "2": "🌐",
+    "6": "🎮",
+    "8": "🕹️"
+  },
+  "bar.workspaces.showApplicationIcons": true,
+  "bar.workspaces.applicationIconMap": {
+    "[vV]esktop": "󰙯",
+    "[dD]iscord": "󰙯",
+    "ghostty": "",
+    "com.mitchellh.ghostty": "",
+    "[sS]team": "󰓓",
+    "[vV]ivaldi": "󰖟"
+  },
+  "bar.customModules.storage.paths": [
+    "/"
+  ]
+}

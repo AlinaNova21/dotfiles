@@ -16,6 +16,10 @@ in
 
       programs.fish = {
         enable = true;
+        shellInit = ''
+          fish_add_path --prepend ~/.local/bin
+          set -gx GPG_TTY (tty)
+        '';
       };
 
       # Tool integrations now handled by shells.nix

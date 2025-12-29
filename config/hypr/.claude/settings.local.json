@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find:*)",
+      "Bash(cat:*)",
+      "Bash(env)",
+      "Bash(systemctl --user status:*)",
+      "Bash(journalctl:*)",
+      "Bash(systemctl --user cat:*)",
+      "Bash(readlink:*)",
+      "WebSearch",
+      "Bash(hyprshot --help:*)",
+      "Bash(nix flake:*)"
+    ]
+  }
+}

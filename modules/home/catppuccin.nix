@@ -5,6 +5,9 @@
   catppuccin = {
     enable = true;
     flavor = "mocha";
-    mako.enable = false; 
+    accent = "mauve";
+    mako.enable = false;
+    kvantum.enable = true;
+    cursors.enable = true;
   };
 }

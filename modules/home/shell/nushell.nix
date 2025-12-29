@@ -19,7 +19,13 @@ in
       # Add nushell to the shells list for automatic tool integrations
       acme.shells.enabled = ["nushell"];
 
-      programs.nushell.enable = true;
+      programs.nushell = {
+        enable = true;
+        extraEnv = ''
+          $env.PATH = ($env.PATH | prepend ($env.HOME | path join ".local" "bin"))
+          $env.GPG_TTY = (tty)
+        '';
+      };
 
       # Tool integrations now handled by shells.nix
     };
