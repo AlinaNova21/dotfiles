@@ -11,9 +11,8 @@ export ELECTRON_OZONE_PLATFORM_HINT=auto
 export _JAVA_AWT_WM_NONREPARENTING=1
 export NIXOS_OZONE_WL=1
 
-# GTK Scaling (2 * 0.667 = 1.334)
+# GTK Scaling
 export GDK_SCALE=2
-export GDK_DPI_SCALE=0.667
 
 # Qt Scaling
 export QT_SCALE_FACTOR=1.334
