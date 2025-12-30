@@ -55,7 +55,8 @@
     "ghostty": "",
     "com.mitchellh.ghostty": "",
     "[sS]team": "󰓓",
-    "[vV]ivaldi": "󰖟"
+    "[vV]ivaldi": "󰖟",
+    "[fF]actorio": "󰒓"
   },
   "bar.customModules.storage.paths": [
     "/"

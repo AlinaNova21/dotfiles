@@ -87,5 +87,21 @@
       WantedBy = ["timers.target"];
     };
   };
+
+  # Set keyboard brightness to max on login
+  systemd.user.services.keyboard-brightness = {
+    Unit = {
+      Description = "Set keyboard brightness to maximum";
+      After = ["graphical-session.target"];
+    };
+    Service = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.asusctl}/bin/asusctl -k high";
+      RemainAfterExit = true;
+    };
+    Install = {
+      WantedBy = ["graphical-session.target"];
+    };
+  };
 }
 
