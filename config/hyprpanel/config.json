@@ -15,6 +15,25 @@
         "notifications"
       ]
     },
+    "DP-2": {
+      "left": [
+        "dashboard",
+        "workspaces",
+        "windowtitle"
+      ],
+      "middle": [
+        "media"
+      ],
+      "right": [
+        "volume",
+        "network",
+        "bluetooth",
+        "custom/updates",
+        "systray",
+        "clock",
+        "notifications"
+      ]
+    },
     "eDP-2": {
       "left": [
         "dashboard",

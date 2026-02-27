@@ -12,8 +12,8 @@
   acme.testing.enable = true;
 
   # Disable Hyprland and Hyprpanel nix management on this host
-  acme.hyprland.enable = lib.mkForce false;
-  acme.hyprpanel.enable = lib.mkForce false;
+  #acme.hyprland.enable = lib.mkForce false;
+  #acme.hyprpanel.enable = lib.mkForce false;
 
   programs.zsh.initContent = ''
     eval "$(fnm env --use-on-cd --shell zsh)"
