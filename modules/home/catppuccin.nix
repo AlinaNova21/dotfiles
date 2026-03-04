@@ -1,4 +1,8 @@
-{inputs, ...}: {
+{
+  inputs,
+  pkgs,
+  ...
+}: {
   imports = [
     inputs.catppuccin.homeModules.catppuccin
   ];
@@ -8,6 +12,6 @@
     accent = "mauve";
     mako.enable = false;
     kvantum.enable = true;
-    cursors.enable = true;
+    cursors.enable = pkgs.stdenv.isLinux;
   };
 }
