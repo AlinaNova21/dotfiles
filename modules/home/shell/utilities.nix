@@ -83,5 +83,6 @@
       ];
     };
     programs.zellij.enable = true;
+    programs.mise.enable = true;
   };
 }

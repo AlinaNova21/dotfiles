@@ -16,6 +16,7 @@
     "flake.nix"
     "flake.lock"
     ".justfile"
+    "mise.toml"
   ];
   programs.git.settings.url = {
     "ssh://git@github.kyndryl.net/" = {
