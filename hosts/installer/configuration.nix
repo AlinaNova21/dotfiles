@@ -41,7 +41,7 @@
     services.openssh.enable = true;
     system.installer.channel.enable = false;
     systemd.network.enable = lib.mkForce false;
-    system.stateVersion = "24.11";
+    system.stateVersion = "25.05";
     users.users = {
       nixos.extraGroups = ["networkmanager"];
       root = {

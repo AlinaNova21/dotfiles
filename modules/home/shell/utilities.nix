@@ -67,6 +67,7 @@
     programs.pay-respects.enable = true;
     programs.yazi = {
       enable = true;
+      shellWrapperName = "y";
       # theme.flavor = {
       #   light = "catppuccin-mocha";
       #   dark = "catppuccin-mocha";

@@ -22,3 +22,6 @@ export GTK_THEME=Adwaita:dark
 
 # Qt Theming
 export QT_STYLE_OVERRIDE=kvantum
+
+# GPU: Hyprland multi-GPU device order (AMD renders, NVIDIA displays)
+export AQ_DRM_DEVICES="/dev/dri/amd-igpu:/dev/dri/dedi-gpu"
