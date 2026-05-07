@@ -9,8 +9,7 @@
 in
   with lib; {
     imports = [
-      ./hyprland.nix
-      ./hyprpanel.nix
+      ./config.nix
       ./theming.nix
     ];
     options.acme.desktop = {
@@ -20,11 +19,6 @@ in
       home.packages = with pkgs; [
         google-chrome
       ];
-      acme = {
-        hyprland.enable = true;
-        hyprpanel.enable = true;
-      };
-
       # Force Electron apps to use Wayland
       home.file.".config/electron-flags.conf".text = ''
         --enable-features=UseOzonePlatform

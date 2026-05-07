@@ -51,7 +51,7 @@
     systemd.network.enable = lib.mkForce false;
     nix.package = lib.mkForce pkgs.nix;
     nix.settings.experimental-features = lib.mkForce "nix-command flakes";
-    system.stateVersion = "25.05";
+    system.stateVersion = "26.05";
     users.users = {
       nixos.extraGroups = ["networkmanager"];
       root = {

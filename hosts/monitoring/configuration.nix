@@ -21,5 +21,5 @@
     tailscale.enable = true;
   };
 
-  system.stateVersion = "25.05";
+  system.stateVersion = "26.05";
 }

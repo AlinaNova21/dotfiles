@@ -11,9 +11,7 @@
   acme.desktop.enable = true;
   acme.dev.enable = true;
   acme.testing.enable = true;
-
-  acme.hyprland.enable = true;
-  acme.hyprpanel.enable = true;
+  acme.autoUpgrade.enable = true;
 
   programs.zsh.initContent = ''
     eval "$(fnm env --use-on-cd --shell zsh)"
