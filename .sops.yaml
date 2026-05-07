@@ -1,10 +1,12 @@
 keys:
 - &admin_alina age1n7q5q5z3xkufhlysrt3mrrxnyhqa3myseu7pyc47hwf5l67qssqse2jdh5
+- &alina-desktop age16865gej0ndnlnghdq347fur59ht8d7wrcfptdw5ja4fhc4lwdfpq59ratl
 - &dev age163u3n7pk3t63zut6kh2wezmdznu3ed2jv6w2hw5pc38d5qkksu5q4rznuw
 - &lab age10zyrgjuvsd8w00g3nvud7nk7pvf23jceg0jzkmdaph49vyaqkgpq659tqn
 - &liminality-srv1 age12pl646jf86eldch3shj48fhl0hx6fhx7z9x34un5gkjz085hjf6syxvsqt
 - &mobile-lab age1x2nft2uu6nj34qp73y7t7aaajtnx8r7znar7yg50h2h29e6we32s2d57p7
 - &monitoring age1cnzggywvef20xhe536nkyen87d64escpepjcxv5lrs54vkv65svsrvcdtv
+- &tardis age10ey3hy3tneqkdqvjhznny6uaecr7kku4xnm9p36fjpq8wnfehucsrvjfeg
 - &nixos-testing age19kx9crtmpdz8m0cxzgc2g852nufjrnsxu7lhh6tlh9xm88pcep2q20hc6m
 - &rog-g14 age1amkpwp7a7uhhtq5sg22pth46lqg3g4nfwxk8l97ye4jn8el5q3psvn8ty9
 - &work-mbp age1jssvn6z2apef3x43dy6ndlwyxpu3y046ulp54ymn826k2ggngfaq3fgl8z
@@ -13,12 +15,14 @@ creation_rules:
     key_groups:
     - age:
       - *admin_alina
+      - *alina-desktop
       - *dev
       - *lab
       - *liminality-srv1
       - *mobile-lab
       - *monitoring
       - *nixos-testing
+      - *tardis
       - *rog-g14
   - path_regex: secrets/work-mbp/[^/]+\.(yaml|json|env|ini)$
     key_groups:

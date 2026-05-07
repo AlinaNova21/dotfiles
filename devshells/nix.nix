@@ -7,7 +7,7 @@ with pkgs;
   mkShell {
     packages = [
       nil
-      nixfmt-rfc-style
+      nixfmt
       perSystem.alejandra.default
     ];
   }

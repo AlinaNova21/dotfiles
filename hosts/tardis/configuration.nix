@@ -1,34 +1,32 @@
 {
   flake,
-  pkgs,
   lib,
+  pkgs,
   ...
 }:
 with lib; {
   imports = [
     flake.nixosModules.default
-    flake.nixosModules.rescue
     flake.modules.common.nix
   ];
 
   networking.hostName = "tardis";
   facter.reportPath = ./facter.json;
 
+  determinate.enable = lib.mkForce false;
+  nix.package = lib.mkForce pkgs.nix;
+  nix.settings.experimental-features = lib.mkForce "nix-command flakes";
+
   acme = {
     disko = {
       enable = true;
-      rootDevice = "/dev/sda"; # 32G OS disk
+      rootDevice = "/dev/sda";
     };
-    rescue.enable = true;
-    tailscale.enable = true;
   };
 
-  # Import existing tank pool (vdevs identified by GUID - scan all of /dev)
-  # TrueNAS stores vdev members by GUID, not by-id paths
   boot.zfs.extraPools = ["tank"];
-  boot.zfs.devNodes = mkForce "/dev";
+  boot.zfs.forceImportAll = true;
 
-  # Media user/group matching TrueNAS uid/gid 1000 (owner of tank files)
   users.users.media = {
     uid = 1000;
     group = "media";
@@ -37,7 +35,6 @@ with lib; {
   };
   users.groups.media.gid = 1000;
 
-  # NFS server - replicating TrueNAS exports
   services.nfs.server = {
     enable = true;
     exports = ''
@@ -63,7 +60,6 @@ with lib; {
     '';
   };
 
-  # Samba for Windows clients
   services.samba = {
     enable = true;
     openFirewall = true;
@@ -87,59 +83,71 @@ with lib; {
   };
   services.samba-wsdd.enable = true;
 
-  # Firewall: NFS + Samba ports
   networking.firewall = {
     allowedTCPPorts = [2049 111 445 139];
     allowedUDPPorts = [2049 111 137 138];
   };
 
-  # Ensure NFS starts after ZFS pool is imported and mounted
   systemd.services.nfs-server.after = ["zfs-mount.service" "zfs-import-tank.service"];
   systemd.services.nfs-server.requires = ["zfs-mount.service"];
 
-  # Persist Samba state across reboots (ephemeral root)
-  environment.persistence."/persist".directories = [
-    "/var/lib/samba"
-  ];
-
-  # VM testing: attach a second disk and initialize a test tank pool
   virtualisation.vmVariant = {
-    virtualisation.qemu.options = [
-      "-drive file=/tmp/tardis-tank-test.qcow2,if=virtio,format=qcow2,size=20G"
-    ];
-    systemd.services.init-test-tank = {
-      description = "Initialize test ZFS tank pool";
-      wantedBy = ["multi-user.target"];
-      before = ["zfs-mount.service" "nfs-server.service"];
-      script = ''
-        if ! zpool list tank 2>/dev/null; then
-          zpool create -f -m /mnt/tank tank /dev/vdb
-          zfs create tank/media
-          zfs create tank/media/movies
-          zfs create tank/media/movies/anime
-          zfs create tank/media/movies/hd
-          zfs create tank/media/movies/uhd
-          zfs create tank/media/tv
-          zfs create tank/media/tv/anime
-          zfs create tank/media/tv/hd
-          zfs create tank/media/tv/kids
-          zfs create tank/media/tv/old
-          zfs create tank/downloads
-          zfs create tank/downloads/sabnzbd
-          zfs create tank/backups
-          zfs create tank/media/photos
-          zfs create tank/media/music
-          zfs create tank/media/storage
-          zfs create tank/cache
-          zfs create tank/users
-          zfs create tank/users/alina
-          zfs create tank/vms
-          zfs create tank/apps
-          zfs create tank/apps/traefik
-        fi
-      '';
-      serviceConfig.Type = "oneshot";
-      serviceConfig.RemainAfterExit = true;
+    nix.package = lib.mkForce pkgs.nix;
+    determinate.enable = lib.mkForce false;
+    nix.settings.experimental-features = lib.mkForce "nix-command flakes";
+  };
+
+  virtualisation.vmVariantWithDisko = {
+    nix.package = lib.mkForce pkgs.nix;
+    determinate.enable = lib.mkForce false;
+    nix.settings.experimental-features = lib.mkForce "nix-command flakes";
+    virtualisation.fileSystems."/persist".neededForBoot = true;
+
+    # Dotfiles clone fails in VM (no SSH key) and kills HM activation
+    home-manager.users.alina.acme.dotfiles.enable = lib.mkForce false;
+
+    disko.devices = {
+      disk.tank = {
+        type = "disk";
+        imageSize = "20G";
+        device = "/dev/vdb";
+        content = {
+          type = "zfs";
+          pool = "tank";
+        };
+      };
+      zpool.tank = {
+        type = "zpool";
+        options.cachefile = "none";
+        rootFsOptions = {
+          compression = "zstd";
+          mountpoint = "none";
+        };
+        datasets = {
+          media                = { type = "zfs_fs"; options.mountpoint = "none"; };
+          "media/movies"       = { type = "zfs_fs"; options.mountpoint = "none"; };
+          "media/movies/anime" = { type = "zfs_fs"; mountpoint = "/mnt/tank/media/movies/anime"; };
+          "media/movies/hd"    = { type = "zfs_fs"; mountpoint = "/mnt/tank/media/movies/hd"; };
+          "media/movies/uhd"   = { type = "zfs_fs"; mountpoint = "/mnt/tank/media/movies/uhd"; };
+          "media/tv"           = { type = "zfs_fs"; options.mountpoint = "none"; };
+          "media/tv/anime"     = { type = "zfs_fs"; mountpoint = "/mnt/tank/media/tv/anime"; };
+          "media/tv/hd"        = { type = "zfs_fs"; mountpoint = "/mnt/tank/media/tv/hd"; };
+          "media/tv/kids"      = { type = "zfs_fs"; mountpoint = "/mnt/tank/media/tv/kids"; };
+          "media/tv/old"       = { type = "zfs_fs"; mountpoint = "/mnt/tank/media/tv/old"; };
+          downloads            = { type = "zfs_fs"; options.mountpoint = "none"; };
+          "downloads/sabnzbd"  = { type = "zfs_fs"; mountpoint = "/mnt/tank/downloads/sabnzbd"; };
+          backups              = { type = "zfs_fs"; mountpoint = "/mnt/tank/backups"; };
+          "media/photos"       = { type = "zfs_fs"; mountpoint = "/mnt/tank/media/photos"; };
+          "media/music"        = { type = "zfs_fs"; mountpoint = "/mnt/tank/media/music"; };
+          "media/storage"      = { type = "zfs_fs"; mountpoint = "/mnt/tank/media/storage"; };
+          cache                = { type = "zfs_fs"; mountpoint = "/mnt/tank/cache"; };
+          users                = { type = "zfs_fs"; options.mountpoint = "none"; };
+          "users/alina"        = { type = "zfs_fs"; mountpoint = "/mnt/tank/users/alina"; };
+          vms                  = { type = "zfs_fs"; mountpoint = "/mnt/tank/vms"; };
+          apps                 = { type = "zfs_fs"; options.mountpoint = "none"; };
+          "apps/traefik"       = { type = "zfs_fs"; mountpoint = "/mnt/tank/apps/traefik"; };
+        };
+      };
     };
   };
 

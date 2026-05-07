@@ -6,7 +6,6 @@
   ];
   acme = {
     docker.enable = true;
-    dotfiles.enable = true;
-    nvim.enable = true;
+    server.enable = true;
   };
 }

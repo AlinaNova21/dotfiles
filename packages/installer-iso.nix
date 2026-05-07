@@ -12,4 +12,4 @@ else
   .config
   .system
   .build
-  .diskoImagesScript
+  .isoImage

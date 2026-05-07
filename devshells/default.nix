@@ -2,19 +2,13 @@
   perSystem,
   pkgs,
   ...
-} @ inputs: let
-  lib = pkgs.lib;
-in
+} @ inputs:
   with pkgs;
     mkShell {
       inputsFrom = [
         (import ./nix.nix inputs)
       ];
-      packages =
-        [
-          perSystem.home-manager.default
-        ]
-        ++ lib.lists.optionals (!pkgs.stdenv.isDarwin) [
-          nixos-rebuild
-        ];
+      packages = [
+        perSystem.home-manager.default
+      ];
     }

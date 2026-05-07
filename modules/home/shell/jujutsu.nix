@@ -4,17 +4,26 @@
   lib,
   ...
 }: let
-  cfg = config.acme.git;
-in {
-  config = {
-    programs.jujutsu = {
-      enable = true;
-      settings = {
-        user = {
-          name = cfg.name;
-          email = cfg.email;
+  cfg = config.acme.jujutsu;
+  gitCfg = config.acme.git;
+in
+  with lib; {
+    options.acme.jujutsu = {
+      enable = mkOption {
+        type = types.bool;
+        default = true;
+        description = "Enable jujutsu configuration";
+      };
+    };
+    config = mkIf cfg.enable {
+      programs.jujutsu = {
+        enable = true;
+        settings = {
+          user = {
+            name = gitCfg.name;
+            email = gitCfg.email;
+          };
         };
       };
     };
-  };
-}
+  }

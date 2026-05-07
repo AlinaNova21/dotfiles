@@ -1,1 +1,6 @@
 home-manager
+result
+.direnv
+**/.claude/
+*.bak
+*.bak2

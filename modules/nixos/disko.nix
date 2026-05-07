@@ -23,7 +23,7 @@ in {
     };
   };
   config = lib.mkIf cfg.enable {
-    fileSystems = {
+    fileSystems = lib.mkIf config.disko.enableConfig {
       "/var/log".neededForBoot = true;
       "/persist".neededForBoot = true;
     };

@@ -10,6 +10,7 @@
 in
   with pkgs;
     mkShell {
+      inputsFrom = [ (import ./default.nix inputs) ];
       packages =
         [
           # Core deployment tools (all platforms)

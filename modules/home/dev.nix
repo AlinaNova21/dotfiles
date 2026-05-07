@@ -28,5 +28,15 @@ in
         ++ optionals config.acme.desktop.enable [
           vscode
         ];
+
+      programs.gitui.enable = true;
+      programs.nix-index.enable = true;
+      programs.pay-respects.enable = true;
+      programs.yazi = {
+        enable = true;
+        shellWrapperName = "y";
+      };
+      programs.zellij.enable = true;
+      programs.mise.enable = true;
     };
   }

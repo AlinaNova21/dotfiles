@@ -47,7 +47,7 @@
   };
   tardis = {
     deployment = {
-      targetHost = "192.168.2.210"; # update to 192.168.2.193 for production cutover
+      targetHost = "192.168.2.66"; # test VM (.66 DHCP); update to 192.168.2.193 for production cutover
       targetUser = "root";
     };
   };

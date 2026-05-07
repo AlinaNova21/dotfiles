@@ -7,7 +7,7 @@
     ./nushell.nix
     ./starship.nix
     ./tmux.nix
-    ./utilities.nix
+    ./base.nix
     ./zsh.nix
   ];
 }

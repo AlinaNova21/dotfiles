@@ -26,6 +26,7 @@
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixos-wsl.url = "github:nix-community/nixos-wsl";
+    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/0.1";
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
     # TODO: swap back to upstream when PR is merged: https://github.com/space-wizards/SS14.Watchdog/pull/35

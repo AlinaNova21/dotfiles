@@ -8,6 +8,11 @@
   cfg = config.acme.git;
 in {
   options.acme.git = {
+    enable = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Enable git configuration";
+    };
     name = lib.mkOption {
       type = lib.types.str;
       default = flake.acme.gitName;
@@ -19,7 +24,7 @@ in {
       description = "Email to use for git commits";
     };
   };
-  config = {
+  config = lib.mkIf cfg.enable {
     #programs.delta = {
     #  enable = true;
     #  enableGitIntegration = true;

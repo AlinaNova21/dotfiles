@@ -11,6 +11,10 @@ in {
   config = {
     programs.zsh.enable = true;
 
+    systemd.tmpfiles.rules = [
+      "d /home/alina 0700 alina users -"
+    ];
+
     users.users = {
       root = {
         inherit hashedPasswordFile;

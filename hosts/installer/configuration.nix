@@ -6,6 +6,7 @@
   ...
 }: {
   imports = [
+    (modulesPath + "/installer/cd-dvd/iso-image.nix")
     (modulesPath + "/profiles/base.nix")
     (modulesPath + "/profiles/installation-device.nix")
     flake.modules.common.nix
@@ -18,6 +19,9 @@
         rootDevice = "/dev/vda";
       };
     };
+    # Define disk schema (needed for diskoImagesScript package) but don't
+    # generate NixOS filesystem mounts — the installer has no rpool to import.
+    disko.enableConfig = false;
     boot.initrd.systemd.emergencyAccess = true;
     documentation.enable = false;
     documentation.man.man-db.enable = false;
@@ -38,15 +42,24 @@
     };
     nixpkgs.config.allowUnfree = true;
     nixpkgs.hostPlatform = "x86_64-linux";
+    services.cloud-init = {
+      enable = true;
+      network.enable = true;
+    };
     services.openssh.enable = true;
     system.installer.channel.enable = false;
     systemd.network.enable = lib.mkForce false;
+    nix.package = lib.mkForce pkgs.nix;
+    nix.settings.experimental-features = lib.mkForce "nix-command flakes";
     system.stateVersion = "25.05";
     users.users = {
       nixos.extraGroups = ["networkmanager"];
       root = {
         initialHashedPassword = lib.mkForce null;
         openssh.authorizedKeys.keys = flake.acme.sshKeys;
+        # nixos-anywhere uses --store local?root=/mnt which zsh expands as glob;
+        # keep bash on the installer to avoid that.
+        shell = lib.mkForce pkgs.bash;
       };
     };
   };
