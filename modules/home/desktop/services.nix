@@ -29,10 +29,24 @@ in {
       Install.WantedBy = ["niri.service"];
     };
 
+    services.mako = lib.mkIf cfg.mako {
+      enable = true;
+      settings = {
+        border-radius = 8;
+      };
+    };
+
     systemd.user.services.mako = lib.mkIf cfg.mako {
       Unit = {
         Description = "mako notification daemon";
+        After = ["graphical-session.target"];
         PartOf = ["niri.service"];
+      };
+      Service = {
+        Type = "simple";
+        ExecStart = "${pkgs.mako}/bin/mako";
+        Restart = "on-failure";
+        RestartSec = "5s";
       };
       Install.WantedBy = ["niri.service"];
     };

@@ -32,6 +32,7 @@ in
       };
 
       acme.desktop.services.awww = true;
+      acme.desktop.services.mako = true;
       acme.desktop.services.ashell = true;
     };
   }

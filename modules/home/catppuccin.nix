@@ -10,7 +10,7 @@
     enable = true;
     flavor = "mocha";
     accent = "mauve";
-    mako.enable = false;
+    # mako.enable = false;
     kvantum.enable = true;
     cursors.enable = pkgs.stdenv.isLinux;
   };
