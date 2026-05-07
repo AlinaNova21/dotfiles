@@ -10,6 +10,7 @@ in
   with lib; {
     imports = [
       ./config.nix
+      ./services.nix
       ./theming.nix
     ];
     options.acme.desktop = {
@@ -29,5 +30,8 @@ in
       home.sessionVariables = {
         NIXOS_OZONE_WL = "1";
       };
+
+      acme.desktop.services.awww = true;
+      acme.desktop.services.ashell = true;
     };
   }

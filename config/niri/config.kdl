@@ -109,10 +109,17 @@ output "eDP-1" {
     position x=0 y=0
 }
 
+overview {
+  workspace-shadow {
+    off
+  }
+}
+
 // Settings that influence how windows are positioned and sized.
 // Find more information on the wiki:
 // https://niri-wm.github.io/niri/Configuration:-Layout
 layout {
+    background-color "transparent"
     // Set gaps around windows in logical pixels.
     gaps 16
 
@@ -170,7 +177,7 @@ layout {
         // - CSS-like notation: "rgb(255, 127, 0)", rgba(), hsl() and a few others.
 
         // Color of the ring on the active monitor.
-        active-color "#7fc8ff"
+        active-color "#cda8f1"
 
         // Color of the ring on inactive monitors.
         //
@@ -305,6 +312,11 @@ animations {
 
     // Slow down all animations by this factor. Values below 1 speed them up instead.
     // slowdown 3.0
+}
+
+layer-rule {
+  match namespace="^awww-daemon$"
+  place-within-backdrop true
 }
 
 // Window rules let you adjust behavior for individual windows.
@@ -616,6 +628,9 @@ binds {
     // Mod+Space       { switch-layout "next"; }
     // Mod+Shift+Space { switch-layout "prev"; }
 
+    Mod+Shift+S { screenshot; }
+    Mod+Ctrl+Shift+S { screenshot-screen; }
+    Mod+Alt+Shift+S { screenshot-window; }
     Print { screenshot; }
     Ctrl+Print { screenshot-screen; }
     Alt+Print { screenshot-window; }
