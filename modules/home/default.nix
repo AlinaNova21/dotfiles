@@ -1,12 +1,14 @@
 {inputs, ...}: {
   imports = [
     ./catppuccin.nix
+    ./xdg.nix
     ./utils.nix
     ./desktop
     ./dev.nix
     ./dotfiles.nix
     ./auto-upgrade.nix
     ./keybase.nix
+    ./services.nix
     ./programming
     ./shell
     ./testing.nix
