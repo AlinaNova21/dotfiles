@@ -1,0 +1,60 @@
+{
+  "widget": {
+    "tooltip": "Менеджер плагінів"
+  },
+  "menu": {
+    "settings": "Налаштування віджету"
+  },
+  "panel": {
+    "title": "Менеджер плагінів",
+    "tab-installed": "Встановлені",
+    "tab-available": "Доступні",
+    "tab-sources": "Джерела",
+    "readme-select-plugin": "Виберіть плагін для перегляду README",
+    "readme-not-available": "README недоступний",
+    "no-plugins-installed": "Немає встановлених плагінів",
+    "no-plugins-available": "Немає доступних плагінів",
+    "auto-update": "Автооновлення плагінів",
+    "auto-update-description": "Автоматично оновлювати плагіни при виході нових версій",
+    "filter-tags-label": "Фільтр за тегами",
+    "filter-tags-description": "Виберіть тег для фільтрації плагінів",
+    "filter-downloaded": "Завантажені",
+    "filter-not-downloaded": "Не завантажені",
+    "filter-all": "Всі",
+    "official": "Офіційний",
+    "open-plugin-page": "Відкрити сторінку плагіна",
+    "open-settings": "Налаштування плагіна",
+    "uninstall": "Видалити",
+    "install": "Встановити",
+    "update": "Оновити",
+    "update-all": "Оновити всі",
+    "installing": "Встановлення {plugin}...",
+    "install-success": "{plugin} успішно встановлено",
+    "install-error": "Помилка встановлення: {error}",
+    "uninstalling": "Видалення {plugin}...",
+    "uninstall-success": "{plugin} успішно видалено",
+    "uninstall-error": "Помилка видалення: {error}",
+    "uninstall-dialog-title": "Видалення плагіна",
+    "uninstall-dialog-description": "Ви впевнені, що хочете видалити {plugin}? Цю дію не можна скасувати.",
+    "cancel": "Скасувати",
+    "refresh": "Оновити",
+    "hot-reload": "Гаряче перезавантаження",
+    "unknown-error": "Невідома помилка",
+    "add-to-bar": "Додати на панель",
+    "add-to-bar-left": "Додати до лівої секції",
+    "add-to-bar-center": "Додати до центральної секції",
+    "add-to-bar-right": "Додати до правої секції",
+    "add-to-bar-success": "{plugin} додано на панель",
+    "already-on-bar": "{plugin} вже на панелі",
+    "version-prefix": "v",
+    "version-display": "v{version}",
+    "version-update": "v{from} → v{to}",
+    "separator": "•"
+  },
+  "settings": {
+    "iconColor": {
+      "label": "Колір іконки",
+      "desc": "Колір іконки віджету на панелі."
+    }
+  }
+}

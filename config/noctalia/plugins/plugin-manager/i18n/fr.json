@@ -1,0 +1,60 @@
+{
+  "widget": {
+    "tooltip": "Gestionnaire de plugins"
+  },
+  "menu": {
+    "settings": "Paramètres du widget"
+  },
+  "panel": {
+    "title": "Gestionnaire de plugins",
+    "tab-installed": "Installés",
+    "tab-available": "Disponibles",
+    "tab-sources": "Sources",
+    "readme-select-plugin": "Sélectionnez un plugin pour voir son README",
+    "readme-not-available": "README non disponible",
+    "no-plugins-installed": "Aucun plugin installé",
+    "no-plugins-available": "Aucun plugin disponible",
+    "auto-update": "Mettre à jour automatiquement les plugins",
+    "auto-update-description": "Mettre à jour automatiquement les plugins lorsque de nouvelles versions sont disponibles",
+    "filter-tags-label": "Filtrer par tags",
+    "filter-tags-description": "Sélectionnez un tag pour filtrer les plugins",
+    "filter-downloaded": "Téléchargés",
+    "filter-not-downloaded": "Non téléchargés",
+    "filter-all": "Tous",
+    "official": "Officiel",
+    "open-plugin-page": "Ouvrir la page du plugin",
+    "open-settings": "Paramètres du plugin",
+    "uninstall": "Désinstaller",
+    "install": "Installer",
+    "update": "Mettre à jour",
+    "update-all": "Tout mettre à jour",
+    "installing": "Installation de {plugin}...",
+    "install-success": "{plugin} installé avec succès",
+    "install-error": "Échec de l'installation : {error}",
+    "uninstalling": "Désinstallation de {plugin}...",
+    "uninstall-success": "{plugin} désinstallé avec succès",
+    "uninstall-error": "Échec de la désinstallation : {error}",
+    "uninstall-dialog-title": "Désinstaller le plugin",
+    "uninstall-dialog-description": "Voulez-vous vraiment désinstaller {plugin} ? Cette action est irréversible.",
+    "cancel": "Annuler",
+    "refresh": "Actualiser",
+    "hot-reload": "Rechargement à chaud",
+    "unknown-error": "Erreur inconnue",
+    "add-to-bar": "Ajouter à la barre",
+    "add-to-bar-left": "Ajouter à la section gauche",
+    "add-to-bar-center": "Ajouter à la section centrale",
+    "add-to-bar-right": "Ajouter à la section droite",
+    "add-to-bar-success": "{plugin} ajouté à la barre",
+    "already-on-bar": "{plugin} est déjà sur la barre",
+    "version-prefix": "v",
+    "version-display": "v{version}",
+    "version-update": "v{from} → v{to}",
+    "separator": "•"
+  },
+  "settings": {
+    "iconColor": {
+      "label": "Couleur de l'icône",
+      "desc": "Couleur de l'icône du widget dans la barre."
+    }
+  }
+}

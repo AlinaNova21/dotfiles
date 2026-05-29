@@ -1,0 +1,60 @@
+{
+  "widget": {
+    "tooltip": "Plugin Manager"
+  },
+  "menu": {
+    "settings": "Widget settings"
+  },
+  "panel": {
+    "title": "Plugin Manager",
+    "tab-installed": "Installed",
+    "tab-available": "Available",
+    "tab-sources": "Sources",
+    "readme-select-plugin": "Select a plugin to view its README",
+    "readme-not-available": "README not available",
+    "no-plugins-installed": "No plugins installed",
+    "no-plugins-available": "No plugins available",
+    "auto-update": "Auto-update plugins",
+    "auto-update-description": "Automatically update plugins when new versions are available",
+    "filter-tags-label": "Filter by tags",
+    "filter-tags-description": "Select a tag to filter plugins",
+    "filter-downloaded": "Downloaded",
+    "filter-not-downloaded": "Not downloaded",
+    "filter-all": "All",
+    "official": "Official",
+    "open-plugin-page": "Open plugin page",
+    "open-settings": "Plugin settings",
+    "uninstall": "Uninstall",
+    "install": "Install",
+    "update": "Update",
+    "update-all": "Update all",
+    "installing": "Installing {plugin}...",
+    "install-success": "Successfully installed {plugin}",
+    "install-error": "Failed to install: {error}",
+    "uninstalling": "Uninstalling {plugin}...",
+    "uninstall-success": "Successfully uninstalled {plugin}",
+    "uninstall-error": "Failed to uninstall: {error}",
+    "uninstall-dialog-title": "Uninstall plugin",
+    "uninstall-dialog-description": "Are you sure you want to uninstall {plugin}? This action cannot be undone.",
+    "cancel": "Cancel",
+    "refresh": "Refresh",
+    "hot-reload": "Hot reload",
+    "unknown-error": "Unknown error",
+    "add-to-bar": "Add to bar",
+    "add-to-bar-left": "Add to left section",
+    "add-to-bar-center": "Add to center section",
+    "add-to-bar-right": "Add to right section",
+    "add-to-bar-success": "Added {plugin} to bar",
+    "already-on-bar": "{plugin} is already on the bar",
+    "version-prefix": "v",
+    "version-display": "v{version}",
+    "version-update": "v{from} → v{to}",
+    "separator": "•"
+  },
+  "settings": {
+    "iconColor": {
+      "label": "Icon color",
+      "desc": "Color of the bar widget icon."
+    }
+  }
+}

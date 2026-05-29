@@ -1,0 +1,11 @@
+{
+  "haUrl": "https://hass.whoverse.nexus",
+  "haToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI3ZjI0ZWFmZjVhZTk0MWIwYTJhYjIxZDFjN2Q0MDZmNyIsImlhdCI6MTc4MDAzMjMxNCwiZXhwIjoyMDk1MzkyMzE0fQ.K4LCXthGn_bVLHsg6fwJBKIs_ml_KkevydjdvP78Mcw",
+  "entities": [
+    "light.bedroom_fan_lights",
+    "sensor.t6_pro_z_wave_programmable_thermostat_air_temperature",
+    "sensor.t6_pro_z_wave_programmable_thermostat_humidity",
+    "light.corner_office",
+    "light.office"
+  ]
+}

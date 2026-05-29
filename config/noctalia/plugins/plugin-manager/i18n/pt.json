@@ -1,0 +1,60 @@
+{
+  "widget": {
+    "tooltip": "Gestor de plugins"
+  },
+  "menu": {
+    "settings": "Definições do widget"
+  },
+  "panel": {
+    "title": "Gestor de plugins",
+    "tab-installed": "Instalados",
+    "tab-available": "Disponíveis",
+    "tab-sources": "Fontes",
+    "readme-select-plugin": "Selecione um plugin para ver o seu README",
+    "readme-not-available": "README não disponível",
+    "no-plugins-installed": "Nenhum plugin instalado",
+    "no-plugins-available": "Nenhum plugin disponível",
+    "auto-update": "Atualização automática de plugins",
+    "auto-update-description": "Atualizar plugins automaticamente quando novas versões estiverem disponíveis",
+    "filter-tags-label": "Filtrar por etiquetas",
+    "filter-tags-description": "Selecione uma etiqueta para filtrar plugins",
+    "filter-downloaded": "Descarregados",
+    "filter-not-downloaded": "Não descarregados",
+    "filter-all": "Todos",
+    "official": "Oficial",
+    "open-plugin-page": "Abrir página do plugin",
+    "open-settings": "Definições do plugin",
+    "uninstall": "Desinstalar",
+    "install": "Instalar",
+    "update": "Atualizar",
+    "update-all": "Atualizar todos",
+    "installing": "A instalar {plugin}...",
+    "install-success": "{plugin} instalado com sucesso",
+    "install-error": "Falha na instalação: {error}",
+    "uninstalling": "A desinstalar {plugin}...",
+    "uninstall-success": "{plugin} desinstalado com sucesso",
+    "uninstall-error": "Falha na desinstalação: {error}",
+    "uninstall-dialog-title": "Desinstalar plugin",
+    "uninstall-dialog-description": "Tem a certeza que pretende desinstalar {plugin}? Esta ação não pode ser desfeita.",
+    "cancel": "Cancelar",
+    "refresh": "Atualizar",
+    "hot-reload": "Recarregamento a quente",
+    "unknown-error": "Erro desconhecido",
+    "add-to-bar": "Adicionar à barra",
+    "add-to-bar-left": "Adicionar à secção esquerda",
+    "add-to-bar-center": "Adicionar à secção central",
+    "add-to-bar-right": "Adicionar à secção direita",
+    "add-to-bar-success": "{plugin} adicionado à barra",
+    "already-on-bar": "{plugin} já está na barra",
+    "version-prefix": "v",
+    "version-display": "v{version}",
+    "version-update": "v{from} → v{to}",
+    "separator": "•"
+  },
+  "settings": {
+    "iconColor": {
+      "label": "Cor do ícone",
+      "desc": "Cor do ícone do widget na barra."
+    }
+  }
+}

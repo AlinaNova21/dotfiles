@@ -1,0 +1,60 @@
+{
+  "widget": {
+    "tooltip": "Plugin-Manager"
+  },
+  "menu": {
+    "settings": "Widget-Einstellungen"
+  },
+  "panel": {
+    "title": "Plugin-Manager",
+    "tab-installed": "Installiert",
+    "tab-available": "Verfügbar",
+    "tab-sources": "Quellen",
+    "readme-select-plugin": "Wählen Sie ein Plugin, um dessen README anzuzeigen",
+    "readme-not-available": "README nicht verfügbar",
+    "no-plugins-installed": "Keine Plugins installiert",
+    "no-plugins-available": "Keine Plugins verfügbar",
+    "auto-update": "Plugins automatisch aktualisieren",
+    "auto-update-description": "Plugins automatisch aktualisieren, wenn neue Versionen verfügbar sind",
+    "filter-tags-label": "Nach Tags filtern",
+    "filter-tags-description": "Wählen Sie ein Tag, um Plugins zu filtern",
+    "filter-downloaded": "Heruntergeladen",
+    "filter-not-downloaded": "Nicht heruntergeladen",
+    "filter-all": "Alle",
+    "official": "Offiziell",
+    "open-plugin-page": "Plugin-Seite öffnen",
+    "open-settings": "Plugin-Einstellungen",
+    "uninstall": "Deinstallieren",
+    "install": "Installieren",
+    "update": "Aktualisieren",
+    "update-all": "Alle aktualisieren",
+    "installing": "Installiere {plugin}...",
+    "install-success": "{plugin} erfolgreich installiert",
+    "install-error": "Installation fehlgeschlagen: {error}",
+    "uninstalling": "Deinstalliere {plugin}...",
+    "uninstall-success": "{plugin} erfolgreich deinstalliert",
+    "uninstall-error": "Deinstallation fehlgeschlagen: {error}",
+    "uninstall-dialog-title": "Plugin deinstallieren",
+    "uninstall-dialog-description": "Möchten Sie {plugin} wirklich deinstallieren? Diese Aktion kann nicht rückgängig gemacht werden.",
+    "cancel": "Abbrechen",
+    "refresh": "Aktualisieren",
+    "hot-reload": "Hot Reload",
+    "unknown-error": "Unbekannter Fehler",
+    "add-to-bar": "Zur Leiste hinzufügen",
+    "add-to-bar-left": "Zum linken Bereich hinzufügen",
+    "add-to-bar-center": "Zum mittleren Bereich hinzufügen",
+    "add-to-bar-right": "Zum rechten Bereich hinzufügen",
+    "add-to-bar-success": "{plugin} zur Leiste hinzugefügt",
+    "already-on-bar": "{plugin} ist bereits auf der Leiste",
+    "version-prefix": "v",
+    "version-display": "v{version}",
+    "version-update": "v{from} → v{to}",
+    "separator": "•"
+  },
+  "settings": {
+    "iconColor": {
+      "label": "Symbolfarbe",
+      "desc": "Farbe des Symbols im Leisten-Widget."
+    }
+  }
+}

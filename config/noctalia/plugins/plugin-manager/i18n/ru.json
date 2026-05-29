@@ -1,0 +1,60 @@
+{
+  "widget": {
+    "tooltip": "Менеджер плагинов"
+  },
+  "menu": {
+    "settings": "Настройки виджета"
+  },
+  "panel": {
+    "title": "Менеджер плагинов",
+    "tab-installed": "Установленные",
+    "tab-available": "Доступные",
+    "tab-sources": "Источники",
+    "readme-select-plugin": "Выберите плагин для просмотра README",
+    "readme-not-available": "README недоступен",
+    "no-plugins-installed": "Нет установленных плагинов",
+    "no-plugins-available": "Нет доступных плагинов",
+    "auto-update": "Автообновление плагинов",
+    "auto-update-description": "Автоматически обновлять плагины при выходе новых версий",
+    "filter-tags-label": "Фильтр по тегам",
+    "filter-tags-description": "Выберите тег для фильтрации плагинов",
+    "filter-downloaded": "Загруженные",
+    "filter-not-downloaded": "Не загруженные",
+    "filter-all": "Все",
+    "official": "Официальный",
+    "open-plugin-page": "Открыть страницу плагина",
+    "open-settings": "Настройки плагина",
+    "uninstall": "Удалить",
+    "install": "Установить",
+    "update": "Обновить",
+    "update-all": "Обновить все",
+    "installing": "Установка {plugin}...",
+    "install-success": "{plugin} успешно установлен",
+    "install-error": "Ошибка установки: {error}",
+    "uninstalling": "Удаление {plugin}...",
+    "uninstall-success": "{plugin} успешно удалён",
+    "uninstall-error": "Ошибка удаления: {error}",
+    "uninstall-dialog-title": "Удаление плагина",
+    "uninstall-dialog-description": "Вы уверены, что хотите удалить {plugin}? Это действие нельзя отменить.",
+    "cancel": "Отмена",
+    "refresh": "Обновить",
+    "hot-reload": "Горячая перезагрузка",
+    "unknown-error": "Неизвестная ошибка",
+    "add-to-bar": "Добавить на панель",
+    "add-to-bar-left": "Добавить в левую секцию",
+    "add-to-bar-center": "Добавить в центральную секцию",
+    "add-to-bar-right": "Добавить в правую секцию",
+    "add-to-bar-success": "{plugin} добавлен на панель",
+    "already-on-bar": "{plugin} уже на панели",
+    "version-prefix": "v",
+    "version-display": "v{version}",
+    "version-update": "v{from} → v{to}",
+    "separator": "•"
+  },
+  "settings": {
+    "iconColor": {
+      "label": "Цвет иконки",
+      "desc": "Цвет иконки виджета на панели."
+    }
+  }
+}

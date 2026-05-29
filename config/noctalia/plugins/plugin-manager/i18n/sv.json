@@ -1,0 +1,60 @@
+{
+  "widget": {
+    "tooltip": "Pluginhanterare"
+  },
+  "menu": {
+    "settings": "Widgetinställningar"
+  },
+  "panel": {
+    "title": "Pluginhanterare",
+    "tab-installed": "Installerade",
+    "tab-available": "Tillgängliga",
+    "tab-sources": "Källor",
+    "readme-select-plugin": "Välj ett plugin för att visa dess README",
+    "readme-not-available": "README inte tillgänglig",
+    "no-plugins-installed": "Inga plugins installerade",
+    "no-plugins-available": "Inga plugins tillgängliga",
+    "auto-update": "Automatisk uppdatering av plugins",
+    "auto-update-description": "Uppdatera plugins automatiskt när nya versioner finns tillgängliga",
+    "filter-tags-label": "Filtrera efter taggar",
+    "filter-tags-description": "Välj en tagg för att filtrera plugins",
+    "filter-downloaded": "Nedladdade",
+    "filter-not-downloaded": "Ej nedladdade",
+    "filter-all": "Alla",
+    "official": "Officiell",
+    "open-plugin-page": "Öppna pluginsida",
+    "open-settings": "Plugininställningar",
+    "uninstall": "Avinstallera",
+    "install": "Installera",
+    "update": "Uppdatera",
+    "update-all": "Uppdatera alla",
+    "installing": "Installerar {plugin}...",
+    "install-success": "{plugin} installerades",
+    "install-error": "Installationen misslyckades: {error}",
+    "uninstalling": "Avinstallerar {plugin}...",
+    "uninstall-success": "{plugin} avinstallerades",
+    "uninstall-error": "Avinstallationen misslyckades: {error}",
+    "uninstall-dialog-title": "Avinstallera plugin",
+    "uninstall-dialog-description": "Är du säker på att du vill avinstallera {plugin}? Den här åtgärden kan inte ångras.",
+    "cancel": "Avbryt",
+    "refresh": "Uppdatera",
+    "hot-reload": "Snabbinläsning",
+    "unknown-error": "Okänt fel",
+    "add-to-bar": "Lägg till i fältet",
+    "add-to-bar-left": "Lägg till i vänster avsnitt",
+    "add-to-bar-center": "Lägg till i mitten avsnitt",
+    "add-to-bar-right": "Lägg till i höger avsnitt",
+    "add-to-bar-success": "{plugin} lades till i fältet",
+    "already-on-bar": "{plugin} finns redan i fältet",
+    "version-prefix": "v",
+    "version-display": "v{version}",
+    "version-update": "v{from} → v{to}",
+    "separator": "•"
+  },
+  "settings": {
+    "iconColor": {
+      "label": "Ikonfärg",
+      "desc": "Färg på fältwidgetikonen."
+    }
+  }
+}

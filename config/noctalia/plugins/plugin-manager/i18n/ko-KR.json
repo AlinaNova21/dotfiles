@@ -1,0 +1,60 @@
+{
+  "widget": {
+    "tooltip": "플러그인 관리자"
+  },
+  "menu": {
+    "settings": "위젯 설정"
+  },
+  "panel": {
+    "title": "플러그인 관리자",
+    "tab-installed": "설치됨",
+    "tab-available": "사용 가능",
+    "tab-sources": "소스",
+    "readme-select-plugin": "플러그인을 선택하여 README 보기",
+    "readme-not-available": "README를 사용할 수 없습니다",
+    "no-plugins-installed": "설치된 플러그인 없음",
+    "no-plugins-available": "사용 가능한 플러그인 없음",
+    "auto-update": "플러그인 자동 업데이트",
+    "auto-update-description": "새 버전이 출시되면 플러그인을 자동으로 업데이트",
+    "filter-tags-label": "태그로 필터",
+    "filter-tags-description": "태그를 선택하여 플러그인 필터링",
+    "filter-downloaded": "다운로드됨",
+    "filter-not-downloaded": "다운로드 안 됨",
+    "filter-all": "전체",
+    "official": "공식",
+    "open-plugin-page": "플러그인 페이지 열기",
+    "open-settings": "플러그인 설정",
+    "uninstall": "제거",
+    "install": "설치",
+    "update": "업데이트",
+    "update-all": "모두 업데이트",
+    "installing": "{plugin} 설치 중...",
+    "install-success": "{plugin} 설치 완료",
+    "install-error": "설치 실패: {error}",
+    "uninstalling": "{plugin} 제거 중...",
+    "uninstall-success": "{plugin} 제거 완료",
+    "uninstall-error": "제거 실패: {error}",
+    "uninstall-dialog-title": "플러그인 제거",
+    "uninstall-dialog-description": "{plugin}을(를) 제거하시겠습니까? 이 작업은 취소할 수 없습니다.",
+    "cancel": "취소",
+    "refresh": "새로 고침",
+    "hot-reload": "핫 리로드",
+    "unknown-error": "알 수 없는 오류",
+    "add-to-bar": "바에 추가",
+    "add-to-bar-left": "왼쪽 섹션에 추가",
+    "add-to-bar-center": "가운데 섹션에 추가",
+    "add-to-bar-right": "오른쪽 섹션에 추가",
+    "add-to-bar-success": "{plugin}이(가) 바에 추가됨",
+    "already-on-bar": "{plugin}이(가) 이미 바에 있습니다",
+    "version-prefix": "v",
+    "version-display": "v{version}",
+    "version-update": "v{from} → v{to}",
+    "separator": "•"
+  },
+  "settings": {
+    "iconColor": {
+      "label": "아이콘 색상",
+      "desc": "바 위젯 아이콘의 색상."
+    }
+  }
+}

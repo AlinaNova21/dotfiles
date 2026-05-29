@@ -9,7 +9,7 @@
         "density": "default",
         "enableClipPreview": true,
         "enableClipboardChips": true,
-        "enableClipboardHistory": false,
+        "enableClipboardHistory": true,
         "enableClipboardSmartIcons": true,
         "enableSessionSearch": true,
         "enableSettingsSearch": true,
@@ -24,7 +24,7 @@
         "showCategories": true,
         "showIconBackground": false,
         "sortByMostUsed": true,
-        "terminalCommand": "alacritty -e",
+        "terminalCommand": "ghossty -e",
         "viewMode": "list"
     },
     "audio": {
@@ -34,8 +34,8 @@
         "spectrumFrameRate": 30,
         "spectrumMirrored": true,
         "visualizerType": "linear",
-        "volumeFeedback": false,
-        "volumeFeedbackSoundFile": "",
+        "volumeFeedback": true,
+        "volumeFeedbackSoundFile": "/home/alina/Downloads/Resources_Audio__Impstation_Voice_Slime_s_bubble.ogg",
         "volumeOverdrive": false,
         "volumeStep": 5
     },
@@ -222,6 +222,182 @@
                     "id": "NotificationHistory",
                     "showUnreadBadge": true,
                     "unreadBadgeColor": "primary"
+                },
+                {
+                    "defaultSettings": {
+                        "compactMode": false,
+                        "defaultPeerAction": "copy-ip",
+                        "hideDisconnected": false,
+                        "hideMullvadExitNodes": true,
+                        "loginServer": "",
+                        "pingCount": 5,
+                        "refreshInterval": 5000,
+                        "showIpAddress": true,
+                        "showPeerCount": true,
+                        "showSearchBar": false,
+                        "sshUsername": "",
+                        "taildropDownloadDir": "~/Downloads",
+                        "taildropEnabled": true,
+                        "taildropReceiveMode": "operator",
+                        "terminalCommand": ""
+                    },
+                    "id": "plugin:tailscale"
+                },
+                {
+                    "defaultSettings": {
+                        "compactMode": false,
+                        "defaultPeerAction": "copy-ip",
+                        "hideDisconnected": false,
+                        "managementUrl": "",
+                        "pingCount": 5,
+                        "refreshInterval": 5000,
+                        "showIpAddress": true,
+                        "showPing": false,
+                        "terminalCommand": ""
+                    },
+                    "id": "plugin:netbird"
+                },
+                {
+                    "defaultSettings": {
+                        "colorHistory": [
+                        ],
+                        "detectedRecorder": "",
+                        "filenameFormat": "",
+                        "gifMaxSeconds": 30,
+                        "installedLangs": [
+                            "eng"
+                        ],
+                        "paletteColors": [
+                        ],
+                        "recordCopyToClipboard": false,
+                        "recordSkipConfirmation": false,
+                        "screenshotPath": "",
+                        "selectedOcrLang": "eng",
+                        "transAvailable": false,
+                        "videoPath": ""
+                    },
+                    "id": "plugin:screen-toolkit"
+                },
+                {
+                    "defaultSettings": {
+                        "colorizationBadge": "Primary",
+                        "colorizationBadgeText": "Primary",
+                        "colorizationEnabled": false,
+                        "colorizationIcon": "Primary",
+                        "defaultTab": 0,
+                        "enableSystemNotifications": false,
+                        "githubUrl": "",
+                        "maxEvents": 50,
+                        "notifyForks": true,
+                        "notifyGitHubNotifications": true,
+                        "notifyMyRepoForks": true,
+                        "notifyMyRepoStars": true,
+                        "notifyPRs": true,
+                        "notifyRepoCreations": true,
+                        "notifyStars": true,
+                        "openInBrowser": true,
+                        "refreshInterval": 1800,
+                        "showForks": true,
+                        "showMyRepoForks": true,
+                        "showMyRepoStars": true,
+                        "showNotificationBadge": true,
+                        "showPRs": true,
+                        "showRepoCreations": true,
+                        "showStars": true,
+                        "token": "",
+                        "username": ""
+                    },
+                    "id": "plugin:github-feed"
+                },
+                {
+                    "defaultSettings": {
+                        "iconColor": "none"
+                    },
+                    "id": "plugin:plugin-manager"
+                },
+                {
+                    "defaultSettings": {
+                        "aurCmd": "paru -Qua 2>/dev/null",
+                        "aurHomepageCmd": "LC_ALL=C paru -Si {id} 2>/dev/null | awk '/^URL/ {print $3}'",
+                        "boldText": true,
+                        "boldVer": true,
+                        "boldVerDesktop": true,
+                        "boldVerPanel": true,
+                        "closeButton": true,
+                        "closeOnSettings": false,
+                        "customIconPath": "",
+                        "desktopTip": true,
+                        "enableColorization": false,
+                        "flatpak": true,
+                        "hideOnEmpty": false,
+                        "hoverTip": true,
+                        "iconColor": "none",
+                        "iconName": "arrow-big-down-lines",
+                        "noctalia": true,
+                        "panelContext": true,
+                        "panelTooltip": true,
+                        "refreshInterval": 120,
+                        "refreshTimer": true,
+                        "systemCmd": "checkupdates 2>/dev/null",
+                        "toast": true,
+                        "tooltip": true,
+                        "updateCmd": "ghostty -e bash -c 'echo \"Updating System...\";paru; flatpak update; read -n 1 -p \"Press any key to exit...\"'",
+                        "useDistroLogo": false
+                    },
+                    "id": "plugin:arch-updater"
+                },
+                {
+                    "defaultSettings": {
+                        "autoHeight": true,
+                        "bindOverrides": {
+                        },
+                        "cheatsheetData": [
+                        ],
+                        "columnCount": 3,
+                        "descriptionTextColor": "",
+                        "detectedCompositor": "",
+                        "hyprlandConfigPath": "~/.config/hypr/hyprland.conf",
+                        "hyprlandLuaConfigPath": "~/.config/hypr/hyprland.lua",
+                        "hyprlandParserMode": "auto",
+                        "keyColorAlt": "#FF6B6B",
+                        "keyColorCtrl": "",
+                        "keyColorDefault": "#6C757D",
+                        "keyColorMouse": "#F38181",
+                        "keyColorNumeric": "#A8DADC",
+                        "keyColorPrint": "#95E1D3",
+                        "keyColorShift": "",
+                        "keyColorSuper": "",
+                        "keyColorXF86": "#4ECDC4",
+                        "keyLabelColor": "#FFFFFF",
+                        "keyTextAlt": "",
+                        "keyTextCtrl": "",
+                        "keyTextDefault": "",
+                        "keyTextMouse": "",
+                        "keyTextNumeric": "",
+                        "keyTextPrint": "",
+                        "keyTextShift": "",
+                        "keyTextSuper": "",
+                        "keyTextXF86": "",
+                        "mangoConfigPath": "~/.config/mango/config.conf",
+                        "mergeSequentialBinds": true,
+                        "modKeyVariable": "$mod",
+                        "niriConfigPath": "~/.config/niri/config.kdl",
+                        "showUndescribedBinds": true,
+                        "splitLargeWorkspaceCategory": true,
+                        "windowHeight": 850,
+                        "windowWidth": 1400,
+                        "workspaceSplitThreshold": 12
+                    },
+                    "id": "plugin:keybind-cheatsheet"
+                },
+                {
+                    "defaultSettings": {
+                        "entities": [
+                        ],
+                        "haToken": "",
+                        "haUrl": ""
+                    },
+                    "id": "plugin:hassio"
                 }
             ]
         }
@@ -275,7 +451,7 @@
                 "id": "audio-card"
             },
             {
-                "enabled": false,
+                "enabled": true,
                 "id": "brightness-card"
             },
             {
@@ -302,6 +478,9 @@
                 },
                 {
                     "id": "NoctaliaPerformance"
+                },
+                {
+                    "id": "WiFi"
                 }
             ],
             "right": [
@@ -456,7 +635,7 @@
     "location": {
         "analogClockInCalendar": false,
         "autoLocate": true,
-        "firstDayOfWeek": -1,
+        "firstDayOfWeek": 0,
         "hideWeatherCityName": false,
         "hideWeatherTimezone": false,
         "name": "Olive Branch",
@@ -495,7 +674,7 @@
     "notifications": {
         "backgroundOpacity": 1,
         "clearDismissed": true,
-        "criticalUrgencyDuration": 15,
+        "criticalUrgencyDuration": 30,
         "density": "default",
         "enableBatteryToast": true,
         "enableKeyboardLayoutToast": true,
@@ -503,10 +682,10 @@
         "enableMediaToast": false,
         "enabled": true,
         "location": "top_right",
-        "lowUrgencyDuration": 3,
+        "lowUrgencyDuration": 6,
         "monitors": [
         ],
-        "normalUrgencyDuration": 8,
+        "normalUrgencyDuration": 15,
         "overlayLayer": true,
         "respectExpireTimeout": false,
         "saveToHistory": {

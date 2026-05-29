@@ -1,0 +1,60 @@
+{
+  "widget": {
+    "tooltip": "外掛程式管理員"
+  },
+  "menu": {
+    "settings": "小工具設定"
+  },
+  "panel": {
+    "title": "外掛程式管理員",
+    "tab-installed": "已安裝",
+    "tab-available": "可用",
+    "tab-sources": "來源",
+    "readme-select-plugin": "選取外掛程式以檢視其 README",
+    "readme-not-available": "README 不可用",
+    "no-plugins-installed": "未安裝任何外掛程式",
+    "no-plugins-available": "沒有可用的外掛程式",
+    "auto-update": "自動更新外掛程式",
+    "auto-update-description": "當有新版本可用時自動更新外掛程式",
+    "filter-tags-label": "依標籤篩選",
+    "filter-tags-description": "選取標籤以篩選外掛程式",
+    "filter-downloaded": "已下載",
+    "filter-not-downloaded": "未下載",
+    "filter-all": "全部",
+    "official": "官方",
+    "open-plugin-page": "開啟外掛程式頁面",
+    "open-settings": "外掛程式設定",
+    "uninstall": "解除安裝",
+    "install": "安裝",
+    "update": "更新",
+    "update-all": "全部更新",
+    "installing": "正在安裝 {plugin}...",
+    "install-success": "{plugin} 安裝成功",
+    "install-error": "安裝失敗：{error}",
+    "uninstalling": "正在解除安裝 {plugin}...",
+    "uninstall-success": "{plugin} 解除安裝成功",
+    "uninstall-error": "解除安裝失敗：{error}",
+    "uninstall-dialog-title": "解除安裝外掛程式",
+    "uninstall-dialog-description": "確定要解除安裝 {plugin} 嗎？此操作無法復原。",
+    "cancel": "取消",
+    "refresh": "重新整理",
+    "hot-reload": "熱重載",
+    "unknown-error": "未知錯誤",
+    "add-to-bar": "新增至列",
+    "add-to-bar-left": "新增至左側區域",
+    "add-to-bar-center": "新增至中央區域",
+    "add-to-bar-right": "新增至右側區域",
+    "add-to-bar-success": "已將 {plugin} 新增至列",
+    "already-on-bar": "{plugin} 已在列上",
+    "version-prefix": "v",
+    "version-display": "v{version}",
+    "version-update": "v{from} → v{to}",
+    "separator": "•"
+  },
+  "settings": {
+    "iconColor": {
+      "label": "圖示顏色",
+      "desc": "列小工具圖示的顏色。"
+    }
+  }
+}

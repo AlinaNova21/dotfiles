@@ -1,0 +1,60 @@
+{
+  "widget": {
+    "tooltip": "Gestione plugin"
+  },
+  "menu": {
+    "settings": "Impostazioni widget"
+  },
+  "panel": {
+    "title": "Gestione plugin",
+    "tab-installed": "Installati",
+    "tab-available": "Disponibili",
+    "tab-sources": "Sorgenti",
+    "readme-select-plugin": "Seleziona un plugin per visualizzarne il README",
+    "readme-not-available": "README non disponibile",
+    "no-plugins-installed": "Nessun plugin installato",
+    "no-plugins-available": "Nessun plugin disponibile",
+    "auto-update": "Aggiornamento automatico plugin",
+    "auto-update-description": "Aggiorna automaticamente i plugin quando sono disponibili nuove versioni",
+    "filter-tags-label": "Filtra per tag",
+    "filter-tags-description": "Seleziona un tag per filtrare i plugin",
+    "filter-downloaded": "Scaricati",
+    "filter-not-downloaded": "Non scaricati",
+    "filter-all": "Tutti",
+    "official": "Ufficiale",
+    "open-plugin-page": "Apri pagina plugin",
+    "open-settings": "Impostazioni plugin",
+    "uninstall": "Disinstalla",
+    "install": "Installa",
+    "update": "Aggiorna",
+    "update-all": "Aggiorna tutti",
+    "installing": "Installazione di {plugin}...",
+    "install-success": "{plugin} installato con successo",
+    "install-error": "Installazione non riuscita: {error}",
+    "uninstalling": "Disinstallazione di {plugin}...",
+    "uninstall-success": "{plugin} disinstallato con successo",
+    "uninstall-error": "Disinstallazione non riuscita: {error}",
+    "uninstall-dialog-title": "Disinstalla plugin",
+    "uninstall-dialog-description": "Sei sicuro di voler disinstallare {plugin}? Questa azione non può essere annullata.",
+    "cancel": "Annulla",
+    "refresh": "Aggiorna",
+    "hot-reload": "Ricarica rapida",
+    "unknown-error": "Errore sconosciuto",
+    "add-to-bar": "Aggiungi alla barra",
+    "add-to-bar-left": "Aggiungi alla sezione sinistra",
+    "add-to-bar-center": "Aggiungi alla sezione centrale",
+    "add-to-bar-right": "Aggiungi alla sezione destra",
+    "add-to-bar-success": "{plugin} aggiunto alla barra",
+    "already-on-bar": "{plugin} è già nella barra",
+    "version-prefix": "v",
+    "version-display": "v{version}",
+    "version-update": "v{from} → v{to}",
+    "separator": "•"
+  },
+  "settings": {
+    "iconColor": {
+      "label": "Colore icona",
+      "desc": "Colore dell'icona del widget nella barra."
+    }
+  }
+}

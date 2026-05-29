@@ -1,0 +1,60 @@
+{
+  "widget": {
+    "tooltip": "Eklenti Yöneticisi"
+  },
+  "menu": {
+    "settings": "Widget ayarları"
+  },
+  "panel": {
+    "title": "Eklenti Yöneticisi",
+    "tab-installed": "Yüklü",
+    "tab-available": "Mevcut",
+    "tab-sources": "Kaynaklar",
+    "readme-select-plugin": "README görüntülemek için bir eklenti seçin",
+    "readme-not-available": "README mevcut değil",
+    "no-plugins-installed": "Yüklü eklenti yok",
+    "no-plugins-available": "Mevcut eklenti yok",
+    "auto-update": "Eklentileri otomatik güncelle",
+    "auto-update-description": "Yeni sürümler mevcut olduğunda eklentileri otomatik olarak güncelle",
+    "filter-tags-label": "Etikete göre filtrele",
+    "filter-tags-description": "Eklentileri filtrelemek için bir etiket seçin",
+    "filter-downloaded": "İndirilmiş",
+    "filter-not-downloaded": "İndirilmemiş",
+    "filter-all": "Tümü",
+    "official": "Resmi",
+    "open-plugin-page": "Eklenti sayfasını aç",
+    "open-settings": "Eklenti ayarları",
+    "uninstall": "Kaldır",
+    "install": "Yükle",
+    "update": "Güncelle",
+    "update-all": "Tümünü güncelle",
+    "installing": "{plugin} yükleniyor...",
+    "install-success": "{plugin} başarıyla yüklendi",
+    "install-error": "Yükleme başarısız: {error}",
+    "uninstalling": "{plugin} kaldırılıyor...",
+    "uninstall-success": "{plugin} başarıyla kaldırıldı",
+    "uninstall-error": "Kaldırma başarısız: {error}",
+    "uninstall-dialog-title": "Eklentiyi kaldır",
+    "uninstall-dialog-description": "{plugin} eklentisini kaldırmak istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+    "cancel": "İptal",
+    "refresh": "Yenile",
+    "hot-reload": "Sıcak yeniden yükleme",
+    "unknown-error": "Bilinmeyen hata",
+    "add-to-bar": "Çubuğa ekle",
+    "add-to-bar-left": "Sol bölüme ekle",
+    "add-to-bar-center": "Orta bölüme ekle",
+    "add-to-bar-right": "Sağ bölüme ekle",
+    "add-to-bar-success": "{plugin} çubuğa eklendi",
+    "already-on-bar": "{plugin} zaten çubukta",
+    "version-prefix": "v",
+    "version-display": "v{version}",
+    "version-update": "v{from} → v{to}",
+    "separator": "•"
+  },
+  "settings": {
+    "iconColor": {
+      "label": "Simge rengi",
+      "desc": "Çubuk widget simgesinin rengi."
+    }
+  }
+}

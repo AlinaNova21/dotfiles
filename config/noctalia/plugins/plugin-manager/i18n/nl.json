@@ -1,0 +1,60 @@
+{
+  "widget": {
+    "tooltip": "Pluginbeheer"
+  },
+  "menu": {
+    "settings": "Widgetinstellingen"
+  },
+  "panel": {
+    "title": "Pluginbeheer",
+    "tab-installed": "Geïnstalleerd",
+    "tab-available": "Beschikbaar",
+    "tab-sources": "Bronnen",
+    "readme-select-plugin": "Selecteer een plugin om de README te bekijken",
+    "readme-not-available": "README niet beschikbaar",
+    "no-plugins-installed": "Geen plugins geïnstalleerd",
+    "no-plugins-available": "Geen plugins beschikbaar",
+    "auto-update": "Plugins automatisch bijwerken",
+    "auto-update-description": "Plugins automatisch bijwerken wanneer nieuwe versies beschikbaar zijn",
+    "filter-tags-label": "Filteren op tags",
+    "filter-tags-description": "Selecteer een tag om plugins te filteren",
+    "filter-downloaded": "Gedownload",
+    "filter-not-downloaded": "Niet gedownload",
+    "filter-all": "Alle",
+    "official": "Officieel",
+    "open-plugin-page": "Pluginpagina openen",
+    "open-settings": "Plugininstellingen",
+    "uninstall": "Verwijderen",
+    "install": "Installeren",
+    "update": "Bijwerken",
+    "update-all": "Alles bijwerken",
+    "installing": "{plugin} wordt geïnstalleerd...",
+    "install-success": "{plugin} succesvol geïnstalleerd",
+    "install-error": "Installatie mislukt: {error}",
+    "uninstalling": "{plugin} wordt verwijderd...",
+    "uninstall-success": "{plugin} succesvol verwijderd",
+    "uninstall-error": "Verwijderen mislukt: {error}",
+    "uninstall-dialog-title": "Plugin verwijderen",
+    "uninstall-dialog-description": "Weet u zeker dat u {plugin} wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt.",
+    "cancel": "Annuleren",
+    "refresh": "Vernieuwen",
+    "hot-reload": "Hot reload",
+    "unknown-error": "Onbekende fout",
+    "add-to-bar": "Aan balk toevoegen",
+    "add-to-bar-left": "Aan linkersectie toevoegen",
+    "add-to-bar-center": "Aan middelste sectie toevoegen",
+    "add-to-bar-right": "Aan rechtersectie toevoegen",
+    "add-to-bar-success": "{plugin} aan balk toegevoegd",
+    "already-on-bar": "{plugin} staat al op de balk",
+    "version-prefix": "v",
+    "version-display": "v{version}",
+    "version-update": "v{from} → v{to}",
+    "separator": "•"
+  },
+  "settings": {
+    "iconColor": {
+      "label": "Icoonskleur",
+      "desc": "Kleur van het widgeticoon in de balk."
+    }
+  }
+}

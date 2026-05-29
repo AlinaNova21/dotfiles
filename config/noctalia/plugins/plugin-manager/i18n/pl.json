@@ -1,0 +1,60 @@
+{
+  "widget": {
+    "tooltip": "Menedżer wtyczek"
+  },
+  "menu": {
+    "settings": "Ustawienia widżetu"
+  },
+  "panel": {
+    "title": "Menedżer wtyczek",
+    "tab-installed": "Zainstalowane",
+    "tab-available": "Dostępne",
+    "tab-sources": "Źródła",
+    "readme-select-plugin": "Wybierz wtyczkę, aby wyświetlić jej README",
+    "readme-not-available": "README niedostępny",
+    "no-plugins-installed": "Brak zainstalowanych wtyczek",
+    "no-plugins-available": "Brak dostępnych wtyczek",
+    "auto-update": "Automatyczne aktualizacje wtyczek",
+    "auto-update-description": "Automatycznie aktualizuj wtyczki, gdy dostępne są nowe wersje",
+    "filter-tags-label": "Filtruj według tagów",
+    "filter-tags-description": "Wybierz tag, aby filtrować wtyczki",
+    "filter-downloaded": "Pobrane",
+    "filter-not-downloaded": "Niepobrane",
+    "filter-all": "Wszystkie",
+    "official": "Oficjalna",
+    "open-plugin-page": "Otwórz stronę wtyczki",
+    "open-settings": "Ustawienia wtyczki",
+    "uninstall": "Odinstaluj",
+    "install": "Zainstaluj",
+    "update": "Aktualizuj",
+    "update-all": "Aktualizuj wszystkie",
+    "installing": "Instalowanie {plugin}...",
+    "install-success": "Pomyślnie zainstalowano {plugin}",
+    "install-error": "Instalacja nie powiodła się: {error}",
+    "uninstalling": "Odinstalowywanie {plugin}...",
+    "uninstall-success": "Pomyślnie odinstalowano {plugin}",
+    "uninstall-error": "Odinstalowanie nie powiodło się: {error}",
+    "uninstall-dialog-title": "Odinstaluj wtyczkę",
+    "uninstall-dialog-description": "Czy na pewno chcesz odinstalować {plugin}? Tej operacji nie można cofnąć.",
+    "cancel": "Anuluj",
+    "refresh": "Odśwież",
+    "hot-reload": "Gorące przeładowanie",
+    "unknown-error": "Nieznany błąd",
+    "add-to-bar": "Dodaj do paska",
+    "add-to-bar-left": "Dodaj do lewej sekcji",
+    "add-to-bar-center": "Dodaj do środkowej sekcji",
+    "add-to-bar-right": "Dodaj do prawej sekcji",
+    "add-to-bar-success": "Dodano {plugin} do paska",
+    "already-on-bar": "{plugin} jest już na pasku",
+    "version-prefix": "v",
+    "version-display": "v{version}",
+    "version-update": "v{from} → v{to}",
+    "separator": "•"
+  },
+  "settings": {
+    "iconColor": {
+      "label": "Kolor ikony",
+      "desc": "Kolor ikony widżetu na pasku."
+    }
+  }
+}

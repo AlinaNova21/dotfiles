@@ -1,0 +1,60 @@
+{
+  "widget": {
+    "tooltip": "Gestor de complementos"
+  },
+  "menu": {
+    "settings": "Ajustes del widget"
+  },
+  "panel": {
+    "title": "Gestor de complementos",
+    "tab-installed": "Instalados",
+    "tab-available": "Disponibles",
+    "tab-sources": "Fuentes",
+    "readme-select-plugin": "Selecciona un complemento para ver su README",
+    "readme-not-available": "README no disponible",
+    "no-plugins-installed": "No hay complementos instalados",
+    "no-plugins-available": "No hay complementos disponibles",
+    "auto-update": "Actualizar complementos automáticamente",
+    "auto-update-description": "Actualizar los complementos automáticamente cuando haya nuevas versiones disponibles",
+    "filter-tags-label": "Filtrar por etiquetas",
+    "filter-tags-description": "Selecciona una etiqueta para filtrar los complementos",
+    "filter-downloaded": "Descargados",
+    "filter-not-downloaded": "No descargados",
+    "filter-all": "Todos",
+    "official": "Oficial",
+    "open-plugin-page": "Abrir página del complemento",
+    "open-settings": "Ajustes del complemento",
+    "uninstall": "Desinstalar",
+    "install": "Instalar",
+    "update": "Actualizar",
+    "update-all": "Actualizar todos",
+    "installing": "Instalando {plugin}...",
+    "install-success": "{plugin} instalado correctamente",
+    "install-error": "Error al instalar: {error}",
+    "uninstalling": "Desinstalando {plugin}...",
+    "uninstall-success": "{plugin} desinstalado correctamente",
+    "uninstall-error": "Error al desinstalar: {error}",
+    "uninstall-dialog-title": "Desinstalar complemento",
+    "uninstall-dialog-description": "¿Seguro que quieres desinstalar {plugin}? Esta acción no se puede deshacer.",
+    "cancel": "Cancelar",
+    "refresh": "Actualizar",
+    "hot-reload": "Recarga en caliente",
+    "unknown-error": "Error desconocido",
+    "add-to-bar": "Añadir a la barra",
+    "add-to-bar-left": "Añadir a la sección izquierda",
+    "add-to-bar-center": "Añadir a la sección central",
+    "add-to-bar-right": "Añadir a la sección derecha",
+    "add-to-bar-success": "{plugin} añadido a la barra",
+    "already-on-bar": "{plugin} ya está en la barra",
+    "version-prefix": "v",
+    "version-display": "v{version}",
+    "version-update": "v{from} → v{to}",
+    "separator": "•"
+  },
+  "settings": {
+    "iconColor": {
+      "label": "Color del icono",
+      "desc": "Color del icono del widget en la barra."
+    }
+  }
+}

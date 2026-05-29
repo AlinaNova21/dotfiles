@@ -1,0 +1,60 @@
+{
+  "widget": {
+    "tooltip": "Bővítménykezelő"
+  },
+  "menu": {
+    "settings": "Widget beállítások"
+  },
+  "panel": {
+    "title": "Bővítménykezelő",
+    "tab-installed": "Telepítve",
+    "tab-available": "Elérhető",
+    "tab-sources": "Források",
+    "readme-select-plugin": "Válasszon egy bővítményt a README megtekintéséhez",
+    "readme-not-available": "README nem elérhető",
+    "no-plugins-installed": "Nincs telepített bővítmény",
+    "no-plugins-available": "Nincs elérhető bővítmény",
+    "auto-update": "Bővítmények automatikus frissítése",
+    "auto-update-description": "Bővítmények automatikus frissítése, ha új verzió érhető el",
+    "filter-tags-label": "Szűrés címkék szerint",
+    "filter-tags-description": "Válasszon egy címkét a bővítmények szűréséhez",
+    "filter-downloaded": "Letöltött",
+    "filter-not-downloaded": "Nem letöltött",
+    "filter-all": "Összes",
+    "official": "Hivatalos",
+    "open-plugin-page": "Bővítményoldal megnyitása",
+    "open-settings": "Bővítmény beállítások",
+    "uninstall": "Eltávolítás",
+    "install": "Telepítés",
+    "update": "Frissítés",
+    "update-all": "Összes frissítése",
+    "installing": "{plugin} telepítése...",
+    "install-success": "{plugin} sikeresen telepítve",
+    "install-error": "Telepítés sikertelen: {error}",
+    "uninstalling": "{plugin} eltávolítása...",
+    "uninstall-success": "{plugin} sikeresen eltávolítva",
+    "uninstall-error": "Eltávolítás sikertelen: {error}",
+    "uninstall-dialog-title": "Bővítmény eltávolítása",
+    "uninstall-dialog-description": "Biztosan el szeretné távolítani a(z) {plugin} bővítményt? Ez a művelet nem vonható vissza.",
+    "cancel": "Mégse",
+    "refresh": "Frissítés",
+    "hot-reload": "Gyors újratöltés",
+    "unknown-error": "Ismeretlen hiba",
+    "add-to-bar": "Hozzáadás a sávhoz",
+    "add-to-bar-left": "Hozzáadás a bal szakaszhoz",
+    "add-to-bar-center": "Hozzáadás a középső szakaszhoz",
+    "add-to-bar-right": "Hozzáadás a jobb szakaszhoz",
+    "add-to-bar-success": "{plugin} hozzáadva a sávhoz",
+    "already-on-bar": "{plugin} már a sávon van",
+    "version-prefix": "v",
+    "version-display": "v{version}",
+    "version-update": "v{from} → v{to}",
+    "separator": "•"
+  },
+  "settings": {
+    "iconColor": {
+      "label": "Ikon színe",
+      "desc": "A sáv widget ikonjának színe."
+    }
+  }
+}

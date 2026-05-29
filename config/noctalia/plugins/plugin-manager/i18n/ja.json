@@ -1,0 +1,60 @@
+{
+  "widget": {
+    "tooltip": "プラグインマネージャー"
+  },
+  "menu": {
+    "settings": "ウィジェット設定"
+  },
+  "panel": {
+    "title": "プラグインマネージャー",
+    "tab-installed": "インストール済み",
+    "tab-available": "利用可能",
+    "tab-sources": "ソース",
+    "readme-select-plugin": "プラグインを選択してREADMEを表示",
+    "readme-not-available": "READMEは利用できません",
+    "no-plugins-installed": "インストール済みのプラグインはありません",
+    "no-plugins-available": "利用可能なプラグインはありません",
+    "auto-update": "プラグインの自動更新",
+    "auto-update-description": "新しいバージョンが利用可能になったときにプラグインを自動的に更新する",
+    "filter-tags-label": "タグでフィルター",
+    "filter-tags-description": "タグを選択してプラグインをフィルタリング",
+    "filter-downloaded": "ダウンロード済み",
+    "filter-not-downloaded": "未ダウンロード",
+    "filter-all": "すべて",
+    "official": "公式",
+    "open-plugin-page": "プラグインページを開く",
+    "open-settings": "プラグイン設定",
+    "uninstall": "アンインストール",
+    "install": "インストール",
+    "update": "更新",
+    "update-all": "すべて更新",
+    "installing": "{plugin} をインストール中...",
+    "install-success": "{plugin} のインストールが完了しました",
+    "install-error": "インストールに失敗しました: {error}",
+    "uninstalling": "{plugin} をアンインストール中...",
+    "uninstall-success": "{plugin} のアンインストールが完了しました",
+    "uninstall-error": "アンインストールに失敗しました: {error}",
+    "uninstall-dialog-title": "プラグインのアンインストール",
+    "uninstall-dialog-description": "{plugin} をアンインストールしてもよろしいですか？この操作は元に戻せません。",
+    "cancel": "キャンセル",
+    "refresh": "更新",
+    "hot-reload": "ホットリロード",
+    "unknown-error": "不明なエラー",
+    "add-to-bar": "バーに追加",
+    "add-to-bar-left": "左セクションに追加",
+    "add-to-bar-center": "中央セクションに追加",
+    "add-to-bar-right": "右セクションに追加",
+    "add-to-bar-success": "{plugin} をバーに追加しました",
+    "already-on-bar": "{plugin} はすでにバーにあります",
+    "version-prefix": "v",
+    "version-display": "v{version}",
+    "version-update": "v{from} → v{to}",
+    "separator": "•"
+  },
+  "settings": {
+    "iconColor": {
+      "label": "アイコンカラー",
+      "desc": "バーウィジェットアイコンの色。"
+    }
+  }
+}

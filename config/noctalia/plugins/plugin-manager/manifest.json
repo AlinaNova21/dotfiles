@@ -1,0 +1,30 @@
+{
+  "id": "plugin-manager",
+  "name": "Plugin Manager",
+  "version": "1.0.1",
+  "minNoctaliaVersion": "4.6.6",
+  "author": "blacku",
+  "license": "MIT",
+  "repository": "https://github.com/noctalia-dev/noctalia-plugins",
+  "description": "A full-featured plugin manager with browsing, installation, and README viewer for Noctalia plugins.",
+  "tags": [
+    "Bar",
+    "Panel",
+    "Development"
+  ],
+  "entryPoints": {
+    "main": "Main.qml",
+    "barWidget": "BarWidget.qml",
+    "controlCenterWidget": "ControlCenterWidget.qml",
+    "panel": "Panel.qml",
+    "settings": "Settings.qml"
+  },
+  "dependencies": {
+    "plugins": []
+  },
+  "metadata": {
+    "defaultSettings": {
+      "iconColor": "none"
+    }
+  }
+}
