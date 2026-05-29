@@ -109,6 +109,27 @@ output "eDP-1" {
     position x=0 y=0
 }
 
+output "DP-1" {
+  scale 1.5 
+  position x=0 y=0
+}
+
+output "DP-2" {
+  scale 1.5
+  position x=2560 y=0
+}
+
+workspace "games" {
+  open-on-output "DP-2"
+}
+
+output "DP-3" {
+  //Vertical Sceptre
+  // transform "90"
+  // position x=5120 y=-480
+  position x=5120 y=0
+}
+
 overview {
   workspace-shadow {
     off
@@ -336,6 +357,31 @@ window-rule {
     // You can get away with just app-id="wezterm" if you want.
     match app-id=r#"^org\.wezfurlong\.wezterm$"#
     default-column-width {}
+}
+
+window-rule {
+    match app-id="org.godotengine.Editor" title="^Picture-in-Picture$"
+    open-floating true
+}
+
+window-rule {
+    match app-id="org.godotengine.Editor" title="^Advanced Import Settings"
+    open-floating false
+}
+
+window-rule {
+    match app-id="vesktop"
+    open-on-output "DP-3"
+}
+
+window-rule {
+    match app-id="steam"
+    open-on-workspace "games"
+}
+
+window-rule {
+    match app-id="proton"
+    open-on-workspace "games"
 }
 
 // Open the Firefox picture-in-picture player as floating by default.

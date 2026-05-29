@@ -5,7 +5,7 @@
 }: {
   options.acme.desktop.configs = lib.mkOption {
     type = lib.types.listOf lib.types.str;
-    default = ["hypr" "uwsm" "hyprpanel" "niri" "ashell"];
+    default = ["hypr" "uwsm" "hyprpanel" "niri" "ashell" "noctalia"];
   };
 
   config = lib.mkIf config.acme.desktop.enable {
