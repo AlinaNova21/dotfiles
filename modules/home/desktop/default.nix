@@ -31,8 +31,6 @@ in
         NIXOS_OZONE_WL = "1";
       };
 
-      acme.desktop.services.awww = true;
-      acme.desktop.services.mako = true;
-      acme.desktop.services.ashell = true;
+
     };
   }
