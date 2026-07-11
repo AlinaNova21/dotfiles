@@ -4,3 +4,4 @@ result
 **/.claude/
 *.bak
 *.bak2
+config/noctalia/settings.json
