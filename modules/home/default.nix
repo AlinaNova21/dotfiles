@@ -12,6 +12,7 @@
     ./programming
     ./shell
     ./testing.nix
+    ./tools.nix
   ];
   config = {
     programs.home-manager.enable = true;

@@ -8,7 +8,5 @@
     flake.homeModules.nixos
   ];
   acme.dev.enable = true;
-  home.packages = with pkgs; [
-    claude-code
-  ];
+  acme.tools.ai.enable = true;
 }

@@ -10,10 +10,10 @@
   ];
   acme.dev.enable = true;
   acme.testing.enable = true;
+  acme.tools.ai.enable = true;
+  acme.tools.pulumi.enable = true;
   home.packages = with pkgs; [
-    claude-code
     rustup
-    pulumi
     pulumiPackages.pulumi-nodejs
   ];
 

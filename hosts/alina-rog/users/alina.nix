@@ -12,6 +12,7 @@
   acme.dev.enable = true;
   acme.testing.enable = true;
   acme.autoUpgrade.enable = true;
+  acme.tools.kubernetes.enable = true;
 
   programs.zsh.initContent = ''
     eval "$(fnm env --use-on-cd --shell zsh)"

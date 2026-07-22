@@ -12,6 +12,7 @@
   acme.testing.enable = true;
   acme.autoUpgrade.enable = true;
   acme.services.opencode = true;
+  acme.tools.kubernetes.enable = true;
 
   # Disable Hyprland and Hyprpanel nix management on this host
   #acme.hyprland.enable = lib.mkForce false;

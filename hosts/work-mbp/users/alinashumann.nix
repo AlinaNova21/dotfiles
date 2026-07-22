@@ -10,6 +10,7 @@
   acme.dev.enable = true;
   acme.docker.enable = true;
   acme.gh.enable = true;
+  acme.tools.kubernetes.enable = true;
   acme.git.email = "Alina.Shumann@kyndryl.com";
   programs.git.ignores = [
     ".envrc"

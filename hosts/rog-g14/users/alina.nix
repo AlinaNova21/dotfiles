@@ -5,4 +5,5 @@
   ];
   acme.desktop.enable = true;
   acme.dev.enable = true;
+  acme.tools.kubernetes.enable = true;
 }
