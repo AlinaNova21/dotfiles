@@ -32,10 +32,11 @@ in {
     programs.git = {
       enable = true;
       settings = {
-	user = {
-	  name = cfg.name;
+        user = {
+          name = cfg.name;
           email = cfg.email;
         };
+        branch.autoSetupMerge = "simple";
         push = {
           default = "tracking";
           autoSetupRemote = true;
