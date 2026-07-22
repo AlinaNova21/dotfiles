@@ -1,9 +1,5 @@
 {
-  "colorHistory": [
-    "#238636",
-    "#FFFFFF",
-    "#4493F8"
-  ],
+  "colorHistory": [],
   "paletteColors": "",
   "installedLangs": [
     "eng"
@@ -13,7 +9,7 @@
   "screenshotPath": "",
   "videoPath": "",
   "filenameFormat": "",
-  "detectedRecorder": "wf-recorder",
+  "detectedRecorder": "",
   "recordSkipConfirmation": false,
   "recordCopyToClipboard": false,
   "gifMaxSeconds": 30,
@@ -27,9 +23,5 @@
   "ocrCapturePath": "",
   "qrResult": "",
   "qrCapturePath": "",
-  "translateResult": "",
-  "x02ApiKey": "",
-  "x02Expiry": "7d",
-  "shareSkipPopover": false,
-  "searchEngineUrl": ""
+  "translateResult": ""
 }

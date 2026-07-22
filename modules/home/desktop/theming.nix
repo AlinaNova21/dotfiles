@@ -7,6 +7,10 @@
   cfg = config.acme.desktop;
 in {
   config = lib.mkIf cfg.enable {
+    home.pointerCursor = {
+      enable = true;
+    };
+
     gtk = {
       enable = true;
       gtk3.extraConfig = {

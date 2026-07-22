@@ -8,7 +8,4 @@
       inputsFrom = [
         (import ./nix.nix inputs)
       ];
-      packages = [
-        perSystem.home-manager.default
-      ];
     }
