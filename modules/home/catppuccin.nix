@@ -8,6 +8,7 @@
   ];
   catppuccin = {
     enable = true;
+    autoEnable = true;
     flavor = "mocha";
     accent = "mauve";
     # mako.enable = false;
