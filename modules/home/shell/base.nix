@@ -27,6 +27,9 @@
     programs.fish.shellAliases = {
       cat = "bat";
     };
+    programs.bash.shellAliases = {
+      cat = "bat";
+    };
 
     programs.bat.enable = true;
     programs.btop.enable = true;

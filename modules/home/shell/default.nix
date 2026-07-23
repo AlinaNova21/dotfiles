@@ -1,6 +1,7 @@
 {...}: {
   imports = [
     ./shells.nix
+    ./bash.nix
     ./fish.nix
     ./git.nix
     ./jujutsu.nix
