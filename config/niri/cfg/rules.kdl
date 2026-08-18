@@ -55,6 +55,11 @@ window-rule {
     open-on-workspace "games"
 }
 
+window-rule {
+    match app-id="com.factorio.Factorio"
+    open-maximized true 
+}
+
 // Open the Firefox picture-in-picture player as floating by default.
 window-rule {
     // This app-id regular expression will work for both:
