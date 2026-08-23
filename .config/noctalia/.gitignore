@@ -1,0 +1,6 @@
+# Noctalia plugins are NOT synced (can't reliably prevent secrets in plugin
+# settings.json). Keep the whole plugins/ folder local-only; selectively re-add
+# specific plugin source files later if desired. The safe shell config
+# (colors.json, plugins.json) IS still tracked.
+plugins/
+settings.json
