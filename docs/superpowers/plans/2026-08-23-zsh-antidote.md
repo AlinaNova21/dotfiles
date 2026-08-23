@@ -156,7 +156,8 @@ Notes:
 Content (replaces the nix-generated rc):
 ```zsh
 # Sourced for every INTERACTIVE zsh shell. Main user config.
-# NOTE: mise activation is in .zshenv (all shells). .zshrc is interactive-only.
+# mise activation + tool integrations (starship/direnv/zoxide) are appended by mise as blocks.
+# antidote loads directly here (base content).
 
 # History options
 HISTSIZE=10000
@@ -172,9 +173,8 @@ bindkey '^[[B' history-search-forward  # Down
 # Completion (for interactive non-login zsh)
 autoload -Uz compinit && compinit -i
 
-# Tool integrations are mise-managed [dotfiles] edit BLOCKS (see .config/mise/config.toml):
-# starship init / direnv hook / zoxide init are each inserted between marker comments
-# in this file by mise on apply. No guards needed — mise guarantees the tools exist.
+# Antidote loads DIRECTLY here (base content, copy-mode .zshrc) — not a separate block.
+# starship/direnv/zoxide are APPENDED as mise-managed blocks on demand.
 
 # Aliases
 alias -- cat=bat
