@@ -126,15 +126,14 @@ These live at the **repo root** (mirroring `~/.zshenv` etc. via dotfiles.root).
 Content:
 ```zsh
 # Sourced for ALL zsh invocations (interactive, login, non-login, scripts).
-# Keep minimal: PATH + mise activation for the base shell.
+# Keep minimal: PATH only. mise activation is via [bootstrap.mise_shell_activate]
+# in .zshrc (mise-native), NOT here.
 typeset -U path cdpath fpath manpath
 path=("$HOME/.local/bin" $path)
-
-# mise activation for plain (non-login) zsh. Use the system path (pacman) now.
-eval "$(/usr/bin/mise activate zsh)"
 ```
 Notes:
-- `.zshenv` is sourced first everywhere; this guarantees mise is active even in non-login shells.
+- `.zshenv` is sourced first everywhere; keep it PATH-only (decided: activation lives in
+  [bootstrap.mise_shell_activate] / .zshrc, mise-native).
 - Keep PATH minimal here; .zprofile handles login-shell fpath.
 
 - [ ] **Step 2: create `.zprofile`**
@@ -173,10 +172,9 @@ bindkey '^[[B' history-search-forward  # Down
 # Completion (for interactive non-login zsh)
 autoload -Uz compinit && compinit -i
 
-# Tool integrations (mise tools are on PATH via mise activation in .zshenv)
-[ $commands[starship] ] && eval "$(starship init zsh)"
-[ $commands[direnv] ] && eval "$(direnv hook zsh)"
-[ $commands[zoxide] ] && eval "$(zoxide init zsh --cmd cd)"
+# Tool integrations are mise-managed [dotfiles] edit BLOCKS (see .config/mise/config.toml):
+# starship init / direnv hook / zoxide init are each inserted between marker comments
+# in this file by mise on apply. No guards needed — mise guarantees the tools exist.
 
 # Aliases
 alias -- cat=bat
@@ -197,7 +195,8 @@ zsh_plugins=${ZDOTDIR:-$HOME}/.zsh_plugins
 source ${zsh_plugins}.zsh
 ```
 Notes:
-- **Starship/direnv/zoxide guarded** with `[ $commands[..] ]` — they're mise tools; guard so a fresh shell before mise installs still loads the rest of zsh.
+- **Tool integrations as mise edit-blocks** (starship/direnv/zoxide) — declared via `[dotfiles]`
+  edit entries in Task 5; mise inserts them between markers in the live `.zshrc`. No guards.
 - **fnm line removed** (node is mise).
 - **nix-index command-not-found dropped** (per spec open item 5).
 - The **antidote static load** is the documented high-performance pattern.
@@ -212,17 +211,19 @@ Content:
 
 - [ ] **Step 5: add the `[dotfiles]` entries for rc files**
 
-In `.config/mise/config.toml` `[dotfiles]` block, append (mirror-style → resolve via dotfiles.root to `~/.dotfiles/.zshrc` etc.):
+In `.config/mise/config.toml` `[dotfiles]` block, append:
 ```toml
-# zsh rc files (mise-managed; mirror to ~ via dotfiles.root)
+# zsh rc files (mise-managed)
 "~/.zshenv" = {}
 "~/.zprofile" = {}
-"~/.zshrc" = {}
+# .zshrc is COPY-mode (real file) so [dotfiles] edit blocks can manage tool sections inside it
+"~/.zshrc" = { source = ".zshrc", mode = "copy" }
 "~/.zlogout" = {}
 ```
 Notes:
 - Sources are the repo-root files (`.zshenv` etc. we just created), reached via `dotfiles.root = "~/.dotfiles"` → `repo/.zshenv` etc.
-- `.zsh_plugins.txt` is NOT a dotfile entry (it's a source, loaded by .zshrc; it lives in the repo and is reachable at `~/.dotfiles/.zsh_plugins.txt`).
+- `.zshrc` uses `copy` mode (NOT symlink) so the activation + starship/direnv/zoxide edit blocks (Task 5) can insert into a REAL file — docs warn edits through a symlink would write to the repo source.
+- `.zsh_plugins.txt` is NOT a dotfile entry (it's a source, loaded by .zshrc; it lives in the repo, reachable at `~/.dotfiles/.zsh_plugins.txt`).
 
 - [ ] **Step 6: verify config parses**
 
@@ -286,12 +287,34 @@ git add .zsh_plugins.txt .gitignore
 git commit -m "feat: add zsh plugin list (antidote) in repo"
 ```
 
-## Task 5: Add `[bootstrap.mise_shell_activate]` (activation handoff from nix)
+## Task 5: Tool-integration `[dotfiles]` edit blocks + `[bootstrap.mise_shell_activate]`
 
 **Files:**
 - Modify: `.config/mise/config.toml`
 
-- [ ] **Step 1: add the shell-activation section**
+- [ ] **Step 1: add `[dotfiles]` EDIT-block entries for tool integrations**
+
+In `.config/mise/config.toml` `[dotfiles]` block, add edit entries for tools that emit a
+`.zshrc` section (mise uses marker blocks in the live `~/.zshrc`):
+```toml
+[dotfiles]
+# Tool-integration blocks mise-manages INSIDE the real ~/.zshrc (marker-delimited):
+"~/.zshrc/starship" = { block = 'eval "$(starship init zsh)"' }
+"~/.zshrc/direnv" = { block = 'eval "$(direnv hook zsh)"' }
+"~/.zshrc/zoxide" = { block = 'eval "$(zoxide init zsh --cmd cd)"' }
+```
+Notes:
+- These are **edit entries**, keyed `target/id` (`~/.zshrc/starship` = file/id). Each writes a
+  marker-delimited block in the real `.zshrc` (`# >>> mise:starship >>>` ... `# <<< mise:starship <<<`),
+  managed by mise. Ids may contain letters/digits/_/-/. — `starship`/`direnv`/`zoxide` are valid.
+- **They target the real `~/.zshrc`** (an edit entry). Since our `~/.zshrc` is itself a mise symlink
+  to `repo/.zshrc`, the docs warn: "an edit through a symlink would modify whatever the link points
+  at — point the edit at the real file instead." So either (a) `~/.zshrc` must be a REAL file (not a
+  symlink) when edit blocks target it, OR (b) the blocks go into the repo's `.zshrc` source. **Decision
+  needed in Task 7** — prefer (a): make `~/.zshrc` a `copy` mode dotfile (real file) so edit blocks
+  can manage the tool sections inside it, while the base `.zshrc` content comes from the repo.
+
+- [ ] **Step 2: add the shell-activation section**
 
 Append to `.config/mise/config.toml`:
 ```toml
@@ -299,14 +322,14 @@ Append to `.config/mise/config.toml`:
 zshrc = "activate"
 ```
 Notes:
-- Writes/keeps `eval "$(mise activate zsh)"` in `.zshrc` — replaces the nix-injected activation (and the interim `.zshrc` `eval /usr/bin/mise activate zsh` we added in Stage 1).
-- We currently have mise activation in **.zshenv** (Task 3) — so this `[bootstrap.mise_shell_activate]` may be redundant; decide: keep .zshenv activation (covers all shells) AND let mise manage an activate block in .zshrc would duplicate. **Prefer: activation in `[bootstrap.mise_shell_activate]` .zshrc, and .zshenv just PATH** — revisit in Task 7 (activation strategy decision).
+- Writes/keeps `eval "$(mise activate zsh)"` in `.zshrc` — the mise-native activation mechanism.
+- **Decision (user): prefer mise-native.** The `.zshenv` activation drafted in Task 3 is dropped; `.zshenv` becomes PATH-only. `[bootstrap.mise_shell_activate]` handles activation in `.zshrc`. (Revisit later ONLY if non-login/non-interactive shells need mise tools.)
 
-- [ ] **Step 2: commit**
+- [ ] **Step 3: commit**
 
 ```bash
 git add .config/mise/config.toml
-git commit -m "feat: manage mise shell activation via bootstrap"
+git commit -m "feat: manage mise shell activation + tool-integration blocks via bootstrap"
 ```
 
 ## Task 6: Disable nix `programs.zsh` (the nix side cleanup)
@@ -391,11 +414,18 @@ Expected: creates `~/.zshenv`, `~/.zprofile`, `~/.zshrc`, `~/.zlogout` symlinks 
 Run: `mise bootstrap dotfiles status 2>&1 | grep -E "\.zshenv|\.zprofile|\.zshrc|\.zlogout"`
 Expected: all `applied`.
 
-- [ ] **Step 5: activation strategy decision — .zshenv vs [bootstrap.mise_shell_activate]**
+- [ ] **Step 5: activation + `.zshrc`-mode decisions (resolved: mise-native)**
 
-- Current: Task 3 put `eval "$(/usr/bin/mise activate zsh)"` in `.zshenv` (all shells), AND Task 5 added `[bootstrap.mise_shell_activate] zshrc = "activate"` (would write activate into .zshrc).
-- **Want ONE activation source.** Recommend: **drop .zshenv activation** (keep .zshenv PATH-only), let `[bootstrap.mise_shell_activate]` manage `.zshrc` (mise's native mechanism). Verify by checking `.zshrc` after apply has the mise-managed activate block.
-- If you prefer .zshenv activation (covers non-login scripts), remove the `[bootstrap.mise_shell_activate]` block instead. **Decision recorded in Task 8.**
+- **Activation:** USE `[bootstrap.mise_shell_activate] zshrc = "activate"` (mise-native). `.zshenv` is
+  PATH-only. One activation source in `.zshrc` (mise-managed block).
+- **`.zshrc` mode for edit blocks:** The `[dotfiles]` edit entries in Task 5 target the real
+  `~/.zshrc`. Since our `~/.zshrc` is itself a mise symlink (to repo `.zshrc`), edits through the
+  symlink would write into the repo source (docs: "point the edit at the real file instead").
+  **Resolution: make `~/.zshrc` a `copy`-mode dotfile** (`"~/.zshrc" = { source = ".zshrc", mode = "copy" }`)
+  so it's a REAL file — mise copies the repo `.zshrc` content on apply, and the activation/starship/
+  direnv/zoxide edit blocks insert into that real file. Base content stays in the repo; tool sections
+  are manage-able markers. (Asymmetric with the other rc files' symlink mode — acceptable; `.zshrc`
+  is the one file needing in-place edits.)
 
 - [ ] **Step 6: verify a fresh zsh shell loads**
 
@@ -407,15 +437,14 @@ Expected: no zsh errors; starship/direnv/zoxide present (mise tools active); plu
 **Files:**
 - Possibly Modify: `.zshenv` (remove activation) OR `.config/mise/config.toml` (remove `[bootstrap.mise_shell_activate]`) — per Task 7 Step 5 decision.
 
-- [ ] **Step 1: pick and apply the chosen activation strategy** (Task 7 Step 5)
+- [ ] **Step 1: confirm the mise-native activation strategy** (decided in Task 7 Step 5)
 
-If dropping .zshenv activation:
-```zsh
-# .zshenv becomes PATH-only
-typeset -U path cdpath fpath manpath
-path=("$HOME/.local/bin" $path)
-```
-If keeping .zshenv activation: remove `[bootstrap.mise_shell_activate]` from config.toml.
+Confirm in practice:
+- `.zshenv` is PATH-only (no activation eval).
+- `config.toml` has `[bootstrap.mise_shell_activate] zshrc = "activate"`.
+- `~/.zshrc` is a `copy`-mode dotfile (real file), and its starship/direnv/zoxide/activate marker
+  blocks are managed by mise. Verify by inspecting `~/.zshrc` for the marker blocks after apply.
+If `.zshenv`-activation is ever needed for non-login scripts later, add it then (not now).
 
 - [ ] **Step 2: verify with a truly fresh login shell**
 
