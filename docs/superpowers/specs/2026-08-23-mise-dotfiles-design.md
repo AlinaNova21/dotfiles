@@ -387,14 +387,22 @@ re-enabled; the live home config is untouched.
 - **Age/sops moved to mise `[tools]`** (10-default.toml), dropped from `70-packages.toml` and
   `home.packages` — they're native mise tools and don't need system-level placement.
 
-**Stage 2 — Mise config owns desktop dotfiles; rename `config/` → `.config/`**
-- (A) Disable HMAC `xdg.configFile` out-of-store symlinks (`utils.nix` mkppConfigDir / `config.nix`
-  acme.desktop.configs; also nvim in `nvim.nix`).
-- (B) Add `[dotfiles]` entries for hypr, niri, uwsm, hyprpanel, ashell, noctalia, nvim →
-  `~/dotfiles/.config/<name>` (mise mirror); `mise bootstrap dotfiles apply`.
-- **Rename `config/` → `.config/`** now that nix no longer references the `config/` path: `git mv config .config`.
-  The repo mirrors `~/.config` directly; `~/dotfiles` (`-> repo`) resolves `.config/<name>` with no bridge.
-- Verify each dir now resolves from repo under mise, not nix; `~/dotfiles/.config/mise` also mirrors.
+**Stage 2 — Mise config owns desktop dotfiles; move `config/` folders → `.config/`**
+- (A) Disable HMAC `xdg.configFile` out-of-store symlinks (`config.nix` acme.desktop.configs via
+  `utils.nix` mapConfigDir; also nvim's xdg entries in `nvim.nix`). Leave option defs + host toggles
+  as inert no-ops (disable, don't remove).
+- (B) Add `[dotfiles]` entries for hypr, niri, uwsm, hyprpanel, ashell, noctalia, nvim using
+  **mirror-style sources** — `"~/.config/<name>" = {}` (no explicit source), resolving via
+  `dotfiles.root = "~/dotfiles"` to `~/dotfiles/.config/<name>` = `repo/.config/<name>`. This avoids
+  the relative-source trap (sources resolve from the config file's dir `repo/.config/mise/`, not the
+  repo root). noctalia uses whole-dir `symlink` (NOT `symlink-each` — subfolder semantics are
+  ambiguous); its gitignored `settings.json` stays inside the repo dir.
+- **Move `config/` subfolders individually → `.config/`** (NOT `git mv config .config` — that would
+  fail because `.config/` already exists holding `mise/`). For each of ashell/hypr/hyprpanel/niri/
+  noctalia/nvim/uwsm: `git mv config/<d> .config/<d>`. Then remove now-empty `config/` dir.
+  The repo mirrors `~/.config` directly; `~/dotfiles` (`-> repo`) resolves `.config/<name>`.
+- Apply `[dotfiles]` (via `mise bootstrap dotfiles apply`) and verify each dir resolves from repo
+  under mise, not nix; `~/dotfiles/.config/mise` also mirrors.
 
 **Stage 3 — Generated user configs (non-shell)**
 - (A) Disable HMAC generation for starship, git, tmux, jujutsu, htop, user-dirs, electron-flags, hyfetch.
