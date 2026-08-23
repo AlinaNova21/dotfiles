@@ -10,4 +10,5 @@
 # Secrets baseline (home-ops pins these project-side too; keep global for general use)
 "pacman:age" = { os = "linux" }
 "brew:age" = { os = "macos" }
+"pacman:sops" = { os = "linux" }   # confirmed: resolves via pacman (cachyos-extra repo)
 "brew:sops" = { os = "macos" }
