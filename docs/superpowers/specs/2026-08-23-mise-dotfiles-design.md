@@ -76,7 +76,9 @@ Adopted directions:
 ```toml
 # mise/config.toml
 [settings]
-dotfiles.root = "~/dotfiles"          # optional; see below
+dotfiles.root = "~/dotfiles"          # mise's intended layout: home-relative targets mirror here
+
+dotfiles.default_mode = "symlink"
 
 [dotfiles]
 "~/.config/mise" = "mise"             # manage the mise config dir itself from the repo (symlink)
@@ -85,9 +87,25 @@ dotfiles.root = "~/dotfiles"          # optional; see below
 This makes the **entire `~/.config/mise/` dir a symlink into the repo** so every conf.d fragment and
 every relative dotfile source resolves from the repo. Edits to config land in git.
 
-> **Note on `dotfiles.root`:** mise mirrors home-relative target paths under `dotfiles.root` for
-> entries that omit `source`. Since we always declare explicit sources into `config/` or `zsh/`, we
-> do **not** rely on `dotfiles.root` mirroring. Keep it unset or set to a neutral dir.
+**Follow mise's intended design — `dotfiles.root` mirror.** Set `dotfiles.root = "~/dotfiles"` and
+lay the source tree out so home-relative targets mirror under it (mise's documented recipe). Do **not**
+deviate: no custom source-path layering that would diverge from mise's `add`/`edit` capture workflow.
+
+**Migration bridge (symlinks).** The repo currently stores dotfiles under `config/` (not `.config/`)
+and lives at `~/.config/home-manager`. To expose a mise-shaped source tree without moving files, use
+symlinks for the transition and converge over time:
+
+```
+~/src/dotfiles      -> ~/.config/home-manager   # dotfiles repo path mise expects
+~/.dotfiles        (or mise's dotfiles.root)     # mirror root
+    └── .config    -> ../config                  # repo's config/ dir: home-relative mirror target
+```
+
+Concretely: create `~/src/dotfiles` as a symlink to the repo, and within the dotfiles root expose
+`~/.config` (the mirror of the `~/.config/*` targets) as a symlink to the repo's `config/`. This keeps
+mise's mirror convention (`"~/.config/<name>"` -> `~/dotfiles/.config/<name>`) resolving through the
+symlink to the real `config/<name>` files. These are convergence bridges, not permanent structure —
+the source tree can be normalized later if desired.
 
 ### 3.2 Ownership matrix (full conversion)
 
@@ -237,7 +255,7 @@ login_shell = "/bin/zsh"   # if non-default; ensure /bin/zsh in /etc/shells
    current `acme.tools.<group>.enable` toggles.
 5. **nix-index / command-not-found:** drop on CachyOS (server-only tool) → possibly a mise tool or
    remove.
-6. **dotfiles.root behavior** with explicit sources — confirm no mirroring issues.
+6. **dotfiles.root behavior** — RESOLVED: adopt mise's mirror convention (`dotfiles.root = "~/dotfiles"`); during migration, bridge with symlinks (`~/src/dotfiles -> repo`, `~/dotfiles/.config -> repo/config`).
 7. **hyprland/hyprpanel:** post-CachyOS we only manage config files, not the WM process (stays an OS
    package). Verify hyprpanel's config dir is a plain dotfile.
 
