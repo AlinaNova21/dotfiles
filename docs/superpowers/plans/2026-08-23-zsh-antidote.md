@@ -504,6 +504,6 @@ Summary of what's mise-managed now: desktop dotfiles (Stage 2), zsh rc files + a
 - `.zshenv`/`.zprofile`/`.zshrc`/`.zlogout` are repo files, mise `[dotfiles]` entries, applied as symlinks to `~`.
 - `.zsh_plugins.txt` carries the full prior plugin list; `.zshrc` loads plugins via the antidote static deferred pattern from `~/.antidote`.
 - nix `programs.zsh` disabled; no nix-store path in `.zshrc`.
-- One activation mechanism (`.zshenv` PATH-only + `[bootstrap.mise_shell_activate]`, OR `.zshenv`-based) — decided and applied.
+- Activation via `[bootstrap.mise_shell_activate] zshrc = "activate"` (mise-native); `.zshenv` PATH-only. Antidote loads in `.zshrc` base content; starship/direnv/zoxide appended as mise-managed blocks.
 - A fresh zsh loads: mise tools on PATH, antidote plugins active, no startup errors.
 - `mise bootstrap repos status` shows both repos `current`.
