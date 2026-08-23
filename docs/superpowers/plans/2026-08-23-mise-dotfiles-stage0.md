@@ -35,9 +35,8 @@ Created in this stage (all inside the repo unless noted):
   for `~/.config/mise` (explicit real source)
 - Create: `.config/mise/conf.d/00-local.toml` — machine-local tools (gitignored)
 - Create: `.config/mise/conf.d/10-default.toml` — baseline utilities (gh, jq, yq, rg, just, gitui)
-- Create: `.config/mise/conf.d/20-node.toml` — node (global baseline)
+- Create: `.config/mise/conf.d/20-node.toml` — node + pnpm (global baseline, they go together)
 - Create: `.config/mise/conf.d/30-go.toml` — go + golangci-lint (global baseline)
-- Create: `.config/mise/conf.d/40-pnpm.toml` — pnpm (global baseline)
 - Create: `.config/mise/conf.d/60-shell.toml` — shell-integration tools (starship, eza, bat, fzf, zoxide, yazi, direnv)
 - Create: `.config/mise/conf.d/70-packages.toml` — `[bootstrap.packages]` system deps per-OS (git/zsh/1password-cli/age)
 
@@ -161,7 +160,6 @@ No commit (00-local.toml is gitignored by design). If you later edit the live `~
 - Create: `.config/mise/conf.d/10-default.toml`
 - Create: `.config/mise/conf.d/20-node.toml`
 - Create: `.config/mise/conf.d/30-go.toml`
-- Create: `.config/mise/conf.d/40-pnpm.toml`
 
 **Design decision (from review):** the global `[tools]` set is lean by design — only baseline
 utilities + runtime/lang baseline + shell tools. The old `tools.nix` kubernetes/ai/docker/onepassword/
@@ -171,9 +169,8 @@ pins kubectl/helm/k9s/flux2/etc. in its own `mise.toml`) or are per-host. Global
 
 Global baseline set:
 - `10-default.toml` — gh, gitui, jq, just, ripgrep, yq (general utilities)
-- `20-node.toml` — node (runtime baseline)
+- `20-node.toml` — node + pnpm (runtime + package-manager baseline, they go together)
 - `30-go.toml` — go + golangci-lint (lang baseline)
-- `40-pnpm.toml` — pnpm (package-manager baseline)
 
 - [ ] **Step 1: Create `10-default.toml`**
 
@@ -188,11 +185,12 @@ ripgrep = "latest"
 yq = "latest"
 ```
 
-- [ ] **Step 2: Create `20-node.toml`**
+- [ ] **Step 2: Create `20-node.toml` (node + pnpm together)**
 
 ```toml
 [tools]
 node = "latest"
+pnpm = "latest"
 ```
 
 - [ ] **Step 3: Create `30-go.toml`**
@@ -205,35 +203,28 @@ golangci-lint = "latest"
 
 (Note: `gotestsum` is omitted from global — it's Go-testing-specific and belongs per-project if needed.)
 
-- [ ] **Step 4: Create `40-pnpm.toml`**
-
-```toml
-[tools]
-pnpm = "latest"
-```
-
-- [ ] **Step 5: Record the per-project remainder in a comment**
+- [ ] **Step 4: Record the per-project remainder in a comment**
 
 Add to `10-default.toml` (or a `README` in conf.d) a note listing what stays project-scoped and why:
 `kubernetes (home-ops/dn42/tf-home-ops pin exact versions)`, `docker`, `pulumi`, `d2`, `claude-code`,
 `op`-as-tool (system-managed, see 70-packages), `incus`, `herdr`, `pi`, `rokit`, `uv`, `bun`, secret
 scanners — all in each project's `mise.toml`, `00-local`, or per-host, NOT global.
 
-- [ ] **Step 6: Verify the repo config loads all fragments merged**
+- [ ] **Step 5: Verify the repo config loads all fragments merged**
 
 Run (from repo root):
 ```bash
 MISE_TRUSTED_CONFIG_PATHS="$(pwd)" /usr/bin/mise config
 ```
-Expected: one line per new fragment — `10-default.toml` (gh...yq), `20-node.toml` (node),
-`30-go.toml` (go, golangci-lint), `40-pnpm.toml` (pnpm) — plus the real global
+Expected: one line per new fragment — `10-default.toml` (gh...yq), `20-node.toml` (node, pnpm),
+`30-go.toml` (go, golangci-lint) — plus the real global
 `~/.config/mise/conf.d/*` lines still listed.
 
-- [ ] **Step 7: Commit**
+- [ ] **Step 6: Commit**
 
 ```bash
 git add .config/mise/conf.d/
-git commit -m "feat: author lean global mise tool fragments (default, node, go, pnpm)"
+git commit -m "feat: author lean global mise tool fragments (default, node+pnpm, go)"
 ```
 
 ---

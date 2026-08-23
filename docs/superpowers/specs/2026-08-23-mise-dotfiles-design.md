@@ -63,9 +63,8 @@ The repo's separate `config/` dir holds the user dotfiles (hypr, niri, etc.). On
 │   │   └── conf.d/
 │   │       ├── 00-local.toml      # gitignored, machine-local tools (kept)
 │   │       ├── 10-default.toml    # gh, jq, yq, rg, just, gitui   (global baseline)
-│   │       ├── 20-node.toml       # node (global baseline)
+│   │       ├── 20-node.toml       # node + pnpm (global baseline)
 │   │       ├── 30-go.toml         # go (global baseline)
-│   │       ├── 40-pnpm.toml       # pnpm (global baseline)
 │   │       ├── 60-shell.toml      # starship, eza, bat, fzf, zoxide, yazi, direnv (shell tools)
 │   │       ├── 70-packages.toml   # [bootstrap.packages] git/zsh/1password-cli/age per-OS
 │   │       └── 80-desktop.toml    # [bootstrap.packages] GUI/desktop apps (hypr-adjacent) per-OS
@@ -78,7 +77,8 @@ The repo's separate `config/` dir holds the user dotfiles (hypr, niri, etc.). On
 ```
 
 **Global vs project-scoped tools.** The global `[tools]` set is lean by design — baseline utilities
-(`gh jq yq rg just gitui`), runtime/lang baseline (`node pnpm go`), and shell-integration tools
+(`gh jq yq rg just gitui`), runtime/lang baseline (`node pnpm go` — node+pnpm in one fragment), and
+shell-integration tools
 (`starship eza bat fzf zoxide yazi direnv`). Cluster/language/runtime-specific tools that only certain
 projects need (kubernetes, ai/claude-code, docker, pulumi, d2, op-as-tool, secret scanners, …) live in
 **each project's own `mise.toml`** (home-ops already declares `kubectl@1.36.4 helm@4.2.4 flux2 talosctl
@@ -206,20 +206,17 @@ ripgrep = "latest"
 yq = "latest"
 ```
 ```toml
-# 20-node.toml — runtime/lang baseline (global: useful for projects without a pre-existing mise setup)
+# 20-node.toml — runtime + package-manager baseline (global: useful for projects without a pre-existing
+# mise setup). Node and pnpm go together.
 [tools]
 node = "latest"
+pnpm = "latest"
 ```
 ```toml
 # 30-go.toml — global baseline
 [tools]
 go = "latest"
 golangci-lint = "latest"   # lint tooling commonly needed; keep with go
-```
-```toml
-# 40-pnpm.toml — package manager baseline
-[tools]
-pnpm = "latest"
 ```
 ```toml
 # 60-shell.toml — shell-integration tools (rc files need these everywhere)
