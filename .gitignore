@@ -4,7 +4,7 @@ result
 **/.claude/
 *.bak
 *.bak2
-config/noctalia/settings.json
+.config/noctalia/settings.json
 
 # machine-local mise tools (not shared)
 .config/mise/conf.d/00-local.toml
