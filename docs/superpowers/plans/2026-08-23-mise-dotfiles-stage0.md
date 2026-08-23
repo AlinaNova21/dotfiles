@@ -42,9 +42,11 @@ Created in this stage (all inside the repo unless noted):
 - Create: `.config/mise/conf.d/30-go.toml` — go + golangci-lint (global baseline)
 - Create: `.config/mise/conf.d/60-shell.toml` — shell-integration tools (starship, eza, bat, fzf, zoxide, yazi, direnv)
 - Create: `.config/mise/conf.d/70-packages.toml` — `[bootstrap.packages]` system deps per-OS (git/zsh/1password-cli/age)
+- Create: `.config/mise/conf.d/40-kubernetes.toml` — kubernetes CLI tools (global; copied from tools.nix / nix generated)
 
-Project-scoped tools (kubernetes, ai, docker, pulumi, d2, onepassword-as-tool, secret scanners) are
-NOT created globally — they live in each project's `mise.toml` (home-ops already declares its own).
+Remaining project-scoped tools (ai, docker, pulumi, d2, onepassword-as-tool, secret scanners) are NOT
+created globally — they live in each project's `mise.toml` (home-ops already declares its own).
+kubernetes IS global (user decision).
 - Modify: `.gitignore` — ignore `.config/mise/conf.d/00-local.toml`
 - Modify (spec): `docs/superpowers/specs/2026-08-23-mise-dotfiles-design.md` — resolve open item 4 (per-host/OS selection via auto_env + platform files)
 
@@ -178,11 +180,17 @@ touches an existing one. No symlinks, no `MISE_ENV` (avoids clashing with projec
 - Create: `.config/mise/conf.d/10-default.toml`
 - Create: `.config/mise/conf.d/20-node.toml`
 - Create: `.config/mise/conf.d/30-go.toml`
+- Create: `.config/mise/conf.d/40-kubernetes.toml`
 
-**Design decision (from review):** the global `[tools]` set is lean by design — only baseline
-utilities + runtime/lang baseline + shell tools. The old `tools.nix` kubernetes/ai/docker/onepassword/
-pulumi/d2 groups are **NOT ported globally** — they belong to specific projects (home-ops already
-pins kubectl/helm/k9s/flux2/etc. in its own `mise.toml`) or are per-host. Global = what every machine
+- Create: `.config/mise/conf.d/10-default.toml`
+- Create: `.config/mise/conf.d/20-node.toml`
+- Create: `.config/mise/conf.d/30-go.toml`
+- Create: `.config/mise/conf.d/40-kubernetes.toml`
+
+**Design decision (from review):** the global `[tools]` set is lean baseline utilities + runtime/lang
+baseline + shell tools, PLUS kubernetes (kept global — user decision; copied from the nix-generated
+`kubernetes.toml`). The other old `tools.nix` groups (ai/docker/onepassword/pulumi/d2) are **NOT
+ported globally** — they belong to specific projects or are per-host. Global = what every machine
 (including a Mac) should have without a project mise setup.
 
 Global baseline set:
@@ -224,9 +232,9 @@ golangci-lint = "latest"
 - [ ] **Step 4: Record the per-project remainder in a comment**
 
 Add to `10-default.toml` (or a `README` in conf.d) a note listing what stays project-scoped and why:
-`kubernetes (home-ops/dn42/tf-home-ops pin exact versions)`, `docker`, `pulumi`, `d2`, `claude-code`,
-`op`-as-tool (system-managed, see 70-packages), `incus`, `herdr`, `pi`, `rokit`, `uv`, `bun`, secret
-scanners — all in each project's `mise.toml`, `00-local`, or per-host, NOT global.
+`docker`, `pulumi`, `d2`, `claude-code`, `op`-as-tool (system-managed, see 70-packages), `incus`,
+`herdr`, `pi`, `rokit`, `uv`, `bun`, secret scanners — in each project's `mise.toml`, `00-local`, or
+per-host, NOT global. (kubernetes IS global — see 40-kubernetes.toml.)
 
 - [ ] **Step 5: Verify the repo config loads all fragments merged**
 

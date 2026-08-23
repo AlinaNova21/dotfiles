@@ -1,0 +1,9 @@
+[tools]
+helm = "latest"
+helmfile = "latest"
+k9s = "latest"
+krew = "latest"
+kubectl = "latest"
+kubectx = "latest"
+kubelogin = "latest"
+kustomize = "latest"

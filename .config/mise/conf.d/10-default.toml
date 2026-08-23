@@ -7,5 +7,6 @@ ripgrep = "latest"
 yq = "latest"
 
 # Project-scoped tools stay in each project's mise.toml, NOT global:
-# kubernetes (home-ops/dn42/tf-home-ops pin exact versions), docker, pulumi, d2, claude-code,
-# op-as-tool (system-managed, see 70-packages), incus, herdr, pi, rokit, uv, bun, secret scanners.
+# (grouped) docker, pulumi, d2, claude-code, op-as-tool (system-managed, see 70-packages),
+# incus, herdr, pi, rokit, uv, bun, secret scanners.
+# Prefer: kubernetes IS global (see 40-kubernetes.toml).

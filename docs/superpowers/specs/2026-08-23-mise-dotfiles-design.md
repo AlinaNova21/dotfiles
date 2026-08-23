@@ -68,6 +68,7 @@ The repo's separate `config/` dir holds the user dotfiles (hypr, niri, etc.). On
 │   │       ├── 10-default.toml    # gh, jq, yq, rg, just, gitui   (global baseline)
 │   │       ├── 20-node.toml       # node + pnpm (global baseline)
 │   │       ├── 30-go.toml         # go (global baseline)
+│   │       ├── 40-kubernetes.toml # kubectl, helm, k9s, ... (global — copied from tools.nix)
 │   │       ├── 60-shell.toml      # starship, eza, bat, fzf, zoxide, yazi, direnv (shell tools)
 │   │       ├── 70-packages.toml   # [bootstrap.packages] git/zsh/1password-cli/age per-OS
 │   │       └── 80-desktop.toml    # [bootstrap.packages] GUI/desktop apps (hypr-adjacent) per-OS
@@ -79,14 +80,13 @@ The repo's separate `config/` dir holds the user dotfiles (hypr, niri, etc.). On
 └── docs/superpowers/specs/
 ```
 
-**Global vs project-scoped tools.** The global `[tools]` set is lean by design — baseline utilities
-(`gh jq yq rg just gitui`), runtime/lang baseline (`node pnpm go` — node+pnpm in one fragment), and
-shell-integration tools
-(`starship eza bat fzf zoxide yazi direnv`). Cluster/language/runtime-specific tools that only certain
-projects need (kubernetes, ai/claude-code, docker, pulumi, d2, op-as-tool, secret scanners, …) live in
-**each project's own `mise.toml`** (home-ops already declares `kubectl@1.36.4 helm@4.2.4 flux2 talosctl
-sops age just jq yq gitleaks…`), or in per-host fragments — never global. This removes duplication and
-keeps project version pins authoritative.
+**Global vs project-scoped tools.** The global `[tools]` set is lean baselines — general utilities
+(`gh jq yq rg just gitui`), runtime/lang (`node pnpm go`), shell-integration
+(`starship eza bat fzf zoxide yazi direnv`), plus **kubernetes** (kept global; copied from the
+nix-generated `kubernetes.toml`). The remaining cluster/language-specific tools that only certain
+projects need (ai/claude-code, docker, pulumi, d2, op-as-tool, secret scanners, …) live in **each
+project's own `mise.toml`** (home-ops already declares `kubectl@1.36.4 helm@4.2.4 flux2` for its
+k8s work), or in per-host fragments — not global, except kubernetes which stays global.
 
 **Platform-specific files via `auto_env` (verified live on 2026.8.6).** A `miserc.toml` at
 `~/.config/mise/miserc.toml` (global miserc location, per docs) with `auto_env = true` makes
@@ -242,11 +242,10 @@ direnv = "latest"
 ```
 
 Project-scoped tools stay in each project's `mise.toml` and are deliberately absent from global:
-kubernetes cluster (kubectl/helm/k9s/kustomize/flux2/cilium/kubeconform… — home-ops pins exact
-versions), `node` per-project pins (budgeting/ss14/pi-memini pick their own), `docker`, `pulumi`,
-`d2`, `claude-code`, `op`-as-tool, secret scanners (gitleaks/trufflehog/betterleaks), `opentofu`,
-`packer`, `incus`, `herdr`, `pi`, `rokit`, `uv`. Machine-local leftovers (00-local) similarly shrink
-once projects declare their own tools.
+`docker`, `pulumi`, `d2`, `claude-code`, `op`-as-tool, secret scanners (gitleaks/trufflehog/betterleaks),
+`opentofu`, `packer`, `incus`, `herdr`, `pi`, `rokit`, `uv`. (kubernetes IS global — see 40-kubernetes.toml.)
+Machine-local leftovers (00-local) similarly shrink once projects declare their own tools.
+
 ### 3.5 zsh — managed directly by mise, keeping antidote
 
 The current `.zshrc` is home-manager-generated from nix-store paths with antidote from the store. New model:
