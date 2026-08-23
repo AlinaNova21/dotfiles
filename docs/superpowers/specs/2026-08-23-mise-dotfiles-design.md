@@ -56,7 +56,7 @@ The repo's separate `config/` dir holds the user dotfiles (hypr, niri, etc.). On
 ### 3.1 Repository layout (mise-first)
 
 ```
-~/.config/home-manager/            # git AlinaNova21/dotfiles; also reachable as ~/src/dotfiles
+~/.config/home-manager/            # git AlinaNova21/dotfiles; also reachable as ~/projects/dotfiles
 ├── .config/                       # mirror layout: source of `~/.config` (renamed from legacy `config/`)
 │   ├── mise/                      # mise's own global config — mirrors ~/.config/mise
 │   │   ├── config.toml            # global core: [settings], [dotfiles] self-ref, [bootstrap.*], [tools]
@@ -113,13 +113,13 @@ Now the repo mirrors `~/.config` directly: `~/.config/hypr` → `~/dotfiles/.con
 `.config/hypr`, with **no bridge symlink**. Same for mise's own config (`.config/mise/`), zsh rc files,
 and starship/git/etc. placed alongside.
 
-**Interim access path.** The repo is at `~/.config/home-manager`; create `~/src/dotfiles` →
-`~/.config/home-manager` symlink so mise's conventional repo path (`~/src/dotfiles`) works before
-`[bootstrap.repos]` is wired. After rename, `dotfiles.root` targets resolve straight into the repo:
+**Interim access path.** The repo is at `~/.config/home-manager`; create `~/projects/dotfiles` →
+`~/.config/home-manager` symlink so the repo is reachable from the code dir (this already exists).
+`dotfiles.root` points at this path; `[bootstrap.repos]` clones here on fresh machines:
 
 ```
-~/src/dotfiles  -> ~/.config/home-manager   # dotfiles repo path mise expects
-~/dotfiles      -> ~/.config/home-manager   # dotfiles.root mirror root == the repo itself
+~/projects/dotfiles  -> ~/.config/home-manager   # dotfiles repo path (code dir convention)
+~/dotfiles           -> ~/.config/home-manager   # dotfiles.root mirror root == the repo itself
 ```
 
 Once `dotfiles.root = "~/dotfiles"` and `~/dotfiles` -> the repo, the mirror convention
@@ -275,7 +275,7 @@ login_shell = "/bin/zsh"   # if non-default; ensure /bin/zsh in /etc/shells
 5. **nix-index / command-not-found:** drop on CachyOS (server-only tool) → possibly a mise tool or
    remove.
 6. **dotfiles.root behavior** — RESOLVED: adopt mise's mirror convention (`dotfiles.root = "~/dotfiles"`);
-   the repo mirrors `~/.config` directly after `git mv config .config`; `~/src/dotfiles`/`~/dotfiles` -> repo.
+   the repo mirrors `~/.config` directly after `git mv config .config`; `~/projects/dotfiles`/`~/dotfiles` -> repo.
 7. **hyprland/hyprpanel:** post-CachyOS we only manage config files, not the WM process (stays an OS
    package). Verify hyprpanel's config dir is a plain dotfile.
 
@@ -292,8 +292,8 @@ re-enabled; the live home config is untouched.
 - Create the repo-side mise source of truth: `.config/mise/config.toml` + `.config/mise/conf.d/*.toml`
   (mirror of `~/.config/mise/`), porting `00-local.toml` (gitignored) and the `tools.nix` groups into
   fragments. This is authoring the future config; it does not wire it in yet.
-- Create access symlinks: `~/src/dotfiles` -> repo and `~/dotfiles` -> repo (interim dotfiles.root
-  access; not nix-related).
+- Create access symlinks: `~/projects/dotfiles` (exists) -> repo and `~/dotfiles` -> repo (interim
+  dotfiles.root access; not nix-related).
 - Use the pacman mise explicitly for all pilot commands (`/usr/bin/mise`), sidestepping the
   nix-shadowed `mise` on PATH — the shadow is resolved later, not now.
 - Proof that bootstrap works against the repo config, without touching `~/`:
