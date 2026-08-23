@@ -369,13 +369,23 @@ re-enabled; the live home config is untouched.
   and pilot artifacts. **✅ All met on 2026-08-23** (repo `.config/mise/` authored, `auto_env` confirmed,
   dotfiles entries resolve, `~/` untouched, `~/dotfiles` not yet created).
 
-**Stage 1 — Self-manage mise's own config; single mise (first nix touch)**
+**Stage 1 — Self-manage mise's own config; single mise (first nix touch)** — ✅ DONE (2026-08-23)
 - (A) Disable HMAC `tools.nix`/`dev.nix` conf.d generation (stop writing
   `~/.config/mise/conf.d/{default,kubernetes}.toml` store symlinks) and stop HMAC
-  `programs.mise.enable` (two-mise shadow).
+  `programs.mise.enable` (two-mise shadow). Done: removed `programs.mise.enable` from `dev.nix`, which
+  gates off `tools.nix` conf.d generation. The inert `acme.tools` options + host toggles are left
+  as no-ops (not removed — disabling is sufficient).
 - (B) Add the self-managing entry `[dotfiles] "~/.config/mise" = {}` (mirror → repo `.config/mise/`)
   and apply; `~/.config/mise` becomes a symlink into the repo. Confirm `/usr/bin/mise` (pacman) is
   the active `mise` on PATH and `mise bootstrap dotfiles status` is clean.
+  Done: bootstrap applied — `~/dotfiles` → repo and `~/.config/mise` → repo symlinks created;
+  single `/usr/bin/mise` on PATH (nix shadow gone); bootstrap status green.
+- **Post-switch fix (activation regression):** removing `programs.mise.enable` also stopped home-manager
+  from injecting `mise activate zsh` into `.zshrc`, breaking mise tools in fresh zsh. Fixed by adding
+  `eval "$(/usr/bin/mise activate zsh)"` to `modules/home/shell/zsh.nix` `initContent` (interim;
+  superseded when `.zshrc` becomes mise-managed in Stage 4 with `[bootstrap.mise_shell_activate]`).
+- **Age/sops moved to mise `[tools]`** (10-default.toml), dropped from `70-packages.toml` and
+  `home.packages` — they're native mise tools and don't need system-level placement.
 
 **Stage 2 — Mise config owns desktop dotfiles; rename `config/` → `.config/`**
 - (A) Disable HMAC `xdg.configFile` out-of-store symlinks (`utils.nix` mkppConfigDir / `config.nix`
