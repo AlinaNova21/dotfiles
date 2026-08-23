@@ -155,15 +155,20 @@ Expected: output includes the repo's `.config/mise/conf.d/00-local.toml` line wi
 
 No commit (00-local.toml is gitignored by design). If you later edit the live `~/.../00-local.toml`, this draft is the future home; the shadow/merge is resolved in Stage 1.
 
-**Bootstrap auto-create (future Stage 1):** once `~/.config/mise` is self-managed (Stage 1), add a
-`[dotfiles]` entry with **inline `content`** to have bootstrap auto-create `00-local.toml` if missing:
+**Bootstrap auto-create (future Stage 1) — IDEMPOTENT create-if-missing (do NOT overwrite).**
+A `[dotfiles]` inline-`content` entry would OVERWRITE existing `00-local.toml` on every apply
+(verified live: applying inline content replaces the file, destroying user/local tool edits). We
+must NOT use it for this gitignored per-host file. Instead use an idempotent bootstrap task/hook
+that creates it only if absent:
 ```toml
-[dotfiles]
-"~/.config/mise/conf.d/00-local.toml" = { content = "# machine-local tools (gitignored)\n" }
+[tasks.bootstrap]
+run = '''if [ ! -f ~/.config/mise/conf.d/00-local.toml ]; then
+  echo "# machine-local tools (gitignored)" > ~/.config/mise/conf.d/00-local.toml
+fi'''
 ```
-Verified: a `[dotfiles]` inline-`content` entry creates the file if absent (idempotent converge). This
-keeps it gitignored + per-machine while ensuring a fresh host gets a bootstrappable local file. This
-is the native mise way — no symlinks, no `MISE_ENV` (avoids clashing with project envs).
+(`[tasks.bootstrap]` runs every time and must be idempotent — exactly this). Or a
+`[bootstrap.hooks.final]` with the same guard. This creates the file on a fresh machine but never
+touches an existing one. No symlinks, no `MISE_ENV` (avoids clashing with project envs).
 
 ---
 
