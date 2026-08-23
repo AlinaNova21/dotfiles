@@ -3,15 +3,13 @@
 # bootstrap creates the dotfiles-root symlink via a [dotfiles] entry; first-run sources use the real
 # repo path because ~/.dotfiles does not exist until that symlink is created.
 [settings]
-dotfiles.root = "~/dotfiles"
+dotfiles.root = "~/.dotfiles"
 dotfiles.default_mode = "symlink"
 
 [dotfiles]
-# Root symlink: bootstrap creates ~/dotfiles -> repo on the first real apply (start of Stage 1).
+# Root symlink: bootstrap creates ~/.dotfiles -> repo on the first real apply (start of Stage 1).
 # We never create this manually.
-"~/dotfiles" = "~/projects/dotfiles"
-# Self-manage mise's own config dir. Explicit real source: resolves immediately, does NOT depend
-# on the ~/dotfiles symlink existing yet (first-run rule from the docs).
+"~/.dotfiles" = "~/projects/dotfiles"
 "~/.config/mise" = "~/projects/dotfiles/.config/mise"
 
 # Desktop config dirs — mirror-style (no explicit source): resolve via dotfiles.root
@@ -28,3 +26,4 @@ dotfiles.default_mode = "symlink"
 [tools]
 herdr = "latest"
 pi = "latest"
+usage = "latest"
