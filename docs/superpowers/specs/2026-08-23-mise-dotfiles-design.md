@@ -259,23 +259,59 @@ login_shell = "/bin/zsh"   # if non-default; ensure /bin/zsh in /etc/shells
 7. **hyprland/hyprpanel:** post-CachyOS we only manage config files, not the WM process (stays an OS
    package). Verify hyprpanel's config dir is a plain dotfile.
 
-## 5. Migration steps (implementation plan sketch)
+## 5. Migration — staged, reversible
 
-1. Create `mise/` subtree in repo; move `00-local.toml` in (keep gitignore).
-2. Convert `tools.nix` groups → `mise/conf.d/*.toml` fragments (manual, drop nix generation).
-3. Add self-managing `[dotfiles]` entry for `~/.config/mise` → `mise/`; run `mise bootstrap dotfiles apply`.
-4. Add `[dotfiles]` entries for `config/` dirs (hypr, niri, etc.) and nvim; run apply. Remove the old
-   HMAC `xdg.configFile` out-of-store symlink (stop HM generating them).
-5. Add `[dotfiles]` entries for other generated configs (starship/git/tmux/htop/... ). Migrate repo
-   content; remove HMAC generation.
-6. Build new `zsh/` managed rc files; switch from HMAC `programs.zsh` to mise-managed zsh + antidote
-   (git clone + `[dotfiles]` for `.zshenv/.zshrc/.zprofile`).
-7. Remove nix-owned mise (dispose `~/.nix-profile` mise or just stop HMAC `programs.mise.enable`);
-   confirm `/usr/bin/mise` (pacman) is the active one and PATH order.
-8. Migrate programs to `[tools]` / `[bootstrap.packages]`; remove from `home.packages`.
-9. Set up `[bootstrap.repos]`, shell activation, user login shell. Test standalone on alina-desktop.
-10. Optionally replicate on work-mbp (macOS, brew) to prove the design cross-platform-without-Nix.
-11. Reduce/remove flake.nix/home-manager surface if desired.
+Each stage: **(A)** disable the relevant home-manager config generation, then **(B)** switch that
+exact surface to mise and apply. Stages are ordered so the system stays functional at every point and
+can be rolled back by re-enabling the HM config. Work in small reversible commits; verify with
+`mise bootstrap dotfiles status` / `mise bootstrap` after each.
+
+**Stage 0 — Foundation: mise shaped, single mise**
+- Create `mise/` subtree in repo; move `00-local.toml` in (keep gitignore). Create `~/src/dotfiles ->`
+  repo and `~/dotfiles/.config -> repo/config` symlink bridges.
+- Establish self-managing mise config: `[settings] dotfiles.root = "~/dotfiles"`,
+  `[dotfiles] "~/.config/mise" = "mise"`; `mise bootstrap dotfiles apply`.
+- Convert `tools.nix` groups → `mise/conf.d/*.toml` fragments; drop HMAC `tools.nix`/`dev.nix` tool
+  generation (mise now declares its own tools).
+- Resolve the two-mise shadow: stop HMAC `programs.mise.enable` (or dispose `~/.nix-profile/mise`);
+  confirm `/usr/bin/mise` (pacman) is active and PATH order.
+- Confirm mise's per-host tool/package selection mechanism (open item 4), e.g. OS/config-env
+  fragments.
+
+**Stage 1 — Mise config owns `config/` desktop dirs**
+- (A) Disable HMAC `xdg.configFile` out-of-store symlinks (`utils.nix` mkppConfigDir / `config.nix`
+  acme.desktop.configs; also nvim in `nvim.nix`).
+- (B) Add `[dotfiles]` entries for hypr, niri, uwsm, hyprpanel, ashell, noctalia, nvim →
+  `./dotfiles/.config/<name>` (mise mirror through bridge); `mise bootstrap dotfiles apply`.
+- Verify each dir now resolves from repo under mise, not nix.
+
+**Stage 2 — Generated user configs (non-shell)**
+- (A) Disable HMAC generation for starship, git, tmux, jujutsu, htop, user-dirs, electron-flags, hyfetch.
+- (B) Check repo content (move HM generated values to repo files), add `[dotfiles]` entries,
+  apply. Drop nix-only pieces (nix-index/command-not-found) per open item 5.
+
+**Stage 3 — zsh (new `zsh/` + antidote)**
+- Clone antidote (git-clone under `~/.antidote`); set `ZDOTDIR` if needed.
+- Build `zsh/` rc files (`.zshenv`, `.zprofile`, `.zshrc`, `.zlogout`, `.zsh_plugins.txt`);
+  add `[dotfiles]` entries / `[bootstrap.mise_shell_activate]`.
+- (A) stop HMAC `programs.zsh`/`shell.nix`; (B) switch mise-managed zsh, antidote load,
+  compinit + mise completions. Remove stale fnm line.
+
+**Stage 4 — Programs → `[tools]` / `[bootstrap.packages]`**
+- Migrate age, sops, vscode, neovim, zellij, yazi, starship, eza, bat, fzf, zoxide, direnv,
+  pay-respects to `[tools]` (versioned CLI) / `[bootstrap.packages]` (host/GUI/system deps,
+  `pacman:` / `brew:`). Remove from `home.packages`.
+
+**Stage 5 — Full bootstrap wiring & standalone prove-out**
+- `[bootstrap.repos]` for the repo, `[bootstrap.user]` login shell, tasks/hooks.
+- Test standalone: `mise trust` + `mise bootstrap` on alina-desktop; confirm zero-adjust.
+
+**Stage 6 — Cross-platform / shrink nix (optional, later)**
+- Replicate on work-mbp (macOS, brew) to prove cross-platform-without-Nix.
+- Reduce/remove flake.nix / home-manager surface where not wanted.
+
+Each stage's (A) disable step is the rollback point: reverse it to restore HMAC ownership before the
+stage's (B) apply materializes. Prefer applying (B) only after (A) cleanly stops HMAC writes.
 
 ## Success criteria
 
