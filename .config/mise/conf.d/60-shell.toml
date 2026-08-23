@@ -1,0 +1,8 @@
+[tools]
+starship = "latest"
+eza = "latest"
+bat = "latest"
+fzf = "latest"
+zoxide = "latest"
+yazi = "latest"
+direnv = "latest"
