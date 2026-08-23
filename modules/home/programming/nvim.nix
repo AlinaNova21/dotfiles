@@ -23,33 +23,36 @@ in
     #   };
     # };
     catppuccin.nvim.enable = false;
-    programs.neovim = {
-      enable = true;
-      package = pkgs.neovim-unwrapped;
-      extraWrapperArgs = [
-        "--prefix"
-        "PATH"
-        ":"
-        "${lib.makeBinPath [ pkgs.gcc ]}"
-      ];
-      # defaultEditor = true; # maybe later
-      viAlias = true;
-      vimAlias = true;
-      vimdiffAlias = true;
-      # plugins = with pkgs.vimPlugins; [
-      #   # Example (fromGitHub { repo = "liuchengxu/space-vim-dark"; rev = "0ab698bd2a3959e3bed7691ac55ba4d8abefd143"; })
-      #   vim-nix
-      #   vim-vsnip
-      #   vim-vsnip-integ
-      #   vim-vsnip-snippets
-      #   vim-illuminate
-      #   vim-fugitive
-      #   vim-gitgutter
-      #   vim-easymotion
-      #   vim-surround
-      #   vim-commentary
-      #   nvim-treesitter-with-plugins
-      # ];
-    };
+    # DISABLED (Stage 2 mise migration): neovim binary is now installed via mise
+    # ([tools] nvim). The home-manager programs.neovim module (which wraps the binary
+    # and manages nvim config files) is no longer used — its package/wrapper config
+    # is commented out below. Retained for reference/rollback.
+    # programs.neovim = {
+    #   enable = true;
+    #   package = pkgs.neovim-unwrapped;
+    #   extraWrapperArgs = [
+    #     "--prefix"
+    #     "PATH"
+    #     ":"
+    #     "${lib.makeBinPath [ pkgs.gcc ]}"
+    #   ];
+    #   viAlias = true;
+    #   vimAlias = true;
+    #   vimdiffAlias = true;
+    #   # plugins = with pkgs.vimPlugins; [
+    #   #   # Example (fromGitHub { repo = "liuchengxu/space-vim-dark"; rev = "0ab698bd2a3959e3bed7691ac55ba4d8abefd143"; })
+    #   #   vim-nix
+    #   #   vim-vsnip
+    #   #   vim-vsnip-integ
+    #   #   vim-vsnip-snippets
+    #   #   vim-illuminate
+    #   #   vim-fugitive
+    #   #   vim-gitgutter
+    #   #   vim-easymotion
+    #   #   vim-surround
+    #   #   vim-commentary
+    #   #   nvim-treesitter-with-plugins
+    #   # ];
+    # };
   };
 }
