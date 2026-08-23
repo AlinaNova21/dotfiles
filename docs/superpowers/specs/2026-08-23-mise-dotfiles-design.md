@@ -62,21 +62,34 @@ The repo's separate `config/` dir holds the user dotfiles (hypr, niri, etc.). On
 │   │   ├── config.toml            # global core: [settings], [dotfiles] self-ref, [bootstrap.*], [tools]
 │   │   └── conf.d/
 │   │       ├── 00-local.toml      # gitignored, machine-local tools (kept)
-│   │       ├── 10-default.toml    # gh, jq, yq, rg, just, gitui   (from tools.nix 'default')
-│   │       ├── 20-tools-go.toml   # go, golangci-lint, gotestsum (per-host opt-in)
-│   │       ├── 30-tools-node.toml # node (per-host opt-in)
-│   │       ├── 40-tools-kubernetes.toml # kubectl, helm, ... (per-host opt-in)
-│   │       ├── 50-tools-ai.toml   # claude-code (per-host)
-│   │       ├── 60-shell.toml      # starship, eza, bat, fzf, zoxide, yazi, direnv (shell-integration tools)
-│   │       ├── 70-packages.toml   # [bootstrap.packages] pacman:/brew: per-OS host/system deps
+│   │       ├── 10-default.toml    # gh, jq, yq, rg, just, gitui   (global baseline)
+│   │       ├── 20-node.toml       # node (global baseline)
+│   │       ├── 30-go.toml         # go (global baseline)
+│   │       ├── 40-pnpm.toml       # pnpm (global baseline)
+│   │       ├── 60-shell.toml      # starship, eza, bat, fzf, zoxide, yazi, direnv (shell tools)
+│   │       ├── 70-packages.toml   # [bootstrap.packages] git/zsh/1password-cli/age per-OS
 │   │       └── 80-desktop.toml    # [bootstrap.packages] GUI/desktop apps (hypr-adjacent) per-OS
 │   ├── hypr/ niri/ uwsm/ hyprpanel/ ashell/ noctalia/ nvim/   # user dotfiles (renamed from config/)
-│   └── starship.toml git etc.     # other generated configs moved here (Stage 2)
-├── .zshrc .zshenv .zprofile .zlogout .zsh_plugins.txt   # draft: NEW: mise-managed zsh rc files (S3.5)
+│   └── starship.toml git etc.     # other generated configs moved here (Stage 3)
+├── .zshrc .zshenv .zprofile .zlogout .zsh_plugins.txt   # draft: mise-managed zsh rc files (Stage 4)
 ├── .envrc .direnv/                # existing repo detritus (unchanged)
 ├── flake.nix, modules/…           # shrinks to software layer / removed
 └── docs/superpowers/specs/
 ```
+
+**Global vs project-scoped tools.** The global `[tools]` set is lean by design — baseline utilities
+(`gh jq yq rg just gitui`), runtime/lang baseline (`node pnpm go`), and shell-integration tools
+(`starship eza bat fzf zoxide yazi direnv`). Cluster/language/runtime-specific tools that only certain
+projects need (kubernetes, ai/claude-code, docker, pulumi, d2, op-as-tool, secret scanners, …) live in
+**each project's own `mise.toml`** (home-ops already declares `kubectl@1.36.4 helm@4.2.4 flux2 talosctl
+sops age just jq yq gitleaks…`), or in per-host fragments — never global. This removes duplication and
+keeps project version pins authoritative.
+
+**Cross-platform (`pacman:` / `brew:` with `os` selectors).** `[bootstrap.packages]` entries are keyed
+`"manager:package"` with optional `os` selectors; unavailable managers are skipped. On CachyOS,
+`pacman:` entries apply; on macOS, `brew:` entries apply (both can be declared side-by-side in the same
+fragment, verified live: the `brew:` entries are skipped on Linux). `node`, `pnpm`, `go` are builtin
+mise tools — they install via builtin backends cross-platform (no system package needed).
 
 **Self-managing mise config** (mise documented pattern) is the linchpin:
 
@@ -146,16 +159,24 @@ mise-intended layout, no custom layering, no permanent bridge.
 ```toml
 # .config/mise/conf.d/70-packages.toml
 [bootstrap.packages]
-# host systems deps (per-OS selectors)
-"pacman:age" = "latest"            # linux
-"brew:age" = "latest"              # mac
+# Foundational system tools — needed pre-mise, can't be mise tools (no registry entry / system-managed)
+"pacman:git" = { os = "linux" }             # git has no mise registry entry; system-managed
+"brew:git" = { os = "macos" }
+"pacman:zsh" = { os = "linux" }            # zsh: system shell, no mise entry
+"brew:zsh" = { os = "macos" }
+"pacman:1password-cli" = { os = "linux" }  # op: system-managed security tool (provides /usr/bin/op)
+"brew:1password-cli" = { os = "macos" }
+# Secret tooling baseline
+"pacman:age" = { os = "linux" }
+"brew:age" = { os = "macos" }
 # GUI / desktop apps
-"brew-cask:firefox" = "latest"     # mac example; adapt per-OS
+"brew-cask:firefox" = { os = "macos" }    # mac example
 ```
 
-Rules from mise docs:
-- Keyed `"manager:package"`; `os` selector / unavailability causes skip on other platforms.
-- `pacman:` used on CachyOS (Arch). `brew:`/`brew-cask:` on macOS (and Linux-x).
+Rules from mise docs (verified live):
+- Keyed `"manager:package"`; `os` selector / unavailable manager causes skip on other platforms.
+  On CachyOS only the `pacman:` entries apply; on macOS only the `brew:`/`brew-cask:` entries —
+  the same fragment works on both (probe confirmed `brew:` skipped on Linux).
 - mise elevates with sudo on Linux when not root (interactive prompt).
 
 **antidote (the zsh plugin manager):**
@@ -169,12 +190,13 @@ Rules from mise docs:
   works identically on both CachyOS and macOS without relying on distro package quirks.
   (Step 6 of migration: clone antidote as part of bootstrap, via a `[bootstrap.hooks]` command or task.)
 
-### 3.4 `[tools]` — versioned dev tools
+### 3.4 `[tools]` — lean global dev tools, cross-platform
 
-Migrate every `tools.nix` group and the `00-local.toml` tools into `.config/mise/conf.d/` fragments:
+**Global `[tools]`** = the lean baseline. Project-specific tools live in each project's `mise.toml`,
+not global. All here are builtin mise tools with cross-platform install (no system package needed):
 
 ```toml
-# .config/mise/conf.d/10-default.toml
+# 10-default.toml — general utilities
 [tools]
 gh = "latest"
 gitui = "latest"
@@ -184,18 +206,39 @@ ripgrep = "latest"
 yq = "latest"
 ```
 ```toml
-# .config/mise/conf.d/20-tools-go.toml     (per-host opt-in, same as today)
+# 20-node.toml — runtime/lang baseline (global: useful for projects without a pre-existing mise setup)
+[tools]
+node = "latest"
+```
+```toml
+# 30-go.toml — global baseline
 [tools]
 go = "latest"
-golangci-lint = "latest"
-gotestsum = "latest"
+golangci-lint = "latest"   # lint tooling commonly needed; keep with go
 ```
-The per-host opt-in behavior (only some hosts install kubernetes/go/node) is preserved by making
-fragments **host-conditional**. mise supports config environments (`mise.<env>.toml`) and
-platform environments (`mise.linux.toml`, `mise.macos.toml`). Use **mise environment** for
-per-host tool/package selection OR keep explicit opt-in fragments and select via conditionals.
-(Design detail: verify mise's per-host/config-env mechanism — see S4.)
+```toml
+# 40-pnpm.toml — package manager baseline
+[tools]
+pnpm = "latest"
+```
+```toml
+# 60-shell.toml — shell-integration tools (rc files need these everywhere)
+[tools]
+starship = "latest"
+eza = "latest"
+bat = "latest"
+fzf = "latest"
+zoxide = "latest"
+yazi = "latest"
+direnv = "latest"
+```
 
+Project-scoped tools stay in each project's `mise.toml` and are deliberately absent from global:
+kubernetes cluster (kubectl/helm/k9s/kustomize/flux2/cilium/kubeconform… — home-ops pins exact
+versions), `node` per-project pins (budgeting/ss14/pi-memini pick their own), `docker`, `pulumi`,
+`d2`, `claude-code`, `op`-as-tool, secret scanners (gitleaks/trufflehog/betterleaks), `opentofu`,
+`packer`, `incus`, `herdr`, `pi`, `rokit`, `uv`. Machine-local leftovers (00-local) similarly shrink
+once projects declare their own tools.
 ### 3.5 zsh — managed directly by mise, keeping antidote
 
 The current `.zshrc` is home-manager-generated from nix-store paths with antidote from the store. New model:
@@ -269,9 +312,12 @@ login_shell = "/bin/zsh"   # if non-default; ensure /bin/zsh in /etc/shells
 3. **`~/.config/mise.toml` (empty legacy file) vs `~/.config/mise/config.toml`:** the self-managing
    approach uses `~/.config/mise/config.toml` as the global config (mirrored from `.config/mise/config.toml`).
    Deprecate/rm the legacy empty `~/.config/mise.toml`.
-4. **Per-host tool/package selection mechanism:** confirm mise's config-env / OS-conditional
-   fragments (`mise.linux.toml`, `mise.{MISE_ENV}.toml`) for per-machine opt-in groups, replacing the
-   current `acme.tools.<group>.enable` toggles.
+4. **Per-host / cross-platform selection** — RESOLVED (live probe): `[bootstrap.packages]` uses
+   `"manager:package"` + `os` selectors; unavailable managers are skipped, so one fragment serves both
+   CachyOS (`pacman:`) and macOS (`brew:`). Project-scoped tools go in each project's `mise.toml`;
+   only genuine machine-wide needs (e.g. a host that universally uses kubernetes) use a per-host
+   fragment/env (`mise.{MISE_ENV}.toml`) — the old `acme.tools.<group>.enable` toggles are replaced by
+   this project-level + per-host split.
 5. **nix-index / command-not-found:** drop on CachyOS (server-only tool) → possibly a mise tool or
    remove.
 6. **dotfiles.root behavior** — RESOLVED: adopt mise's mirror convention (`dotfiles.root = "~/dotfiles"`);

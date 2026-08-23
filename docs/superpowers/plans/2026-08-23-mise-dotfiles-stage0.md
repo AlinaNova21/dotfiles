@@ -34,17 +34,15 @@ Created in this stage (all inside the repo unless noted):
   + `[dotfiles]` root-symlink entry (`"~/dotfiles" = "~/projects/dotfiles"`) + self-managing entry
   for `~/.config/mise` (explicit real source)
 - Create: `.config/mise/conf.d/00-local.toml` — machine-local tools (gitignored)
-- Create: `.config/mise/conf.d/10-default.toml` — default CLI group (from `tools.nix`)
-- Create: `.config/mise/conf.d/20-tools-go.toml` — go group
-- Create: `.config/mise/conf.d/30-tools-node.toml` — node group
-- Create: `.config/mise/conf.d/40-tools-kubernetes.toml` — kubernetes group
-- Create: `.config/mise/conf.d/50-tools-ai.toml` — claude-code
-- Create: `.config/mise/conf.d/53-tools-docker.toml` — docker group
-- Create: `.config/mise/conf.d/55-tools-onepassword.toml` — onepassword group
-- Create: `.config/mise/conf.d/57-tools-pulumi.toml` — pulumi group
-- Create: `.config/mise/conf.d/59-tools-d2.toml` — d2 group
+- Create: `.config/mise/conf.d/10-default.toml` — baseline utilities (gh, jq, yq, rg, just, gitui)
+- Create: `.config/mise/conf.d/20-node.toml` — node (global baseline)
+- Create: `.config/mise/conf.d/30-go.toml` — go + golangci-lint (global baseline)
+- Create: `.config/mise/conf.d/40-pnpm.toml` — pnpm (global baseline)
 - Create: `.config/mise/conf.d/60-shell.toml` — shell-integration tools (starship, eza, bat, fzf, zoxide, yazi, direnv)
-- Create: `.config/mise/conf.d/70-packages.toml` — `[bootstrap.packages]` per-OS (age/sops)
+- Create: `.config/mise/conf.d/70-packages.toml` — `[bootstrap.packages]` system deps per-OS (git/zsh/1password-cli/age)
+
+Project-scoped tools (kubernetes, ai, docker, pulumi, d2, onepassword-as-tool, secret scanners) are
+NOT created globally — they live in each project's `mise.toml` (home-ops already declares its own).
 - Modify: `.gitignore` — ignore `.config/mise/conf.d/00-local.toml`
 - Modify (spec): `docs/superpowers/specs/2026-08-23-mise-dotfiles-design.md` — resolve open item 4 (per-host selection) with the probe finding
 
@@ -157,24 +155,29 @@ No commit (00-local.toml is gitignored by design). If you later edit the live `~
 
 ---
 
-## Task 4: Port `tools.nix` groups → conf.d fragments
+## Task 4: Author the lean global `[tools]` fragments
 
 **Files:**
 - Create: `.config/mise/conf.d/10-default.toml`
-- Create: `.config/mise/conf.d/20-tools-go.toml`
-- Create: `.config/mise/conf.d/30-tools-node.toml`
-- Create: `.config/mise/conf.d/40-tools-kubernetes.toml`
-- Create: `.config/mise/conf.d/50-tools-ai.toml`
-- Create: `.config/mise/conf.d/53-tools-docker.toml`
-- Create: `.config/mise/conf.d/55-tools-onepassword.toml`
-- Create: `.config/mise/conf.d/57-tools-pulumi.toml`
-- Create: `.config/mise/conf.d/59-tools-d2.toml`
+- Create: `.config/mise/conf.d/20-node.toml`
+- Create: `.config/mise/conf.d/30-go.toml`
+- Create: `.config/mise/conf.d/40-pnpm.toml`
 
-Each fragment has one responsibility: the exact tool group from `modules/home/tools.nix` (per-host opt-in semantics are preserved via the fragment file itself; the per-host *selection* mechanism is settled in Task 10 and applied in later stages).
+**Design decision (from review):** the global `[tools]` set is lean by design — only baseline
+utilities + runtime/lang baseline + shell tools. The old `tools.nix` kubernetes/ai/docker/onepassword/
+pulumi/d2 groups are **NOT ported globally** — they belong to specific projects (home-ops already
+pins kubectl/helm/k9s/flux2/etc. in its own `mise.toml`) or are per-host. Global = what every machine
+(including a Mac) should have without a project mise setup.
+
+Global baseline set:
+- `10-default.toml` — gh, gitui, jq, just, ripgrep, yq (general utilities)
+- `20-node.toml` — node (runtime baseline)
+- `30-go.toml` — go + golangci-lint (lang baseline)
+- `40-pnpm.toml` — pnpm (package-manager baseline)
 
 - [ ] **Step 1: Create `10-default.toml`**
 
-Content (identical to the current nix-generated `default.toml`):
+Content (from `tools.nix` 'default' group):
 ```toml
 [tools]
 gh = "latest"
@@ -185,86 +188,52 @@ ripgrep = "latest"
 yq = "latest"
 ```
 
-- [ ] **Step 2: Create `20-tools-go.toml`**
-
-```toml
-[tools]
-go = "latest"
-golangci-lint = "latest"
-gotestsum = "latest"
-```
-
-- [ ] **Step 3: Create `30-tools-node.toml`**
+- [ ] **Step 2: Create `20-node.toml`**
 
 ```toml
 [tools]
 node = "latest"
 ```
 
-- [ ] **Step 4: Create `40-tools-kubernetes.toml`**
-
-Content (identical to the current nix-generated `kubernetes.toml`):
-```toml
-[tools]
-helm = "latest"
-helmfile = "latest"
-k9s = "latest"
-krew = "latest"
-kubectl = "latest"
-kubectx = "latest"
-kubelogin = "latest"
-kustomize = "latest"
-```
-
-- [ ] **Step 5: Create `50-tools-ai.toml`**
+- [ ] **Step 3: Create `30-go.toml`**
 
 ```toml
 [tools]
-claude-code = "latest"
+go = "latest"
+golangci-lint = "latest"
 ```
 
-- [ ] **Step 6: Create `53-tools-docker.toml`**
+(Note: `gotestsum` is omitted from global — it's Go-testing-specific and belongs per-project if needed.)
+
+- [ ] **Step 4: Create `40-pnpm.toml`**
 
 ```toml
 [tools]
-docker-compose = "latest"
-docker-cli = "latest"
+pnpm = "latest"
 ```
 
-- [ ] **Step 7: Create `55-tools-onepassword.toml`**
+- [ ] **Step 5: Record the per-project remainder in a comment**
 
-```toml
-[tools]
-1password-cli = "latest"
-```
+Add to `10-default.toml` (or a `README` in conf.d) a note listing what stays project-scoped and why:
+`kubernetes (home-ops/dn42/tf-home-ops pin exact versions)`, `docker`, `pulumi`, `d2`, `claude-code`,
+`op`-as-tool (system-managed, see 70-packages), `incus`, `herdr`, `pi`, `rokit`, `uv`, `bun`, secret
+scanners — all in each project's `mise.toml`, `00-local`, or per-host, NOT global.
 
-- [ ] **Step 8: Create `57-tools-pulumi.toml`**
-
-```toml
-[tools]
-pulumi = "latest"
-```
-
-- [ ] **Step 9: Create `59-tools-d2.toml`**
-
-```toml
-[tools]
-d2 = "latest"
-```
-
-- [ ] **Step 10: Verify the repo config loads all fragments merged**
+- [ ] **Step 6: Verify the repo config loads all fragments merged**
 
 Run (from repo root):
 ```bash
 MISE_TRUSTED_CONFIG_PATHS="$(pwd)" /usr/bin/mise config
 ```
-Expected: one line per new fragment; the tool sets match the fragments above (plus the real global `~/.config/mise/conf.d/*` lines still listed).
+Expected: one line per new fragment — `10-default.toml` (gh...yq), `20-node.toml` (node),
+`30-go.toml` (go, golangci-lint), `40-pnpm.toml` (pnpm) — plus the real global
+`~/.config/mise/conf.d/*` lines still listed.
 
-- [ ] **Step 11: Commit**
+- [ ] **Step 7: Commit**
 
 ```bash
 git add .config/mise/conf.d/
-git commit -m "feat: port tools.nix groups to mise conf.d fragments"
+git commit -m "feat: author lean global mise tool fragments (default, node, go, pnpm)"
 ```
 
 ---
@@ -333,7 +302,7 @@ git commit -m "feat: author mise global core config with bootstrap-managed root 
 
 ---
 
-## Task 6: Shell-integration tools + bootstrap packages fragments
+## Task 6: Shell-integration tools + system packages (bootstrap.packages)
 
 **Files:**
 - Create: `.config/mise/conf.d/60-shell.toml`
@@ -341,7 +310,8 @@ git commit -m "feat: author mise global core config with bootstrap-managed root 
 
 - [ ] **Step 1: Create `60-shell.toml`**
 
-Shell-integration tools (currently nix-installed; declared here so the same config works without nix). Content:
+Shell-integration tools (currently nix-installed; declared here so the same config works without nix).
+These are needed everywhere the rc files run; they're builtin mise tools (cross-platform).
 ```toml
 [tools]
 starship = "latest"
@@ -355,16 +325,29 @@ direnv = "latest"
 
 - [ ] **Step 2: Create `70-packages.toml`**
 
-Host/system packages, declared per-OS (mise's built-in managers; `pacman:` on CachyOS/Arch, `brew:` on macOS). Contents finalize in Stages 4–5; this is the initial real set:
+System-level packages — foundational tools that must exist pre-mise (or that are system-managed and
+own a root-level binary). Declared per-OS via `os` selectors (verified: `brew:` skipped on Linux,
+`pacman:` active — one fragment serves both CachyOS and macOS).
 ```toml
 [bootstrap.packages]
+# Foundational system tools (not mise tools — no registry entry / system-managed)
+"pacman:git" = { os = "linux" }
+"brew:git" = { os = "macos" }
+"pacman:zsh" = { os = "linux" }
+"brew:zsh" = { os = "macos" }
+# Security tooling — op/1password-cli is system-managed (provides /usr/bin/op, root-owned setuid-group)
+"pacman:1password-cli" = { os = "linux" }
+"brew:1password-cli" = { os = "macos" }
+# Secrets baseline (age/sops) — home-ops pins these project-side too; keep global for general use
 "pacman:age" = { os = "linux" }
 "brew:age" = { os = "macos" }
 "brew:sops" = { os = "macos" }
 ```
+
 Notes:
 - These are declarations only — mise installs packages only on explicit `mise bootstrap packages apply` (which this stage never runs).
-- `sops` on Arch lives in the `extra` repo; include `"pacman:sops" = { os = "linux" }` only if a live probe in Task 10 confirms the package name resolves via pacman. Verify with `pacman -Si sops` before adding.
+- `sops` on Arch lives in the `extra` repo; include `"pacman:sops" = { os = "linux" }` only after a live probe confirms it resolves via pacman (`pacman -Si sops`). Don't add it otherwise.
+- git/zsh are **system packages** because there is no mise registry entry for them — and they're documented as system-level (currently nix-shadowed; Stage 1 removes the nix shadow so `/usr/bin/git`,`/usr/bin/zsh` are active).
 
 - [ ] **Step 3: Verify both fragments load**
 
@@ -380,13 +363,13 @@ Run (from repo root):
 ```bash
 MISE_TRUSTED_CONFIG_PATHS="$(pwd)" /usr/bin/mise bootstrap packages status
 ```
-Expected: lists `age` (and `sops` if added) as requested; no installation happens.
+Expected: lists `git`/`zsh` (`installed` on this system via pacman), `age`, `1password-cli` as requested; no installation happens. On macOS the `brew:` entries would apply instead. (Note: `mise config` won't show `[bootstrap.packages]` as tools; use `bootstrap packages status`.)
 
 - [ ] **Step 5: Commit**
 
 ```bash
 git add .config/mise/conf.d/60-shell.toml .config/mise/conf.d/70-packages.toml
-git commit -m "feat: declare shell-integration tools and bootstrap packages"
+git commit -m "feat: declare shell-integration tools and system packages (git/zsh/1password-cli)"
 ```
 
 ---
