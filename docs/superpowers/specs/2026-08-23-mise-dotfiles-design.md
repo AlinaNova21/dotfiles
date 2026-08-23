@@ -46,6 +46,9 @@ Adopted directions:
   global config must itself live in the repo to reach `config/`, `zsh/`, etc. This is mise's
   documented **self-managing config** pattern.
 - mise's global config is `~/.config/mise/config.toml` (here: `~/.config/mise.toml` legacy empty).
+  In the repo it lives at `.config/mise/` to mirror that path directly — no bespoke `mise/` subtree.
+  The repo's separate `config/` dir holds the user dotfiles (hypr, niri, etc.) and is bridged to
+  the `.config/` mirror via symlink during migration.
 
 ## 3. Design
 
@@ -53,39 +56,44 @@ Adopted directions:
 
 ```
 ~/.config/home-manager/            # git AlinaNova21/dotfiles
-├── mise/
-│   ├── config.toml                # global core: [settings], [dotfiles] self-ref, [bootstrap.*], [tools]
-│   └── conf.d/
-│       ├── 00-local.toml          # gitignored, machine-local tools (kept)
-│       ├── 10-default.toml        # gh, jq, yq, rg, just, gitui   (from tools.nix 'default')
-│       ├── 20-tools-go.toml       # go, golangci-lint, gotestsum (per-host opt-in, from tools.nix)
-│       ├── 30-tools-node.toml     # node (per-host opt-in)
-│       ├── 40-tools-kubernetes.toml # kubectl, helm, ... (per-host opt-in)
-│       ├── 50-tools-ai.toml       # claude-code (per-host)
-│       ├── 60-shell.toml          # starship, eza, bat, fzf, zoxide, yazi, direnv (shell-integration tools)
-│       ├── 70-packages.toml       # [bootstrap.packages] pacman:/brew: per-OS host/system deps
-│       └── 80-desktop.toml        # [bootstrap.packages] GUI/desktop apps (hypr-adjacent) per-OS
-├── config/                        # unchanged: hypr, niri, uwsm, hyprpanel, ashell, noctalia, nvim
-├── zsh/                           # NEW: mise-managed zsh rc files (S3.5)
-├── flake.nix, modules/…           # shrinks to software layer / removed
+├── .config/                       # mise's intended mirror layout (source of `~/.config`)
+│   └── mise/                      # mise's own global config — mirrors ~/.config/mise
+│       ├── config.toml            # global core: [settings], [dotfiles] self-ref, [bootstrap.*], [tools]
+│       └── conf.d/
+│           ├── 00-local.toml      # gitignored, machine-local tools (kept)
+│           ├── 10-default.toml    # gh, jq, yq, rg, just, gitui   (from tools.nix 'default')
+│           ├── 20-tools-go.toml   # go, golangci-lint, gotestsum (per-host opt-in, from tools.nix)
+│           ├── 30-tools-node.toml # node (per-host opt-in)
+│           ├── 40-tools-kubernetes.toml # kubectl, helm, ... (per-host opt-in)
+│           ├── 50-tools-ai.toml   # claude-code (per-host)
+│           ├── 60-shell.toml      # starship, eza, bat, fzf, zoxide, yazi, direnv (shell-integration tools)
+│           ├── 70-packages.toml   # [bootstrap.packages] pacman:/brew: per-OS host/system deps
+│           └── 80-desktop.toml    # [bootstrap.packages] GUI/desktop apps (hypr-adjacent) per-OS
+├── config/                       # user dotfiles: hypr, niri, uwsm, hyprpanel, ashell, noctalia, nvim
+│                                # (legacy path bridged to .config/ during migration)
+├── zsh/                         # NEW: mise-managed zsh rc files (S3.5)
+├── flake.nix, modules/…         # shrinks to software layer / removed
 └── docs/superpowers/specs/
 ```
 
 **Self-managing mise config** (mise documented pattern) is the linchpin:
 
 ```toml
-# mise/config.toml
+# .config/mise/config.toml
 [settings]
-dotfiles.root = "~/dotfiles"          # mise's intended layout: home-relative targets mirror here
+dotfiles.root = "~/dotfiles"      # mise's intended layout: home-relative targets mirror here
 
 dotfiles.default_mode = "symlink"
 
 [dotfiles]
-"~/.config/mise" = "mise"             # manage the mise config dir itself from the repo (symlink)
+"~/.config/mise" = {}             # self-manage mise's own config dir via the mirror (→ .config/mise)
 ```
 
-This makes the **entire `~/.config/mise/` dir a symlink into the repo** so every conf.d fragment and
-every relative dotfile source resolves from the repo. Edits to config land in git.
+Because the mise config lives at `.config/mise/` (the mirror of `~/.config/mise/`), the self-managing
+entry needs **no custom source path** — `"~/.config/mise"` resolves via the same dotfiles mirror
+convention to `~/dotfiles/.config/mise`. This makes the **entire `~/.config/mise/` dir a symlink into
+the repo**, edits land in git, and everything else uses the standard mirror — no bespoke `mise/`
+source mapping.
 
 **Follow mise's intended design — `dotfiles.root` mirror.** Set `dotfiles.root = "~/dotfiles"` and
 lay the source tree out so home-relative targets mirror under it (mise's documented recipe). Do **not**
@@ -112,7 +120,7 @@ the source tree can be normalized later if desired.
 | Target | Today (HM) | After (mise) |
 |---|---|---|
 | `~/.config/hypr\|niri\|uwsm\|hyprpanel\|ashell\|noctalia\|nvim` | HM symlink → `config/` | mise dotfile `symlink` → `config/<name>` |
-| `~/.config/mise/*` | nix-store symlinks + hand local | mise self-managed → `mise/` |
+| `~/.config/mise/*` | nix-store symlinks + hand local | mise self-managed → `.config/mise/` |
 | `~/.zshrc` | HM-generated | mise dotfile → `zsh/.zshrc` (S3.5) |
 | `~/.config/starship.toml` | HM-generated | repo file (mise dotfile) |
 | git config, tmux, jujutsu, htop, user-dirs, electron-flags, hyfetch | HM-generated | repo files (mise dotfile) |
@@ -125,7 +133,7 @@ the source tree can be normalized later if desired.
 ### 3.3 `[bootstrap.packages]` — system/host packages
 
 ```toml
-# mise/conf.d/70-packages.toml
+# .config/mise/conf.d/70-packages.toml
 [bootstrap.packages]
 # host systems deps (per-OS selectors)
 "pacman:age" = "latest"            # linux
@@ -152,10 +160,10 @@ Rules from mise docs:
 
 ### 3.4 `[tools]` — versioned dev tools
 
-Migrate every `tools.nix` group and the `00-local.toml` tools into `mise/conf.d/` fragments:
+Migrate every `tools.nix` group and the `00-local.toml` tools into `.config/mise/conf.d/` fragments:
 
 ```toml
-# mise/conf.d/10-default.toml
+# .config/mise/conf.d/10-default.toml
 [tools]
 gh = "latest"
 gitui = "latest"
@@ -165,7 +173,7 @@ ripgrep = "latest"
 yq = "latest"
 ```
 ```toml
-# mise/conf.d/20-tools-go.toml     (per-host opt-in, same as today)
+# .config/mise/conf.d/20-tools-go.toml     (per-host opt-in, same as today)
 [tools]
 go = "latest"
 golangci-lint = "latest"
@@ -212,7 +220,7 @@ source ${zsh_plugins}.zsh
 ### 3.6 `[bootstrap.repos]` — dotfiles repo clone
 
 ```toml
-# mise/config.toml or conf.d
+# .config/mise/config.toml or conf.d
 [bootstrap.repos]
 "~/dot" = { url = "git@github.com:AlinaNova21/dotfiles.git", ref = "main" }
 ```
@@ -247,9 +255,9 @@ login_shell = "/bin/zsh"   # if non-default; ensure /bin/zsh in /etc/shells
    exact `source` line. (AUR `zsh-antidote` requires user repos; prefer git clone for portability.)
 2. **antidote load path** for the static-load pattern (source path, `.zsh_plugins`/`.zsh` naming,
    `ZDOTDIR` defaulting).
-3. **`~/.config/mise.toml` (empty file) vs `~/.config/mise/config.toml`:** clarify which is the
-   global config for the self-managing approach; likely create `~/.config/mise/config.toml` and
-   deprecate/rm the legacy empty file.
+3. **`~/.config/mise.toml` (empty legacy file) vs `~/.config/mise/config.toml`:** the self-managing
+   approach uses `~/.config/mise/config.toml` as the global config (mirrored from `.config/mise/config.toml`).
+   Deprecate/rm the legacy empty `~/.config/mise.toml`.
 4. **Per-host tool/package selection mechanism:** confirm mise's config-env / OS-conditional
    fragments (`mise.linux.toml`, `mise.{MISE_ENV}.toml`) for per-machine opt-in groups, replacing the
    current `acme.tools.<group>.enable` toggles.
@@ -267,12 +275,12 @@ can be rolled back by re-enabling the HM config. Work in small reversible commit
 `mise bootstrap dotfiles status` / `mise bootstrap` after each.
 
 **Stage 0 — Foundation: mise shaped, single mise**
-- Create `mise/` subtree in repo; move `00-local.toml` in (keep gitignore). Create `~/src/dotfiles ->`
-  repo and `~/dotfiles/.config -> repo/config` symlink bridges.
+- Create `.config/mise/` dirs in repo (mirroring `~/.config/mise/`); move `00-local.toml` in (keep
+  gitignore). Create `~/src/dotfiles` -> repo and `~/dotfiles/.config` -> `repo/config` symlink bridges.
 - Establish self-managing mise config: `[settings] dotfiles.root = "~/dotfiles"`,
-  `[dotfiles] "~/.config/mise" = "mise"`; `mise bootstrap dotfiles apply`.
-- Convert `tools.nix` groups → `mise/conf.d/*.toml` fragments; drop HMAC `tools.nix`/`dev.nix` tool
-  generation (mise now declares its own tools).
+  `[dotfiles] "~/.config/mise" = {}` (mirror → `.config/mise`); `mise bootstrap dotfiles apply`.
+- Convert `tools.nix` groups → `.config/mise/conf.d/*.toml` fragments; drop HMAC `tools.nix`/`dev.nix`
+  tool generation (mise now declares its own tools).
 - Resolve the two-mise shadow: stop HMAC `programs.mise.enable` (or dispose `~/.nix-profile/mise`);
   confirm `/usr/bin/mise` (pacman) is active and PATH order.
 - Confirm mise's per-host tool/package selection mechanism (open item 4), e.g. OS/config-env
