@@ -344,7 +344,7 @@ exact surface to mise and apply. Stages are ordered so the system stays function
 can be rolled back by re-enabling the HM config. Work in small reversible commits; verify with
 `mise bootstrap dotfiles status` / `mise bootstrap` after each.
 
-**Stage 0 — Pure mise pilot: prepare mise, prove bootstrap (no nix changes)**
+**Stage 0 — Pure mise pilot: prepare mise, prove bootstrap (no nix changes)** — ✅ DONE (2026-08-23)
 This stage only touches the repo and mise. Nothing in nix/home-manager is disabled, removed, or
 re-enabled; the live home config is untouched.
 - Create the repo-side mise source of truth: `.config/mise/config.toml` + `.config/mise/conf.d/*.toml`
@@ -365,8 +365,9 @@ re-enabled; the live home config is untouched.
 - Settle open items that need live probing (per-host/OS fragment selection, config-env mechanism,
   antidote path) without changing system state.
 - **Exit criteria**: bootstrap machinery fully operational against the repo `.config/mise/` as
-  source of truth; zero nix diff (repo has no module changes), rollback = delete the access symlinks
-  and pilot artifacts.
+  source of truth; zero nix diff (repo has no module changes); rollback = delete the access symlinks
+  and pilot artifacts. **✅ All met on 2026-08-23** (repo `.config/mise/` authored, `auto_env` confirmed,
+  dotfiles entries resolve, `~/` untouched, `~/dotfiles` not yet created).
 
 **Stage 1 — Self-manage mise's own config; single mise (first nix touch)**
 - (A) Disable HMAC `tools.nix`/`dev.nix` conf.d generation (stop writing
