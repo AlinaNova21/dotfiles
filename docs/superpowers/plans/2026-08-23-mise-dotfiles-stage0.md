@@ -5,7 +5,7 @@
 **Goal:** Prepare the mise environment and prove the `mise bootstrap` machinery works against the repo's `.config/mise/` as source of truth — a pure mise pilot with **zero nix changes** and **zero real dotfile changes** to `~/`.
 
 **Architecture:** The repo (reachable as `~/projects/dotfiles`; bootstrap will later manage a
-`~/dotfiles` → repo root symlink as a `[dotfiles]` entry) becomes the mise source of truth:
+`~/.dotfiles` → repo root symlink as a `[dotfiles]` entry) becomes the mise source of truth:
 `.config/mise/config.toml` (global-core: settings + self-managing entries) +
 `.config/mise/conf.d/*.toml` fragments (tools + bootstrap packages). Because the repo loads as a
 *project config* when cwd is inside it, mise reads it without touching the real global config. The
@@ -28,10 +28,10 @@ scratch dirs.
 Created in this stage (all inside the repo unless noted):
 
 - No home-dir symlinks are created manually. `~/projects/dotfiles` already exists (user-provided);
-  the `~/dotfiles` root symlink is DECLARED as a `[dotfiles]` entry and bootstrap creates it on the
+  the `~/.dotfiles` root symlink is DECLARED as a `[dotfiles]` entry and bootstrap creates it on the
   first real apply (start of Stage 1).
-- Create: `.config/mise/config.toml` — settings (`dotfiles.root = "~/dotfiles"`, `dotfiles.default_mode`)
-  + `[dotfiles]` root-symlink entry (`"~/dotfiles" = "~/projects/dotfiles"`) + self-managing entry
+- Create: `.config/mise/config.toml` — settings (`dotfiles.root = "~/.dotfiles"`, `dotfiles.default_mode`)
+  + `[dotfiles]` root-symlink entry (`"~/.dotfiles" = "~/projects/dotfiles"`) + self-managing entry
   for `~/.config/mise` (explicit real source)
 - Create: `.config/mise/miserc.toml` — `auto_env = true` (early-init; enables platform files)
 - Create: `.config/mise/mise.linux.toml` — linux-only tools (placeholders; auto_env selects per-OS)
@@ -59,7 +59,7 @@ Deferred (explicitly NOT in this stage — see "Deferred follow-on stages" at en
 **Files:** none
 
 Bootstrap manages the dotfiles-root symlink itself via a `[dotfiles]` entry (Task 5) — we do NOT
-create `~/dotfiles` manually. The only repo access path we rely on is `~/projects/dotfiles` (already
+create `~/.dotfiles` manually. The only repo access path we rely on is `~/projects/dotfiles` (already
 exists as the user made it).
 
 ---
@@ -272,25 +272,25 @@ Content:
 # bootstrap creates the dotfiles-root symlink via a [dotfiles] entry; first-run sources use the real
 # repo path because ~/.dotfiles does not exist until that symlink is created.
 [settings]
-dotfiles.root = "~/dotfiles"
+dotfiles.root = "~/.dotfiles"
 dotfiles.default_mode = "symlink"
 
 [dotfiles]
-# Root symlink: bootstrap creates ~/dotfiles -> repo on the first real apply (start of Stage 1).
+# Root symlink: bootstrap creates ~/.dotfiles -> repo on the first real apply (start of Stage 1).
 # We never create this manually.
-"~/dotfiles" = "~/projects/dotfiles"
+"~/.dotfiles" = "~/projects/dotfiles"
 # Self-manage mise's own config dir. Explicit real source: resolves immediately, does NOT depend
-# on the ~/dotfiles symlink existing yet (first-run rule from the docs).
+# on the ~/.dotfiles symlink existing yet (first-run rule from the docs).
 "~/.config/mise" = "~/projects/dotfiles/.config/mise"
 ```
 
 Notes:
-- `dotfiles.root = "~/dotfiles"` + the declared `"~/dotfiles"` entry means after the first real
-  apply, `{}` mirror entries resolve `~/.config/<name>` -> `~/dotfiles/.config/<name>` -> repo.
+- `dotfiles.root = "~/.dotfiles"` + the declared `"~/.dotfiles"` entry means after the first real
+  apply, `{}` mirror entries resolve `~/.config/<name>` -> `~/.dotfiles/.config/<name>` -> repo.
 - The `[dotfiles]` entries for desktop dirs (hypr, niri, …) are deliberately absent: their sources live
   under `repo/config/` until the Stage 2 rename; adding them now would report `source missing`. They
   arrive in Stage 2 alongside `git mv config .config`.
-- Do NOT run a real apply in this stage. The first apply (which creates `~/dotfiles`) is the start
+- Do NOT run a real apply in this stage. The first apply (which creates `~/.dotfiles`) is the start
   of Stage 1, per the staged plan.
 
 - [ ] **Step 1b: Create `.config/mise/miserc.toml` (auto_env)**
@@ -344,7 +344,7 @@ Run (from repo root):
 MISE_TRUSTED_CONFIG_PATHS="$(pwd)" /usr/bin/mise bootstrap dotfiles status
 ```
 Expected:
-- `~/dotfiles` line — source `~/projects/dotfiles` resolves; status `missing` (target doesn't exist yet — that's the point; first apply creates it).
+- `~/.dotfiles` line — source `~/projects/dotfiles` resolves; status `missing` (target doesn't exist yet — that's the point; first apply creates it).
 - `~/.config/mise` line — source `~/projects/dotfiles/.config/mise` resolves; status `differs`-style
   (target is the real nix-managed dir).
 - **No `source missing`** for either.
@@ -476,7 +476,7 @@ Run:
 ```bash
 /usr/bin/mise bootstrap dotfiles status
 ```
-Expected: two lines — `~/dotfiles` (status `missing`, would create symlink on apply) and `~/.config/mise` (resolved source `~/projects/dotfiles/.config/mise`, `differs`/conflict since target is the real nix-managed dir). The key assertion: **no `source missing`**.
+Expected: two lines — `~/.dotfiles` (status `missing`, would create symlink on apply) and `~/.config/mise` (resolved source `~/projects/dotfiles/.config/mise`, `differs`/conflict since target is the real nix-managed dir). The key assertion: **no `source missing`**.
 
 - [ ] **Step 2: Apply dry-run — confirms the root symlink and conflict detection, without touching**
 
@@ -485,9 +485,9 @@ Run:
 /usr/bin/mise bootstrap dotfiles apply --dry-run
 ```
 Expected: prints two planned actions:
-1. `ln -sf ~/projects/dotfiles ~/dotfiles` — bootstrap creating the root symlink (proves it manages it; NOT done by us).
+1. `ln -sf ~/projects/dotfiles ~/.dotfiles` — bootstrap creating the root symlink (proves it manages it; NOT done by us).
 2. For `~/.config/mise`: a **conflict refusal** (real nix-managed dir at target; `--force` would be needed) — confirms conflict detection works and real state is safe from accidental apply.
-Verify neither was actually changed: `ls -ld ~/dotfiles` should NOT exist; `~/.config/mise` should still be the real dir.
+Verify neither was actually changed: `ls -ld ~/.dotfiles` should NOT exist; `~/.config/mise` should still be the real dir.
 
 - [ ] **Step 3: Full bootstrap sequence dry-run**
 
@@ -503,7 +503,7 @@ Run (from repo root, using a throwaway config dir in /tmp — do not edit the co
 ```bash
 mkdir -p /tmp/mise-pilot-check/.config/mise && cat > /tmp/mise-pilot-check/.config/mise/config.toml <<'EOF'
 [settings]
-dotfiles.root = "~/dotfiles"
+dotfiles.root = "~/.dotfiles"
 [dotfiles]
 "~/.config/nonexistent-tool" = {}
 EOF
@@ -611,11 +611,11 @@ Expected: only the deliberate Stage 0 commits (`.config/mise/**`, `.gitignore`, 
 
 Run:
 ```bash
-ls -ld ~/dotfiles                       # must NOT exist (bootstrap-managed; first apply in Stage 1)
+ls -ld ~/.dotfiles                       # must NOT exist (bootstrap-managed; first apply in Stage 1)
 ls -ld ~/.config/hypr ~/.config/niri    # still nix-store symlinks (unchanged)
 readlink ~/.zshrc                       # still nix-store path
 ```
-Expected: `~/dotfiles` absent; desktop dirs unchanged; `.zshrc` unchanged. Nothing was applied.
+Expected: `~/.dotfiles` absent; desktop dirs unchanged; `.zshrc` unchanged. Nothing was applied.
 
 - [ ] **Step 3: Update the spec's Stage 0 status**
 
@@ -627,7 +627,7 @@ git commit -m "docs: mark Stage 0 (mise pilot) complete"
 
 - [ ] **Step 4: Record rollback**
 
-In a short note appended to the spec (or this plan's end), record: **Stage 0 rollback** = `rm -rf .config/mise` (in repo), `git checkout -- .gitignore`, and (if trust was recorded) remove the trusted path — zero system impact: no dotfile or package applied, no nix change, and `~/dotfiles` was never created (bootstrap will create it at Stage 1's first apply).
+In a short note appended to the spec (or this plan's end), record: **Stage 0 rollback** = `rm -rf .config/mise` (in repo), `git checkout -- .gitignore`, and (if trust was recorded) remove the trusted path — zero system impact: no dotfile or package applied, no nix change, and `~/.dotfiles` was never created (bootstrap will create it at Stage 1's first apply).
 
 ---
 
@@ -635,7 +635,7 @@ In a short note appended to the spec (or this plan's end), record: **Stage 0 rol
 
 Per design decision, later stages are written as plans only when we're ready to execute them, so we can adapt as needed:
 
-- **Stage 1** — first nix touch: disable HM `tools.nix`/`dev.nix` conf.d generation and `programs.mise.enable`; run the first real `mise bootstrap dotfiles apply` (which creates the `~/dotfiles` root symlink and the `~/.config/mise` symlink); confirm single `/usr/bin/mise`. **Plan when Stage 0 has run green.**
+- **Stage 1** — first nix touch: disable HM `tools.nix`/`dev.nix` conf.d generation and `programs.mise.enable`; run the first real `mise bootstrap dotfiles apply` (which creates the `~/.dotfiles` root symlink and the `~/.config/mise` symlink); confirm single `/usr/bin/mise`. **Plan when Stage 0 has run green.**
 - **Stage 2** — desktop dotfiles + `git mv config/* .config/` (note: `.config/` will exist; move contents, not the dir). Declare `[dotfiles]` for hypr/niri/uwsm/hyprpanel/ashell/noctalia/nvim **after** the rename so sources exist.
 - **Stage 3 — deferred** — generated non-shell configs (starship/git/tmux/htop…) → repo files.
 - **Stage 4** — zsh rc files + antidote (git-clone under `~/.antidote`) + `[bootstrap.mise_shell_activate]`.
@@ -649,7 +649,7 @@ The `[dotfiles]` desktop entries are intentionally absent from the Stage 0 confi
 
 ## Success criteria (Stage 0)
 
-- `~/projects/dotfiles` resolves to the repo. `~/dotfiles` does **not** exist yet — it's declared as a
+- `~/projects/dotfiles` resolves to the repo. `~/.dotfiles` does **not** exist yet — it's declared as a
   `[dotfiles]` entry and bootstrap will create it on the first real apply (Stage 1); we never create it manually.
 - `.config/mise/` in the repo is a complete draft of the future global config: `config.toml` + all tool fragments + bootstrap packages.
 - `MISE_TRUSTED_CONFIG_PATHS="$(pwd)" /usr/bin/mise config` lists the repo's `.config/mise/config.toml` and every fragment, merged with the real global config.
