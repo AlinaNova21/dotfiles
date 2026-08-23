@@ -47,32 +47,34 @@ Adopted directions:
   documented **self-managing config** pattern.
 - mise's global config is `~/.config/mise/config.toml` (here: `~/.config/mise.toml` legacy empty).
   In the repo it lives at `.config/mise/` to mirror that path directly — no bespoke `mise/` subtree.
-  The repo's separate `config/` dir holds the user dotfiles (hypr, niri, etc.) and is bridged to
-  the `.config/` mirror via symlink during migration.
+The repo's separate `config/` dir holds the user dotfiles (hypr, niri, etc.). Once nix stops generating
+  those symlinks (Stage 1A), the dir is renamed `config/` → `.config/` so the repo mirrors `~/.config`
+  directly — no permanent bridge symlink needed.
 
 ## 3. Design
 
 ### 3.1 Repository layout (mise-first)
 
 ```
-~/.config/home-manager/            # git AlinaNova21/dotfiles
-├── .config/                       # mise's intended mirror layout (source of `~/.config`)
-│   └── mise/                      # mise's own global config — mirrors ~/.config/mise
-│       ├── config.toml            # global core: [settings], [dotfiles] self-ref, [bootstrap.*], [tools]
-│       └── conf.d/
-│           ├── 00-local.toml      # gitignored, machine-local tools (kept)
-│           ├── 10-default.toml    # gh, jq, yq, rg, just, gitui   (from tools.nix 'default')
-│           ├── 20-tools-go.toml   # go, golangci-lint, gotestsum (per-host opt-in, from tools.nix)
-│           ├── 30-tools-node.toml # node (per-host opt-in)
-│           ├── 40-tools-kubernetes.toml # kubectl, helm, ... (per-host opt-in)
-│           ├── 50-tools-ai.toml   # claude-code (per-host)
-│           ├── 60-shell.toml      # starship, eza, bat, fzf, zoxide, yazi, direnv (shell-integration tools)
-│           ├── 70-packages.toml   # [bootstrap.packages] pacman:/brew: per-OS host/system deps
-│           └── 80-desktop.toml    # [bootstrap.packages] GUI/desktop apps (hypr-adjacent) per-OS
-├── config/                       # user dotfiles: hypr, niri, uwsm, hyprpanel, ashell, noctalia, nvim
-│                                # (legacy path bridged to .config/ during migration)
-├── zsh/                         # NEW: mise-managed zsh rc files (S3.5)
-├── flake.nix, modules/…         # shrinks to software layer / removed
+~/.config/home-manager/            # git AlinaNova21/dotfiles; also reachable as ~/src/dotfiles
+├── .config/                       # mirror layout: source of `~/.config` (renamed from legacy `config/`)
+│   ├── mise/                      # mise's own global config — mirrors ~/.config/mise
+│   │   ├── config.toml            # global core: [settings], [dotfiles] self-ref, [bootstrap.*], [tools]
+│   │   └── conf.d/
+│   │       ├── 00-local.toml      # gitignored, machine-local tools (kept)
+│   │       ├── 10-default.toml    # gh, jq, yq, rg, just, gitui   (from tools.nix 'default')
+│   │       ├── 20-tools-go.toml   # go, golangci-lint, gotestsum (per-host opt-in)
+│   │       ├── 30-tools-node.toml # node (per-host opt-in)
+│   │       ├── 40-tools-kubernetes.toml # kubectl, helm, ... (per-host opt-in)
+│   │       ├── 50-tools-ai.toml   # claude-code (per-host)
+│   │       ├── 60-shell.toml      # starship, eza, bat, fzf, zoxide, yazi, direnv (shell-integration tools)
+│   │       ├── 70-packages.toml   # [bootstrap.packages] pacman:/brew: per-OS host/system deps
+│   │       └── 80-desktop.toml    # [bootstrap.packages] GUI/desktop apps (hypr-adjacent) per-OS
+│   ├── hypr/ niri/ uwsm/ hyprpanel/ ashell/ noctalia/ nvim/   # user dotfiles (renamed from config/)
+│   └── starship.toml git etc.     # other generated configs moved here (Stage 2)
+├── .zshrc .zshenv .zprofile .zlogout .zsh_plugins.txt   # draft: NEW: mise-managed zsh rc files (S3.5)
+├── .envrc .direnv/                # existing repo detritus (unchanged)
+├── flake.nix, modules/…           # shrinks to software layer / removed
 └── docs/superpowers/specs/
 ```
 
@@ -99,29 +101,38 @@ source mapping.
 lay the source tree out so home-relative targets mirror under it (mise's documented recipe). Do **not**
 deviate: no custom source-path layering that would diverge from mise's `add`/`edit` capture workflow.
 
-**Migration bridge (symlinks).** The repo currently stores dotfiles under `config/` (not `.config/`)
-and lives at `~/.config/home-manager`. To expose a mise-shaped source tree without moving files, use
-symlinks for the transition and converge over time:
+**Layout convergence — rename `config/` → `.config/`.** The repo currently stores user dotfiles under
+`config/` (not `.config/`). Nix-generated symlinks currently point at `config/<name>`; once those are
+disabled (Stage 1A), nothing depends on the `config/` path anymore. At that point `git mv config .config`:
 
 ```
-~/src/dotfiles      -> ~/.config/home-manager   # dotfiles repo path mise expects
-~/.dotfiles        (or mise's dotfiles.root)     # mirror root
-    └── .config    -> ../config                  # repo's config/ dir: home-relative mirror target
+git mv config .config
 ```
 
-Concretely: create `~/src/dotfiles` as a symlink to the repo, and within the dotfiles root expose
-`~/.config` (the mirror of the `~/.config/*` targets) as a symlink to the repo's `config/`. This keeps
-mise's mirror convention (`"~/.config/<name>"` -> `~/dotfiles/.config/<name>`) resolving through the
-symlink to the real `config/<name>` files. These are convergence bridges, not permanent structure —
-the source tree can be normalized later if desired.
+Now the repo mirrors `~/.config` directly: `~/.config/hypr` → `~/dotfiles/.config/hypr` → repo
+`.config/hypr`, with **no bridge symlink**. Same for mise's own config (`.config/mise/`), zsh rc files,
+and starship/git/etc. placed alongside.
+
+**Interim access path.** The repo is at `~/.config/home-manager`; create `~/src/dotfiles` →
+`~/.config/home-manager` symlink so mise's conventional repo path (`~/src/dotfiles`) works before
+`[bootstrap.repos]` is wired. After rename, `dotfiles.root` targets resolve straight into the repo:
+
+```
+~/src/dotfiles  -> ~/.config/home-manager   # dotfiles repo path mise expects
+~/dotfiles      -> ~/.config/home-manager   # dotfiles.root mirror root == the repo itself
+```
+
+Once `dotfiles.root = "~/dotfiles"` and `~/dotfiles` -> the repo, the mirror convention
+(`"~/.config/<name>"` -> `~/dotfiles/.config/<name>`) resolves directly into repo `.config/` — pure
+mise-intended layout, no custom layering, no permanent bridge.
 
 ### 3.2 Ownership matrix (full conversion)
 
 | Target | Today (HM) | After (mise) |
 |---|---|---|
-| `~/.config/hypr\|niri\|uwsm\|hyprpanel\|ashell\|noctalia\|nvim` | HM symlink → `config/` | mise dotfile `symlink` → `config/<name>` |
+| `~/.config/hypr\|niri\|uwsm\|hyprpanel\|ashell\|noctalia\|nvim` | HM symlink → `config/` | mise dotfile `symlink` → `.config/<name>` |
 | `~/.config/mise/*` | nix-store symlinks + hand local | mise self-managed → `.config/mise/` |
-| `~/.zshrc` | HM-generated | mise dotfile → `zsh/.zshrc` (S3.5) |
+| `~/.zshrc` | HM-generated | mise dotfile → `.zshrc` at repo root (S3.5) |
 | `~/.config/starship.toml` | HM-generated | repo file (mise dotfile) |
 | git config, tmux, jujutsu, htop, user-dirs, electron-flags, hyfetch | HM-generated | repo files (mise dotfile) |
 | nix-index command-not-found | HM-generated (nix-only) | **dropped** on CachyOS (or via mise tool `nix-index`) |
@@ -189,7 +200,7 @@ per-host tool/package selection OR keep explicit opt-in fragments and select via
 
 The current `.zshrc` is home-manager-generated from nix-store paths with antidote from the store. New model:
 
-**Repo `zsh/` files (mise-managed dotfiles):**
+**Repo root rc files (mise-managed dotfiles):**
 - `.zshenv` — mise activate, `typeset -U path`, PATH (minimal; sourced by everything)
 - `.zprofile` — login-shell setup (keep fpath/NIX_PROFILES if still needed for zsh functions)
 - `.zshrc` — history opts, bindkeys, starship/direnv hook, aliases, completions, antidote load
@@ -215,7 +226,7 @@ source ${zsh_plugins}.zsh
 - **Completions:** zsh `compinit` + `compdump` (autodetect), plus **mise tool completions** — mise
   provides `mise completion zsh` and per-tool completions/shims now that tools are mise-managed (no
   nix store paths). Shell-integration completions (fzf `--zsh`, starship, direnv hook) become
-  **static fragments** checked into `zsh/` since tools are mise-managed (version-independent).
+  **static fragments** checked into the repo since tools are mise-managed (version-independent).
 
 ### 3.6 `[bootstrap.repos]` — dotfiles repo clone
 
@@ -263,7 +274,8 @@ login_shell = "/bin/zsh"   # if non-default; ensure /bin/zsh in /etc/shells
    current `acme.tools.<group>.enable` toggles.
 5. **nix-index / command-not-found:** drop on CachyOS (server-only tool) → possibly a mise tool or
    remove.
-6. **dotfiles.root behavior** — RESOLVED: adopt mise's mirror convention (`dotfiles.root = "~/dotfiles"`); during migration, bridge with symlinks (`~/src/dotfiles -> repo`, `~/dotfiles/.config -> repo/config`).
+6. **dotfiles.root behavior** — RESOLVED: adopt mise's mirror convention (`dotfiles.root = "~/dotfiles"`);
+   the repo mirrors `~/.config` directly after `git mv config .config`; `~/src/dotfiles`/`~/dotfiles` -> repo.
 7. **hyprland/hyprpanel:** post-CachyOS we only manage config files, not the WM process (stays an OS
    package). Verify hyprpanel's config dir is a plain dotfile.
 
@@ -276,7 +288,7 @@ can be rolled back by re-enabling the HM config. Work in small reversible commit
 
 **Stage 0 — Foundation: mise shaped, single mise**
 - Create `.config/mise/` dirs in repo (mirroring `~/.config/mise/`); move `00-local.toml` in (keep
-  gitignore). Create `~/src/dotfiles` -> repo and `~/dotfiles/.config` -> `repo/config` symlink bridges.
+  gitignore). Create `~/src/dotfiles` -> repo symlink (interim access path).
 - Establish self-managing mise config: `[settings] dotfiles.root = "~/dotfiles"`,
   `[dotfiles] "~/.config/mise" = {}` (mirror → `.config/mise`); `mise bootstrap dotfiles apply`.
 - Convert `tools.nix` groups → `.config/mise/conf.d/*.toml` fragments; drop HMAC `tools.nix`/`dev.nix`
@@ -286,22 +298,25 @@ can be rolled back by re-enabling the HM config. Work in small reversible commit
 - Confirm mise's per-host tool/package selection mechanism (open item 4), e.g. OS/config-env
   fragments.
 
-**Stage 1 — Mise config owns `config/` desktop dirs**
+**Stage 1 — Mise config owns desktop dotfiles; rename `config/` → `.config/`**
 - (A) Disable HMAC `xdg.configFile` out-of-store symlinks (`utils.nix` mkppConfigDir / `config.nix`
   acme.desktop.configs; also nvim in `nvim.nix`).
 - (B) Add `[dotfiles]` entries for hypr, niri, uwsm, hyprpanel, ashell, noctalia, nvim →
-  `./dotfiles/.config/<name>` (mise mirror through bridge); `mise bootstrap dotfiles apply`.
-- Verify each dir now resolves from repo under mise, not nix.
+  `~/dotfiles/.config/<name>` (mise mirror); `mise bootstrap dotfiles apply`.
+- **Rename `config/` → `.config/`** now that nix no longer references the `config/` path: `git mv config .config`.
+  The repo mirrors `~/.config` directly; `~/dotfiles` (`-> repo`) resolves `.config/<name>` with no bridge.
+- Verify each dir now resolves from repo under mise, not nix; `~/dotfiles/.config/mise` also mirrors.
 
 **Stage 2 — Generated user configs (non-shell)**
 - (A) Disable HMAC generation for starship, git, tmux, jujutsu, htop, user-dirs, electron-flags, hyfetch.
 - (B) Check repo content (move HM generated values to repo files), add `[dotfiles]` entries,
   apply. Drop nix-only pieces (nix-index/command-not-found) per open item 5.
 
-**Stage 3 — zsh (new `zsh/` + antidote)**
+**Stage 3 — zsh (rc files at repo root + antidote)**
 - Clone antidote (git-clone under `~/.antidote`); set `ZDOTDIR` if needed.
-- Build `zsh/` rc files (`.zshenv`, `.zprofile`, `.zshrc`, `.zlogout`, `.zsh_plugins.txt`);
-  add `[dotfiles]` entries / `[bootstrap.mise_shell_activate]`.
+- Build rc files at repo root mirroring home dotfiles: `.zshenv`, `.zprofile`, `.zshrc`, `.zlogout`,
+  `.zsh_plugins.txt` (mise mirror → `~/dotfiles/.zshrc` etc.); add `[dotfiles]` entries /
+  `[bootstrap.mise_shell_activate]`.
 - (A) stop HMAC `programs.zsh`/`shell.nix`; (B) switch mise-managed zsh, antidote load,
   compinit + mise completions. Remove stale fnm line.
 
