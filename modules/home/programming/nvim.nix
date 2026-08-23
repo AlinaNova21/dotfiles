@@ -3,19 +3,25 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.acme.nvim;
-in {
+in
+{
   options.acme.nvim.enable = lib.mkEnableOption "Neovim";
   config = lib.mkIf cfg.enable {
-    xdg.configFile = {
-      "nvim/init.lua" = {
-        source = config.lib.file.mkOutOfStoreSymlink "${config.acme.dotfiles.path}/config/nvim/init.lua";
-      };
-      "nvim/lua" = {
-        source = config.lib.file.mkOutOfStoreSymlink "${config.acme.dotfiles.path}/config/nvim/lua";
-      };
-    };
+    # DISABLED (Stage 2 mise migration): nvim config is owned by mise [dotfiles]
+    # ("~/.config/nvim" = {}) mirroring to repo/.config/nvim. The nix xdg.configFile
+    # out-of-store symlinks for nvim are no longer generated (init.lua + lua are the
+    # source repo dir, now whole-dir symlinked by mise).
+    # xdg.configFile = {
+    #   "nvim/init.lua" = {
+    #     source = config.lib.file.mkOutOfStoreSymlink "${config.acme.dotfiles.path}/config/nvim/init.lua";
+    #   };
+    #   "nvim/lua" = {
+    #     source = config.lib.file.mkOutOfStoreSymlink "${config.acme.dotfiles.path}/config/nvim/lua";
+    #   };
+    # };
     catppuccin.nvim.enable = false;
     programs.neovim = {
       enable = true;
@@ -24,7 +30,7 @@ in {
         "--prefix"
         "PATH"
         ":"
-        "${lib.makeBinPath [pkgs.gcc]}"
+        "${lib.makeBinPath [ pkgs.gcc ]}"
       ];
       # defaultEditor = true; # maybe later
       viAlias = true;
