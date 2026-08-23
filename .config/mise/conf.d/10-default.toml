@@ -5,6 +5,9 @@ jq = "latest"
 just = "latest"
 ripgrep = "latest"
 yq = "latest"
+# Secret tooling (mise tools; removed from system packages)
+age = "latest"
+sops = "latest"
 
 # Project-scoped tools stay in each project's mise.toml, NOT global:
 # (grouped) docker, pulumi, d2, claude-code, op-as-tool (system-managed, see 70-packages),

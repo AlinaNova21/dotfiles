@@ -7,8 +7,5 @@
 # Security tooling — op/1password-cli is system-managed (provides /usr/bin/op, root-owned setuid-group)
 "pacman:1password-cli" = { os = "linux" }
 "brew:1password-cli" = { os = "macos" }
-# Secrets baseline (home-ops pins these project-side too; keep global for general use)
-"pacman:age" = { os = "linux" }
-"brew:age" = { os = "macos" }
-"pacman:sops" = { os = "linux" }   # confirmed: resolves via pacman (cachyos-extra repo)
-"brew:sops" = { os = "macos" }
+# age/sops are mise tools (see 10-default.toml) — not system packages.
+# git/zsh have no mise registry entry and are system-level; op is system-managed.

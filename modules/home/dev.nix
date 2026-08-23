@@ -25,11 +25,7 @@ with lib;
 
     home.packages =
       with pkgs;
-      [
-        age
-        sops
-      ]
-      ++ optionals config.acme.desktop.enable [
+      optionals config.acme.desktop.enable [
         vscode
       ];
 
