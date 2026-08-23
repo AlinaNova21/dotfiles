@@ -387,7 +387,7 @@ re-enabled; the live home config is untouched.
 - **Age/sops moved to mise `[tools]`** (10-default.toml), dropped from `70-packages.toml` and
   `home.packages` — they're native mise tools and don't need system-level placement.
 
-**Stage 2 — Mise config owns desktop dotfiles; move `config/` folders → `.config/`**
+**Stage 2 — Mise config owns desktop dotfiles; move `config/` folders → `.config/`** — ✅ DONE (2026-08-23)
 - (A) Disable HMAC `xdg.configFile` out-of-store symlinks (`config.nix` acme.desktop.configs via
   `utils.nix` mapConfigDir; also nvim's xdg entries in `nvim.nix`). Leave option defs + host toggles
   as inert no-ops (disable, don't remove).
@@ -403,6 +403,12 @@ re-enabled; the live home config is untouched.
   The repo mirrors `~/.config` directly; `~/.dotfiles` (`-> repo`) resolves `.config/<name>`.
 - Apply `[dotfiles]` (via `mise bootstrap dotfiles apply`) and verify each dir resolves from repo
   under mise, not nix; `~/.dotfiles/.config/mise` also mirrors.
+  Done: all 7 desktop dirs applied as mise symlinks. **Security:** Noctalia `plugins/` untracked + gitignored
+  (found real secret — HA token in `hassio/settings.json`, since revoked/verified 401; plugins can't
+  reliably be pre-secret-proofed), keeping only safe shell config (`colors.json`, `plugins.json`).
+  **nvim:** `programs.neovim` disabled (nix no longer writes nvim); `neovim` added to mise `[tools]`
+  (60-shell); nvim dir uses folder-level .gitignore for lazy-lock/lazyvim local state.
+  **Convention:** `dotfiles.root = "~/.dotfiles"` confirmed (symlink `~/.dotfiles → repo`).
 
 **Stage 3 — Generated user configs (non-shell)**
 - (A) Disable HMAC generation for starship, git, tmux, jujutsu, htop, user-dirs, electron-flags, hyfetch.
