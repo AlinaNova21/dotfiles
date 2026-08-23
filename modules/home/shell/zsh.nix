@@ -41,6 +41,10 @@ in
         initContent = ''
           bindkey '^[[A' history-search-backward # Up
           bindkey '^[[B' history-search-forward  # Down
+
+          # mise is system/pacman-managed now (not nix). Activate it explicitly
+          # using the system path (interim until .zshrc becomes mise-managed).
+          eval "$(/usr/bin/mise activate zsh)"
         '';
 
         antidote = {
