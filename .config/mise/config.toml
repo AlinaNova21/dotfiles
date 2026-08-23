@@ -13,3 +13,18 @@ dotfiles.default_mode = "symlink"
 # Self-manage mise's own config dir. Explicit real source: resolves immediately, does NOT depend
 # on the ~/dotfiles symlink existing yet (first-run rule from the docs).
 "~/.config/mise" = "~/projects/dotfiles/.config/mise"
+
+# Desktop config dirs — mirror-style (no explicit source): resolve via dotfiles.root
+# (~/dotfiles) to repo/.config/<name>. Source must exist at repo/.config/<name> — folders
+# are moved from repo/config/ to repo/.config/ (Part E) before these are applied.
+"~/.config/hypr" = {}
+"~/.config/niri" = {}
+"~/.config/uwsm" = {}
+"~/.config/hyprpanel" = {}
+"~/.config/ashell" = {}
+"~/.config/noctalia" = {}
+"~/.config/nvim" = {}
+
+[tools]
+herdr = "latest"
+pi = "latest"
