@@ -59,7 +59,10 @@ The repo's separate `config/` dir holds the user dotfiles (hypr, niri, etc.). On
 ~/.config/home-manager/            # git AlinaNova21/dotfiles; also reachable as ~/projects/dotfiles
 ├── .config/                       # mirror layout: source of `~/.config` (renamed from legacy `config/`)
 │   ├── mise/                      # mise's own global config — mirrors ~/.config/mise
+│   │   ├── miserc.toml            # auto_env = true (early-init; enables platform files below)
 │   │   ├── config.toml            # global core: [settings], [dotfiles] self-ref, [bootstrap.*], [tools]
+│   │   ├── mise.linux.toml        # linux-specific tools/packages (auto_env: loaded on linux)
+│   │   ├── mise.macos.toml        # macos-specific tools/packages (auto_env: loaded on macos)
 │   │   └── conf.d/
 │   │       ├── 00-local.toml      # gitignored, machine-local tools (kept)
 │   │       ├── 10-default.toml    # gh, jq, yq, rg, just, gitui   (global baseline)
@@ -85,11 +88,19 @@ projects need (kubernetes, ai/claude-code, docker, pulumi, d2, op-as-tool, secre
 sops age just jq yq gitleaks…`), or in per-host fragments — never global. This removes duplication and
 keeps project version pins authoritative.
 
-**Cross-platform (`pacman:` / `brew:` with `os` selectors).** `[bootstrap.packages]` entries are keyed
-`"manager:package"` with optional `os` selectors; unavailable managers are skipped. On CachyOS,
-`pacman:` entries apply; on macOS, `brew:` entries apply (both can be declared side-by-side in the same
-fragment, verified live: the `brew:` entries are skipped on Linux). `node`, `pnpm`, `go` are builtin
-mise tools — they install via builtin backends cross-platform (no system package needed).
+**Platform-specific files via `auto_env` (verified live on 2026.8.6).** A `miserc.toml` at
+`~/.config/mise/miserc.toml` (global miserc location, per docs) with `auto_env = true` makes
+`mise.linux.toml` / `mise.macos.toml` load automatically based on OS/arch — no `MISE_ENV` needed.
+Note the docs: `auto_env` is an early-init setting, so it goes in `miserc.toml`, not `config.toml`;
+it's off by default until 2026.12.0 (then on by default from 2027.6.0). Since `~/.config/mise` is the
+self-managed dir (symlinked into the repo), `miserc.toml` and the `mise.<os>.toml` files live inside
+`.config/mise/` and are automatically included in the dotfiles — no separate dotfile entry needed.
+
+**Cross-platform for `[bootstrap.packages]` (verified live).** Package entries are keyed
+`"manager:package"` with optional `os` selectors; unavailable managers are skipped. On CachyOS the
+`pacman:` entries apply; on macOS the `brew:` entries apply — one fragment serves both (probe confirmed
+`brew:` skipped on Linux). `node`, `pnpm`, `go` are builtin mise tools — they install cross-platform
+(no system package needed).
 
 **Self-managing mise config** (mise documented pattern) is the linchpin:
 
@@ -309,12 +320,17 @@ login_shell = "/bin/zsh"   # if non-default; ensure /bin/zsh in /etc/shells
 3. **`~/.config/mise.toml` (empty legacy file) vs `~/.config/mise/config.toml`:** the self-managing
    approach uses `~/.config/mise/config.toml` as the global config (mirrored from `.config/mise/config.toml`).
    Deprecate/rm the legacy empty `~/.config/mise.toml`.
-4. **Per-host / cross-platform selection** — RESOLVED (live probe): `[bootstrap.packages]` uses
-   `"manager:package"` + `os` selectors; unavailable managers are skipped, so one fragment serves both
-   CachyOS (`pacman:`) and macOS (`brew:`). Project-scoped tools go in each project's `mise.toml`;
-   only genuine machine-wide needs (e.g. a host that universally uses kubernetes) use a per-host
-   fragment/env (`mise.{MISE_ENV}.toml`) — the old `acme.tools.<group>.enable` toggles are replaced by
-   this project-level + per-host split.
+4. **Per-host / cross-platform selection** — RESOLVED (live probe): two mechanisms.
+   - Platform split: `.config/mise/miserc.toml` with `auto_env = true` makes `mise.linux.toml` /
+     `mise.macos.toml` load automatically (verified on 2026.8.6). It's an early-init setting, so it
+     lives in `miserc.toml`, not `config.toml`. Included in the dotfiles automatically because it's
+     inside the self-managed `~/.config/mise` dir.
+   - `[bootstrap.packages]` uses `"manager:package"` + `os` selectors (pacman: on CachyOS / brew: on
+     macOS, one fragment serves both). Project-scoped tools go in each project's `mise.toml`; only
+     genuine machine-wide needs use a per-host fragment. The old `acme.tools.<group>.enable` toggles
+     are replaced by this project-level + platform split.
+   - A bare `mise.<MISE_ENV>.toml` (with explicit `MISE_ENV`) remains available for a truly
+     per-hostname selection if ever needed.
 5. **nix-index / command-not-found:** drop on CachyOS (server-only tool) → possibly a mise tool or
    remove.
 6. **dotfiles.root behavior** — RESOLVED: adopt mise's mirror convention (`dotfiles.root = "~/dotfiles"`);

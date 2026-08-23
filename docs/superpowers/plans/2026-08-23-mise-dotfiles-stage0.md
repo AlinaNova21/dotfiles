@@ -33,6 +33,9 @@ Created in this stage (all inside the repo unless noted):
 - Create: `.config/mise/config.toml` — settings (`dotfiles.root = "~/dotfiles"`, `dotfiles.default_mode`)
   + `[dotfiles]` root-symlink entry (`"~/dotfiles" = "~/projects/dotfiles"`) + self-managing entry
   for `~/.config/mise` (explicit real source)
+- Create: `.config/mise/miserc.toml` — `auto_env = true` (early-init; enables platform files)
+- Create: `.config/mise/mise.linux.toml` — linux-only tools (placeholders; auto_env selects per-OS)
+- Create: `.config/mise/mise.macos.toml` — macos-only tools (placeholders; auto_env selects per-OS)
 - Create: `.config/mise/conf.d/00-local.toml` — machine-local tools (gitignored)
 - Create: `.config/mise/conf.d/10-default.toml` — baseline utilities (gh, jq, yq, rg, just, gitui)
 - Create: `.config/mise/conf.d/20-node.toml` — node + pnpm (global baseline, they go together)
@@ -43,7 +46,7 @@ Created in this stage (all inside the repo unless noted):
 Project-scoped tools (kubernetes, ai, docker, pulumi, d2, onepassword-as-tool, secret scanners) are
 NOT created globally — they live in each project's `mise.toml` (home-ops already declares its own).
 - Modify: `.gitignore` — ignore `.config/mise/conf.d/00-local.toml`
-- Modify (spec): `docs/superpowers/specs/2026-08-23-mise-dotfiles-design.md` — resolve open item 4 (per-host selection) with the probe finding
+- Modify (spec): `docs/superpowers/specs/2026-08-23-mise-dotfiles-design.md` — resolve open item 4 (per-host/OS selection via auto_env + platform files)
 
 Deferred (explicitly NOT in this stage — see "Deferred follow-on stages" at end): `[dotfiles]` entries for desktop dirs (Stage 2, alongside `git mv config .config`), zsh rc files (Stage 4), `[bootstrap.repos]` (Stage 6), any nix/home-manager change (Stage 1+).
 
@@ -229,10 +232,13 @@ git commit -m "feat: author lean global mise tool fragments (default, node+pnpm,
 
 ---
 
-## Task 5: Author `.config/mise/config.toml` (settings, self-managing entries, root symlink)
+## Task 5: Author `.config/mise/config.toml` + `.config/mise/miserc.toml` (settings, self-managing entries, root symlink, auto_env)
 
 **Files:**
 - Create: `.config/mise/config.toml`
+- Create: `.config/mise/miserc.toml`
+- Create: `.config/mise/mise.linux.toml` (placeholder)
+- Create: `.config/mise/mise.macos.toml` (placeholder)
 
 - [ ] **Step 1: Create the file**
 
@@ -264,6 +270,41 @@ Notes:
 - Do NOT run a real apply in this stage. The first apply (which creates `~/dotfiles`) is the start
   of Stage 1, per the staged plan.
 
+- [ ] **Step 1b: Create `.config/mise/miserc.toml` (auto_env)**
+
+Content:
+```toml
+# Early-init config: enables platform envs (mise.linux.toml / mise.macos.toml auto-load).
+# Must live in ~/.config/mise/miserc.toml (global miserc location) and be committed to dotfiles
+# (inside the self-managed ~/.config/mise dir, so it rides along automatically).
+auto_env = true
+```
+
+Notes:
+- `auto_env` is an early-init setting — it must be in `miserc.toml` (not `config.toml`), per docs.
+  With it, `mise.linux.toml` loads on Linux, `mise.macos.toml` on macOS (verified live on 2026.8.6
+  in the `$HOME` global miserc location).
+- This is the per-platform file selector. "Target-specific files" = `mise.<os>.toml` files (and
+  `[bootstrap.packages]` `os` selectors); no `MISE_ENV` needed. A bare `mise.<MISE_ENV>.toml` remains
+  available if true per-hostname selection is ever needed.
+- Since it's inside `.config/mise/`, it's included in the dotfiles via the self-managed dir — no
+  separate `[dotfiles]` entry required.
+
+- [ ] **Step 1c: Create platform placeholder files (`mise.linux.toml` / `mise.macos.toml`)**
+
+Content (`mise.linux.toml`):
+```toml
+# Linux-only tools — loaded automatically when auto_env = true (via miserc.toml) on Linux.
+# Add host-OS-specific tools here; stays empty if nothing is linux-only yet.
+```
+Content (`mise.macos.toml`):
+```toml
+# macOS-only tools — loaded automatically when auto_env = true (via miserc.toml) on macOS.
+# e.g. nothing yet; stays empty until a mac-specific tool is needed.
+```
+These prove the auto_env selection in Task 10 and give the per-OS files a committed home. They're
+inside `.config/mise/`, so they ride along with the self-managed dotfile dir.
+
 - [ ] **Step 2: Verify config parses and merges**
 
 Run (from repo root):
@@ -287,8 +328,8 @@ Expected:
 - [ ] **Step 4: Commit**
 
 ```bash
-git add .config/mise/config.toml
-git commit -m "feat: author mise global core config with bootstrap-managed root symlink"
+git add .config/mise/config.toml .config/mise/miserc.toml .config/mise/mise.linux.toml .config/mise/mise.macos.toml
+git commit -m "feat: author mise global core config + miserc (auto_env) + platform files"
 ```
 
 ---
@@ -484,79 +525,52 @@ Run: `rm -rf /tmp/mise-pilot-root /tmp/mise-pilot-global.toml`
 
 ---
 
-## Task 10: Settle open item 4 — per-host/OS selection mechanism
+## Task 10: Confirm per-target/OS selection (auto_env verified) + verify package names
 
 **Files:**
-- Modify: `docs/superpowers/specs/2026-08-23-mise-dotfiles-design.md` (open item 4 → resolved with finding)
+- Modify: `docs/superpowers/specs/2026-08-23-mise-dotfiles-design.md` (open item 4 — already updated to the
+  auto_env mechanism; this task confirms it stands and finalizes sops/age)
 
-Probe (in /tmp, no repo or system changes) which mechanism mise 2026.8.6 actually uses to gate tools by host/OS. This decides how Stage 1+ author per-host opt-in groups (replacing `acme.tools.<group>.enable`).
+Mechanism adopted (verified live during planning): `.config/mise/miserc.toml` with `auto_env = true`
+(Task 5) makes `mise.linux.toml` / `mise.macos.toml` load by OS. This task confirms it in the real
+self-managed context and settles the sops/age package names.
 
-- [ ] **Step 1: Probe conf.d naming — is `20-macos.toml` a plain fragment or OS-gated?**
+- [ ] **Step 1: Confirm auto_env + platform file in a self-managed context (scratch HOME)**
 
 Run:
 ```bash
-rm -rf /tmp/mise-probe && mkdir -p /tmp/mise-probe/.config/mise/conf.d && cd /tmp/mise-probe
-cat > .config/mise/config.toml <<'EOF'
-[settings]
+rm -rf /tmp/mise-autoprobe /tmp/fakehome-m && mkdir -p /tmp/fakehome-m/.config/mise/conf.d
+cat > /tmp/fakehome-m/.config/mise/miserc.toml <<'EOF'
 auto_env = true
 EOF
-cat > .config/mise/conf.d/10-linux.toml <<'EOF'
-[tools]
-ripgrep = "latest"
-EOF
-cat > .config/mise/conf.d/20-macos.toml <<'EOF'
-[tools]
-"bad-tool-that-does-not-exist-probe" = "latest"
-EOF
-MISE_TRUSTED_CONFIG_PATHS=/tmp/mise-probe /usr/bin/mise config
-```
-Expected observed behavior (record it): since 20-macos.toml is a plain fragment, `bad-tool...` loads on Linux too — proving **conf.d fragment names do NOT gate by OS**. If instead the bad tool errors/skips, platform gating exists — record that instead.
-
-- [ ] **Step 2: Probe env-gating via `mise.<env>.toml`**
-
-Run:
-```bash
-cat > .config/mise/mise.custom.toml <<'EOF'
-[tools]
-d2 = "latest"
-EOF
-MISE_TRUSTED_CONFIG_PATHS=/tmp/mise-probe MISE_ENV=custom /usr/bin/mise ls --current | grep -E "d2|bad-tool"
-echo "--- no MISE_ENV ---"
-MISE_TRUSTED_CONFIG_PATHS=/tmp/mise-probe /usr/bin/mise ls --current | grep -E "d2|bad-tool"
-```
-Expected: `d2` appears with `MISE_ENV=custom` and not without (env-gating works via `mise.<env>.toml`); `bad-tool` behavior from Step 1 is confirmed.
-
-- [ ] **Step 3: Probe platform files via `auto_env`**
-
-Run:
-```bash
-cat > .config/mise/mise.linux.toml <<'EOF'
+cat > /tmp/fakehome-m/.config/mise/mise.linux.toml <<'EOF'
 [tools]
 jq = "latest"
 EOF
-MISE_TRUSTED_CONFIG_PATHS=/tmp/mise-probe /usr/bin/mise ls --current | grep jq
+cat > /tmp/fakehome-m/.config/mise/mise.macos.toml <<'EOF'
+[tools]
+"bad-tool-probe" = "latest"
+EOF
+cd /tmp && HOME=/tmp/fakehome-m MISE_TRUSTED_CONFIG_PATHS=/tmp/fakehome-m /usr/bin/mise config 2>&1 | grep -E "linux|macos|miserc"
 ```
-Expected: record whether `mise.linux.toml` is auto-loaded on Linux with `auto_env = true`.
+Expected: `mise.linux.toml` listed (with jq), `mise.macos.toml` NOT listed (skipped on Linux).
+This is the live proof that `auto_env` + platform files gate by OS.
+Clean up: `rm -rf /tmp/mise-autoprobe /tmp/fakehome-m`
 
-- [ ] **Step 4: Record the finding in the spec**
-
-Edit `docs/superpowers/specs/2026-08-23-mise-dotfiles-design.md` open item 4 to a resolved note: which mechanism works (e.g. `mise.<host>.toml` with `MISE_ENV=<host>`, or platform files + `auto_env`), and that conf.d fragment names are plain (not OS/env-gated) in 2026.8.6.
-
-- [ ] **Step 5: Verify sops/age package names resolve via pacman (for 70-packages.toml)**
+- [ ] **Step 2: Verify sops/age resolve via pacman (for 70-packages.toml)**
 
 Run: `pacman -Si sops | head -3; pacman -Si age | head -3`
-Expected: both query successfully (package exists). If `sops` is not in the system repos, remove `"pacman:sops"` from 70-packages.toml (AUR-only packages are skipped by `[bootstrap.packages] pacman:` since user repos aren't in default pacman).
+Expected: both query successfully (package exists). If `sops` is not in the system repos, remove
+`"pacman:sops"` from 70-packages.toml (AUR-only packages are skipped by `[bootstrap.packages] pacman:`
+since user repos aren't in default pacman).
 
-- [ ] **Step 6: Commit the spec finding**
+- [ ] **Step 3: Commit any spec/plan adjustments**
 
+If Step 2 changed 70-packages, or the spec needs the confirmed finding, commit:
 ```bash
-git add docs/superpowers/specs/2026-08-23-mise-dotfiles-design.md
-git commit -m "docs: resolve open item 4 (per-host selection) with live probe finding"
+git add docs/superpowers/specs/2026-08-23-mise-dotfiles-design.md .config/mise/conf.d/70-packages.toml
+git commit -m "docs: confirm auto_env per-OS selection; finalize bootstrap package names"
 ```
-
-- [ ] **Step 7: Clean up probe**
-
-Run: `rm -rf /tmp/mise-probe`
 
 ---
 
