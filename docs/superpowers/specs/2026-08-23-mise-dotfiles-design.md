@@ -286,19 +286,39 @@ exact surface to mise and apply. Stages are ordered so the system stays function
 can be rolled back by re-enabling the HM config. Work in small reversible commits; verify with
 `mise bootstrap dotfiles status` / `mise bootstrap` after each.
 
-**Stage 0 — Foundation: mise shaped, single mise**
-- Create `.config/mise/` dirs in repo (mirroring `~/.config/mise/`); move `00-local.toml` in (keep
-  gitignore). Create `~/src/dotfiles` -> repo symlink (interim access path).
-- Establish self-managing mise config: `[settings] dotfiles.root = "~/dotfiles"`,
-  `[dotfiles] "~/.config/mise" = {}` (mirror → `.config/mise`); `mise bootstrap dotfiles apply`.
-- Convert `tools.nix` groups → `.config/mise/conf.d/*.toml` fragments; drop HMAC `tools.nix`/`dev.nix`
-  tool generation (mise now declares its own tools).
-- Resolve the two-mise shadow: stop HMAC `programs.mise.enable` (or dispose `~/.nix-profile/mise`);
-  confirm `/usr/bin/mise` (pacman) is active and PATH order.
-- Confirm mise's per-host tool/package selection mechanism (open item 4), e.g. OS/config-env
-  fragments.
+**Stage 0 — Pure mise pilot: prepare mise, prove bootstrap (no nix changes)**
+This stage only touches the repo and mise. Nothing in nix/home-manager is disabled, removed, or
+re-enabled; the live home config is untouched.
+- Create the repo-side mise source of truth: `.config/mise/config.toml` + `.config/mise/conf.d/*.toml`
+  (mirror of `~/.config/mise/`), porting `00-local.toml` (gitignored) and the `tools.nix` groups into
+  fragments. This is authoring the future config; it does not wire it in yet.
+- Create access symlinks: `~/src/dotfiles` -> repo and `~/dotfiles` -> repo (interim dotfiles.root
+  access; not nix-related).
+- Use the pacman mise explicitly for all pilot commands (`/usr/bin/mise`), sidestepping the
+  nix-shadowed `mise` on PATH — the shadow is resolved later, not now.
+- Proof that bootstrap works against the repo config, without touching `~/`:
+  - `cd` into the repo; `/usr/bin/mise config` shows `.config/mise/config.toml` being loaded
+    (as project config while cwd is inside the repo).
+  - `/usr/bin/mise bootstrap dotfiles status` / `apply --dry-run` with a **scratch `dotfiles.root`**
+    confirm entries resolve, sources exist, no conflicts — no real files are changed.
+  - `/usr/bin/mise bootstrap --only dotfiles --dry-run` (or in a scratch area) proves the sequence
+    and hooks run.
+  - Validate the capture workflow against the mirror: `mise bootstrap dotfiles add/edit` semantics.
+- Settle open items that need live probing (per-host/OS fragment selection, config-env mechanism,
+  antidote path) without changing system state.
+- **Exit criteria**: bootstrap machinery fully operational against the repo `.config/mise/` as
+  source of truth; zero nix diff (repo has no module changes), rollback = delete the access symlinks
+  and pilot artifacts.
 
-**Stage 1 — Mise config owns desktop dotfiles; rename `config/` → `.config/`**
+**Stage 1 — Self-manage mise's own config; single mise (first nix touch)**
+- (A) Disable HMAC `tools.nix`/`dev.nix` conf.d generation (stop writing
+  `~/.config/mise/conf.d/{default,kubernetes}.toml` store symlinks) and stop HMAC
+  `programs.mise.enable` (two-mise shadow).
+- (B) Add the self-managing entry `[dotfiles] "~/.config/mise" = {}` (mirror → repo `.config/mise/`)
+  and apply; `~/.config/mise` becomes a symlink into the repo. Confirm `/usr/bin/mise` (pacman) is
+  the active `mise` on PATH and `mise bootstrap dotfiles status` is clean.
+
+**Stage 2 — Mise config owns desktop dotfiles; rename `config/` → `.config/`**
 - (A) Disable HMAC `xdg.configFile` out-of-store symlinks (`utils.nix` mkppConfigDir / `config.nix`
   acme.desktop.configs; also nvim in `nvim.nix`).
 - (B) Add `[dotfiles]` entries for hypr, niri, uwsm, hyprpanel, ashell, noctalia, nvim →
@@ -307,12 +327,12 @@ can be rolled back by re-enabling the HM config. Work in small reversible commit
   The repo mirrors `~/.config` directly; `~/dotfiles` (`-> repo`) resolves `.config/<name>` with no bridge.
 - Verify each dir now resolves from repo under mise, not nix; `~/dotfiles/.config/mise` also mirrors.
 
-**Stage 2 — Generated user configs (non-shell)**
+**Stage 3 — Generated user configs (non-shell)**
 - (A) Disable HMAC generation for starship, git, tmux, jujutsu, htop, user-dirs, electron-flags, hyfetch.
 - (B) Check repo content (move HM generated values to repo files), add `[dotfiles]` entries,
   apply. Drop nix-only pieces (nix-index/command-not-found) per open item 5.
 
-**Stage 3 — zsh (rc files at repo root + antidote)**
+**Stage 4 — zsh (rc files at repo root + antidote)**
 - Clone antidote (git-clone under `~/.antidote`); set `ZDOTDIR` if needed.
 - Build rc files at repo root mirroring home dotfiles: `.zshenv`, `.zprofile`, `.zshrc`, `.zlogout`,
   `.zsh_plugins.txt` (mise mirror → `~/dotfiles/.zshrc` etc.); add `[dotfiles]` entries /
@@ -320,21 +340,23 @@ can be rolled back by re-enabling the HM config. Work in small reversible commit
 - (A) stop HMAC `programs.zsh`/`shell.nix`; (B) switch mise-managed zsh, antidote load,
   compinit + mise completions. Remove stale fnm line.
 
-**Stage 4 — Programs → `[tools]` / `[bootstrap.packages]`**
+**Stage 5 — Programs → `[tools]` / `[bootstrap.packages]`**
 - Migrate age, sops, vscode, neovim, zellij, yazi, starship, eza, bat, fzf, zoxide, direnv,
   pay-respects to `[tools]` (versioned CLI) / `[bootstrap.packages]` (host/GUI/system deps,
   `pacman:` / `brew:`). Remove from `home.packages`.
 
-**Stage 5 — Full bootstrap wiring & standalone prove-out**
+**Stage 6 — Full bootstrap wiring & standalone prove-out**
 - `[bootstrap.repos]` for the repo, `[bootstrap.user]` login shell, tasks/hooks.
 - Test standalone: `mise trust` + `mise bootstrap` on alina-desktop; confirm zero-adjust.
 
-**Stage 6 — Cross-platform / shrink nix (optional, later)**
+**Stage 7 — Cross-platform / shrink nix (optional, later)**
 - Replicate on work-mbp (macOS, brew) to prove cross-platform-without-Nix.
 - Reduce/remove flake.nix / home-manager surface where not wanted.
 
 Each stage's (A) disable step is the rollback point: reverse it to restore HMAC ownership before the
 stage's (B) apply materializes. Prefer applying (B) only after (A) cleanly stops HMAC writes.
+Stage 0 is the exception: it has no (A) — its rollback is simply deleting the access symlinks and
+pilot artifacts, since it never touches nix or the live home config.
 
 ## Success criteria
 
