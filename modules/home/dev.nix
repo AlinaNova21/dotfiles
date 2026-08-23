@@ -3,40 +3,46 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.acme.dev;
 in
-  with lib; {
-    options.acme.dev = {
-      enable = mkEnableOption "dev";
-    };
-    config = mkIf (cfg.enable) {
-      acme.direnv.enable = true;
-      acme.dotfiles.enable = true;
-      # acme.gh.copilot = true;
-      # acme.helix.enable = true;
-      acme.nvim.enable = true;
-      # Kubernetes tools, 1Password CLI, and gh are no longer force-enabled
-      # here. They're available on-demand via the acme.tools.<group>.enable
-      # mise conf.d fragments (modules/home/tools.nix) — opt in per host as
-      # needed instead of installing them on every acme.dev host.
+with lib;
+{
+  options.acme.dev = {
+    enable = mkEnableOption "dev";
+  };
+  config = mkIf (cfg.enable) {
+    acme.direnv.enable = true;
+    acme.dotfiles.enable = true;
+    # acme.gh.copilot = true;
+    # acme.helix.enable = true;
+    acme.nvim.enable = true;
+    # Kubernetes tools, 1Password CLI, gh, shell-integration tools, and node/go/pnpm
+    # are now managed by mise from the repo's `.config/mise/conf.d/*.toml` fragments
+    # (self-managed global config), not by nix. The legacy `acme.tools.<group>.enable`
+    # toggles in tools.nix are inert once programs.mise.enable is removed.
 
-      home.packages = with pkgs;
-        [
-          age
-          sops
-        ]
-        ++ optionals config.acme.desktop.enable [
-          vscode
-        ];
+    home.packages =
+      with pkgs;
+      [
+        age
+        sops
+      ]
+      ++ optionals config.acme.desktop.enable [
+        vscode
+      ];
 
-      programs.nix-index.enable = true;
-      programs.pay-respects.enable = true;
-      programs.yazi = {
-        enable = true;
-        shellWrapperName = "y";
-      };
-      programs.zellij.enable = true;
-      programs.mise.enable = true;
+    programs.nix-index.enable = true;
+    programs.pay-respects.enable = true;
+    programs.yazi = {
+      enable = true;
+      shellWrapperName = "y";
     };
-  }
+    programs.zellij.enable = true;
+    # mise is now system/pacman-managed (via [bootstrap.packages]) and its config is
+    # self-managed in the repo (.config/mise/). We no longer install it via nix, so
+    # programs.mise.enable is removed; the tools.nix conf.d generation is gated on it
+    # and so becomes inert.
+  };
+}
