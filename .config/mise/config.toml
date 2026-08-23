@@ -1,0 +1,15 @@
+# Global core config — mirrored into ~/.config/mise in Stage 1.
+# Follows mise's documented self-managing pattern (docs/superpowers/specs/2026-08-23-mise-dotfiles-design.md):
+# bootstrap creates the dotfiles-root symlink via a [dotfiles] entry; first-run sources use the real
+# repo path because ~/.dotfiles does not exist until that symlink is created.
+[settings]
+dotfiles.root = "~/dotfiles"
+dotfiles.default_mode = "symlink"
+
+[dotfiles]
+# Root symlink: bootstrap creates ~/dotfiles -> repo on the first real apply (start of Stage 1).
+# We never create this manually.
+"~/dotfiles" = "~/projects/dotfiles"
+# Self-manage mise's own config dir. Explicit real source: resolves immediately, does NOT depend
+# on the ~/dotfiles symlink existing yet (first-run rule from the docs).
+"~/.config/mise" = "~/projects/dotfiles/.config/mise"

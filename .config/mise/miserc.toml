@@ -1,0 +1,5 @@
+# Early-init config: enables platform envs (mise.linux.toml / mise.macos.toml auto-load).
+# A miserc file is searched at several locations (project dirs, ~/.config/mise, /etc/mise, per docs);
+# we put it at ~/.config/mise/miserc.toml (the global location) to keep all mise config together.
+# It rides along in the self-managed ~/.config/mise dir, so it's auto-included in the dotfiles.
+auto_env = true

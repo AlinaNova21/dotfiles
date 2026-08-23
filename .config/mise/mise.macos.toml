@@ -1,0 +1,3 @@
+[tools]
+# macOS-only tools — loaded automatically when auto_env = true (via miserc.toml) on macOS.
+# e.g. nothing yet; stays empty until a mac-specific tool is needed.
