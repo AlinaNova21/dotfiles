@@ -31,8 +31,17 @@ dotfiles.default_mode = "symlink"
 "~/.zshrc" = { source = "~/projects/dotfiles/.zshrc", mode = "copy" }
 "~/.zlogout" = {}
 
+# Tool-integration blocks mise-manages INSIDE the real ~/.zshrc (marker-delimited):
+"~/.zshrc/starship" = { block = 'eval "$(starship init zsh)"' }
+"~/.zshrc/direnv" = { block = 'eval "$(direnv hook zsh)"' }
+"~/.zshrc/zoxide" = { block = 'eval "$(zoxide init zsh --cmd cd)"' }
+
+[bootstrap.mise_shell_activate]
+zshrc = "activate"
+
 [bootstrap.repos]
 # The dotfiles repo itself (this repo) — cloned on fresh machines before dotfiles apply.
+# TEMPORARILY COMMENTED (user): avoid overwriting the actively-working repo; re-enable later.
 #"~/projects/dotfiles" = { url = "git@github.com:AlinaNova21/dotfiles.git", ref = "main" }
 # antidote (zsh plugin manager) — cloned before dotfiles apply so .zshrc can source it.
 "~/.antidote" = { url = "git@github.com:mattmc3/antidote.git", ref = "main" }
