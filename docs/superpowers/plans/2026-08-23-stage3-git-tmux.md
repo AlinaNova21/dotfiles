@@ -5,7 +5,7 @@
 **Goal:** Move git + tmux config from home-manager-generated to mise-managed dotfiles in the repo, using `.config/` paths (per user preference: avoid polluting `~/`), with git handling the work-vs-personal profile distinction.
 
 **Architecture:**
-- **tmux** → repo `.config/tmux/tmux.conf`, mise `[dotfiles]` entry (copy-mode or symlink), disable nix `programs.tmux`. Simple port of the user's `extraConfig` (the nix boilerplate/plugin path is dropped).
+- **tmux** → repo `.config/tmux/tmux.conf`, mise `[dotfiles]` entry (symlink), disable nix `programs.tmux`. Port the user's `extraConfig`; drop nix boilerplate + catppuccin theme. tmux = `pacman:tmux`/`brew:tmux` bootstrap package (not in mise registry).
 - **git** → repo `.config/git/config` (base) + work-profile handling via git `includeIf` + a work profile file. Design options below. Disable nix `programs.git`.
 - Both become mise `[dotfiles]` entries (prefer `.config/` paths per user; `~/.gitconfig` is legacy, `.config/git/config` is the modern git path).
 
@@ -19,11 +19,11 @@
 ## Key design decisions (from user)
 
 1. **`.config/` paths preferred** — use `~/.config/git/config` (not `~/.gitconfig`) and `~/.config/tmux/tmux.conf` (already the HM default), avoiding `~/` pollution.
-2. **Git work-vs-personal** — needs a template/vars approach:
-   - Base `.config/git/config` has `user.name/email` (personal: AlinaNova21 / alina@alinanova.dev from flake.acme).
-   - Work profile (Alina.Shumann@kyndryl.com) selected per-host — via git `includeIf` on a work dir + a work profile file (`.config/git/work.toml` or `.work.gitconfig`), OR a mise env-driven template rendering the email.
-   - Work-mbp currently sets `acme.git.email = "Alina.Shumann@kyndryl.com"` + `insteadOf` for github.kyndryl.net — these are the work specifics to express.
-3. **tmux config content** — port ONLY the user's `extraConfig` (status-bg blue, C-S-Left/Right swap, prefix, mouse, etc.) + clean base; drop HM boilerplate (default-terminal, nix-store plugin run-shell).
+2. **Git work-vs-personal — Option B (mise vars)** — dirs aren't consistent, so `includeIf` doesn't fit.
+   - `.config/git/config` is a **mise-template dotfile** rendered from a repo template.
+   - **mise `[vars]`**: base/default is non-work (personal: AlinaNova21 / alina@alinanova.dev). A **`.work.toml`** (or `mise.<host>.toml` / env) overrides `user.email` (e.g. work-mbp → Alina.Shumann@kyndryl.com) + the `insteadOf` for github.kyndryl.net.
+   - Concretely: the git config template references `{{ vars.git_email }}` etc.; vars default to personal, and the work host/machine sets work values. (mise vars are per-config-root, non-exported — right fit.)
+3. **tmux config content** — port ONLY the user's `extraConfig` (status-bg blue, C-S-Left/Right swap, prefix, mouse, etc.) + clean base; drop HM boilerplate AND the catppuccin theme (user: drop theme; tmux via `pacman:tmux`/`brew:tmux` bootstrap package — tmux not in mise registry).
 
 ---
 
