@@ -1,0 +1,13 @@
+[env]
+_.path = ["~/.rokit/bin"]
+
+[tools]
+1password-cli = "latest"
+bun = "latest"
+"github:ogulcancelik/herdr" = "latest"
+incus = "latest"
+op = "latest"
+pnpm = "10"
+
+[tool_alias]
+incus = "github:lxc/incus"

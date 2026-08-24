@@ -72,6 +72,9 @@ function y() {
 }
 ''' }
 
+[bootstrap.user]
+login_shell = "/bin/zsh"
+
 [bootstrap.mise_shell_activate]
 zshrc = "activate"
 
