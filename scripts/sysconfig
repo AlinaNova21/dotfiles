@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+#MISE description="Configure dotfiles hub profiles (writes ~/.miserc.toml)"
+#
+# Presents a gum multiselect of active env profiles (+ hostname) and writes the
+# result to ~/.miserc.toml (outside the repo, machine-local). Overwrite semantics:
+# whatever is selected (tab/ctrl+space toggle, enter confirm) becomes the file.
+
+set -e
+
+MISERC="${HOME}/.miserc.toml"
+PROFILES=(work server dev desktop)
+
+# --- hostname (the always-available base identity) --------------------------
+if [ "$(uname -s)" = "Darwin" ]; then
+  HOST_VALUE="$(scutil --get LocalHostName 2>/dev/null || sysctl -n kern.hostname 2>/dev/null)"
+else
+  HOST_VALUE="$(hostname 2>/dev/null)"
+fi
+HOST_VALUE="$(echo "$HOST_VALUE" | awk '{print tolower($0)}')"
+
+# --- current selection (pre-tick in gum) ------------------------------------
+CURRENT=""
+if [ -f "$MISERC" ]; then
+  CURRENT="$(tomlq -r '.env // [] | join(",")' "$MISERC" 2>/dev/null)"
+fi
+
+# --- picker (options via stdin; newline-delimited output) --------------------
+SELECTED="$(
+  {
+    printf '%s\n' "${PROFILES[@]}" "$HOST_VALUE"
+  } | gum choose --no-limit \
+      --selected "$CURRENT" \
+      --header "Which env profiles?" \
+      --cursor-prefix '▸ ' \
+      --selected-prefix '✓ ' \
+      --unselected-prefix '  '
+)"
+
+if [ -z "$SELECTED" ]; then
+  gum style --foreground 214 "sysconfig: no selection, leaving ${MISERC} unchanged"
+  echo
+  exit 0
+fi
+
+# --- serialize selected values into a TOML array ------------------------------
+QUOTES=()
+for value in $SELECTED; do
+  esc="$(echo "$value" | sed 's/\\/\\\\/g; s/"/\\"/g')"
+  QUOTES+=("${esc}")
+done
+VALUES="$(printf '"%s", ' "${QUOTES[@]}" | sed 's/, $//')"
+CONTENT="env = [${VALUES}]"
+
+# --- atomic write --------------------------------------------------------------
+TMPFILE="${MISERC}.tmp.$$"
+printf '%s\n' "$CONTENT" > "$TMPFILE"
+mv "$TMPFILE" "$MISERC"
+
+gum style --foreground 85 "envoy: wrote ${MISERC}"
+echo
+echo "  ${CONTENT}"

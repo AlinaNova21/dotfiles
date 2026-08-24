@@ -1,0 +1,8 @@
+[tools]
+gum = "latest"
+# Python yq bundle provides the tomlq console script (TOML equivalent of jq)
+"pipx:yq" = "latest"
+
+[tasks.sysconfig]
+description = "Configure dotfiles hub profiles (writes ~/.miserc.toml)"
+run = "scripts/sysconfig"

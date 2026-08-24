@@ -3,6 +3,4 @@
 # we put it at ~/.config/mise/miserc.toml (the global location) to keep all mise config together.
 # It rides along in the self-managed ~/.config/mise dir, so it's auto-included in the dotfiles.
 auto_env = true
-
-env = ["{{ env.HOSTNAME }}"]
 env_conf_d = true
