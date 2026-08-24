@@ -30,7 +30,8 @@ with lib;
       ];
 
     programs.nix-index.enable = true;
-    programs.pay-respects.enable = true;
+    # pay-respects moved to mise [tools] (aqua:iffse/pay-respects); nix no longer manages it.
+    # [disabled] programs.pay-respects.enable = true;
     programs.yazi = {
       enable = true;
       shellWrapperName = "y";
