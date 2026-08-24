@@ -2,7 +2,123 @@
 gum = "latest"
 # Python yq bundle provides the tomlq console script (TOML equivalent of jq)
 "pipx:yq" = "latest"
+herdr = "latest"
+pi = "latest"
+usage = "latest"
 
 [tasks.sysconfig]
 description = "Configure dotfiles hub profiles (writes ~/.miserc.toml)"
 run = "scripts/sysconfig"
+# Global core config — mirrored into ~/.config/mise in Stage 1.
+# Follows mise's documented self-managing pattern (docs/superpowers/specs/2026-08-23-mise-dotfiles-design.md):
+# bootstrap creates the dotfiles-root symlink via a [dotfiles] entry; first-run sources use the real
+# repo path because ~/.dotfiles does not exist until that symlink is created.
+[settings]
+dotfiles.root = "~/.dotfiles"
+dotfiles.default_mode = "symlink"
+
+# Git identity — default is personal; override via config.work.toml (MISE_ENV=work)
+[vars]
+git_name = "AlinaNova21"
+git_email = "alina@alinanova.dev"
+extra_git_config = ""
+
+[dotfiles]
+# Root symlink: bootstrap creates ~/.dotfiles -> repo on the first real apply (start of Stage 1).
+# We never create this manually.
+"~/.dotfiles" = "~/projects/dotfiles"
+"~/.config/mise" = "~/projects/dotfiles/.config/mise"
+
+# Desktop config dirs — mirror-style (no explicit source): resolve via dotfiles.root
+# (~/dotfiles) to repo/.config/<name>. Source must exist at repo/.config/<name> — folders
+# are moved from repo/config/ to repo/.config/ (Part E) before these are applied.
+"~/.config/hypr" = {}
+"~/.config/niri" = {}
+"~/.config/uwsm" = {}
+"~/.config/hyprpanel" = {}
+"~/.config/ashell" = {}
+"~/.config/noctalia" = {}
+"~/.config/nvim" = {}
+
+# zsh rc files (mise-managed)
+"~/.zshenv" = {}
+"~/.zprofile" = { mode = "copy" }
+# .zshrc is COPY-mode (real file) so [dotfiles] edit blocks can manage tool sections inside it
+# (explicit real source — resolves from repo root, not the config file's dir)
+"~/.zshrc" = { source = "~/projects/dotfiles/.zshrc", mode = "copy" }
+"~/.zlogout" = {}
+# antidote plugin list (mirror to ~/.zsh_plugins.txt so .zshrc static-load can find it)
+"~/.zsh_plugins.txt" = {}
+
+# starship prompt config (now mise-managed; captured from live nix-generated file)
+"~/.config/starship.toml" = {}
+
+# tmux (ported from nix programs.tmux; clean base + user binds; no catppuccin)
+"~/.config/tmux/tmux.conf" = {}
+# git config — template-rendered (vars: git_email; override via config.work.toml/MISE_ENV=work)
+"~/.config/git/config" = { source = "~/projects/dotfiles/.config/git/config.tmpl", mode = "template" }
+
+# user-dirs + electron-flags (mirror-style; repo .config/ matches ~/.config)
+"~/.config/user-dirs.conf" = {}
+"~/.config/user-dirs.dirs" = {}
+"~/.config/electron-flags.conf" = {}
+
+# ghostty / yazi / eza / bat (user configs; mirror-style)
+"~/.config/ghostty" = {}
+"~/.config/yazi" = {}
+"~/.config/eza" = {}
+"~/.config/bat" = {}
+
+"~/.zprofile/activate" = { block = 'eval "$(mise activate zsh --shims)"' }
+
+# Tool-integration blocks mise-manages INSIDE the real ~/.zshrc (marker-delimited):
+"~/.zshrc/activate" = { block = 'eval "$(mise activate zsh)"' }
+"~/.zshrc/starship" = { block = 'eval "$(starship init zsh)"' }
+"~/.zshrc/direnv" = { block = 'eval "$(direnv hook zsh)"' }
+"~/.zshrc/zoxide" = { block = 'eval "$(zoxide init zsh --cmd cd)"' }
+"~/.zshrc/aliases" = { block = '''
+alias -- cat=bat
+alias -- ls=eza
+alias -- ll='eza -l'
+alias -- la='eza -a'
+alias -- lla='eza -la'
+alias -- lt='eza --tree'
+alias -- vimdiff='nvim -d'
+''' }
+"~/.zshrc/pay-respects" = { block = 'eval "$(pay-respects zsh)"' }
+"~/.zshrc/fzf" = { block = 'eval "$(fzf --zsh)"' }
+"~/.zshrc/op" = { block = '''
+# 1Password CLI wrapper — only sign in when op is actually called
+op() {
+  if ! command op account get &>/dev/null; then
+    eval "$(command op signin)"
+  fi
+  command op "$@"
+}
+''' }
+"~/.zshrc/yazi" = { block = '''
+# yazi nest-cd wrapper (cd on exit)
+function y() {
+  local tmp="$(mktemp -t "yazi-cwd.XXXXX")"
+  command yazi "$@" --cwd-file="$tmp"
+  if cwd="$(<"$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+    builtin cd -- "$cwd"
+  fi
+  rm -f -- "$tmp"
+}
+''' }
+
+[bootstrap.user]
+login_shell = "/bin/zsh"
+
+[bootstrap.mise_shell_activate]
+zshrc = "activate"
+zprofile = "shims"
+
+[bootstrap.repos]
+# The dotfiles repo itself (this repo) — cloned on fresh machines before dotfiles apply.
+# TEMPORARILY COMMENTED (user): avoid overwriting the actively-working repo; re-enable later.
+#"~/projects/dotfiles" = { url = "git@github.com:AlinaNova21/dotfiles.git", ref = "main" }
+# antidote (zsh plugin manager) — cloned before dotfiles apply so .zshrc can source it.
+"~/.antidote" = { url = "git@github.com:mattmc3/antidote.git", ref = "main" }
+

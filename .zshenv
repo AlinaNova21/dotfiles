@@ -3,3 +3,4 @@
 # in .zshrc (mise-native), NOT here.
 typeset -U path cdpath fpath manpath
 path=("$HOME/.local/bin" $path)
+HOSTNAME=$(hostname)
