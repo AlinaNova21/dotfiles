@@ -7,77 +7,26 @@
 let
   cfg = config.acme.zsh;
 in
-  with lib; {
-    options.acme.zsh = {
-      enable = mkOption {
-        type = types.bool;
-        default = true;
-        description = "Enable zsh shell with plugins and integrations";
-      };
+with lib;
+{
+  options.acme.zsh = {
+    enable = mkOption {
+      type = types.bool;
+      default = true;
+      description = "Enable zsh shell with plugins and integrations";
     };
+  };
 
-    config = mkIf cfg.enable {
-      # Add zsh to the shells list for automatic tool integrations
-      acme.shells.enabled = ["zsh"];
+  config = mkIf cfg.enable {
+    # Add zsh to the shells list for automatic tool integrations
+    acme.shells.enabled = [ "zsh" ];
 
-      programs.zsh = {
-        enable = true;
-        enableCompletion = true;
-
-        # shellAliases = { cat = "bat"; };
-        history = {
-          size = 10000;
-          save = 10000;
-          ignoreDups = true;
-          ignoreSpace = true;
-          share = true;
-        };
-        envExtra = ''
-          export HISTDUP=erase
-          export _ZO_DOCTOR=0
-          path=("$HOME/.local/bin" $path)
-          export GPG_TTY=$(tty)
-        '';
-        initContent = ''
-          bindkey '^[[A' history-search-backward # Up
-          bindkey '^[[B' history-search-forward  # Down
-
-          # mise is system/pacman-managed now (not nix). Activate it explicitly
-          # using the system path (interim until .zshrc becomes mise-managed).
-          eval "$(/usr/bin/mise activate zsh)"
-        '';
-
-        antidote = {
-          enable = true;
-          plugins = [
-            "mattmc3/zephyr path:plugins/color"
-            "mattmc3/zephyr path:plugins/completion"
-            #"mattmc3/zephyr path:plugins/confd"
-            #"mattmc3/zephyr path:plugins/directory"
-            #"mattmc3/zephyr path:plugins/editor"
-            #"mattmc3/zephyr path:plugins/environment"
-            "mattmc3/zephyr path:plugins/history"
-            #"mattmc3/zephyr path:plugins/homebrew"
-            #"mattmc3/zephyr path:plugins/macos"
-            #"mattmc3/zephyr path:plugins/prompt"
-            "mattmc3/zephyr path:plugins/utility"
-            # "mattmc3/zephyr path:plugins/zfunctions"
-            "mattmc3/zfunctions"
-            "zsh-users/zsh-autosuggestions"
-            "zdharma-continuum/fast-syntax-highlighting kind:defer"
-            "zsh-users/zsh-history-substring-search"
-            "ohmyzsh/ohmyzsh path:plugins/git"
-            "ohmyzsh/ohmyzsh path:plugins/kubectl"
-            "ohmyzsh/ohmyzsh path:plugins/kubectx"
-            "ohmyzsh/ohmyzsh path:plugins/lol"
-            "ohmyzsh/ohmyzsh path:plugins/node"
-            "ohmyzsh/ohmyzsh path:plugins/nvm"
-            "ohmyzsh/ohmyzsh path:plugins/sudo"
-            "Aloxaf/fzf-tab"
-          ];
-        };
-      };
-
-      # Tool integrations now handled by shells.nix
-    };
-  }
+    # DISABLED (mise migration): zsh config (.zshrc, plugins, antidote) is now managed
+    # by mise:
+    #   - .zshrc / .zshenv / .zprofile / .zlogout + .zsh_plugins.txt are [dotfiles] (repo)
+    #   - antidote is cloned via [bootstrap.repos] (~/.antidote)
+    #   - activation via [bootstrap.mise_shell_activate]
+    # The nix programs.zsh block lives in git history for rollback reference.
+    # Tool integrations now handled by shells.nix / mise
+  };
+}
