@@ -23,9 +23,17 @@ dotfiles.default_mode = "symlink"
 "~/.config/noctalia" = {}
 "~/.config/nvim" = {}
 
+# zsh rc files (mise-managed)
+"~/.zshenv" = {}
+"~/.zprofile" = {}
+# .zshrc is COPY-mode (real file) so [dotfiles] edit blocks can manage tool sections inside it
+# (explicit real source — resolves from repo root, not the config file's dir)
+"~/.zshrc" = { source = "~/projects/dotfiles/.zshrc", mode = "copy" }
+"~/.zlogout" = {}
+
 [bootstrap.repos]
 # The dotfiles repo itself (this repo) — cloned on fresh machines before dotfiles apply.
-"~/projects/dotfiles" = { url = "git@github.com:AlinaNova21/dotfiles.git", ref = "main" }
+#"~/projects/dotfiles" = { url = "git@github.com:AlinaNova21/dotfiles.git", ref = "main" }
 # antidote (zsh plugin manager) — cloned before dotfiles apply so .zshrc can source it.
 "~/.antidote" = { url = "git@github.com:mattmc3/antidote.git", ref = "main" }
 
