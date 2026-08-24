@@ -31,9 +31,10 @@
       cat = "bat";
     };
 
-    programs.bat.enable = true;
+    # eza/bat disabled (mise migration): configs now mise dotfiles (repo .config/eza, .config/bat).
+    # programs.bat.enable = true;
     programs.btop.enable = true;
-    programs.eza.enable = true;
+    # programs.eza.enable = true;
     programs.fastfetch.enable = true;
     programs.fd.enable = true;
     programs.fzf.enable = true;

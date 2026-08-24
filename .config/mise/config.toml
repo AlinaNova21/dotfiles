@@ -52,6 +52,12 @@ extra_git_config = ""
 "~/.config/user-dirs.dirs" = {}
 "~/.config/electron-flags.conf" = {}
 
+# ghostty / yazi / eza / bat (user configs; mirror-style)
+"~/.config/ghostty" = {}
+"~/.config/yazi" = {}
+"~/.config/eza" = {}
+"~/.config/bat" = {}
+
 # Tool-integration blocks mise-manages INSIDE the real ~/.zshrc (marker-delimited):
 "~/.zshrc/starship" = { block = 'eval "$(starship init zsh)"' }
 "~/.zshrc/direnv" = { block = 'eval "$(direnv hook zsh)"' }
