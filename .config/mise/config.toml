@@ -10,6 +10,7 @@ dotfiles.default_mode = "symlink"
 [vars]
 git_name = "AlinaNova21"
 git_email = "alina@alinanova.dev"
+extra_git_config = ""
 
 [dotfiles]
 # Root symlink: bootstrap creates ~/.dotfiles -> repo on the first real apply (start of Stage 1).

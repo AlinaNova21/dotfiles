@@ -24,7 +24,4 @@ cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
 [safe]
 directory = "*"
 
-{% if vars.work_insteadof %}
-[url "ssh://git@github.kyndryl.net/"]
-	insteadOf = "https://github.kyndryl.net/"
-{% endif %}
+{{ vars.extra_git_config }}

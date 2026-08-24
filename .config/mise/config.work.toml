@@ -4,4 +4,7 @@
 [vars]
 git_name = "Alina Shumann"
 git_email = "Alina.Shumann@kyndryl.com"
-work_insteadof = true
+extra_git_config = '''
+[url "ssh://git@github.kyndryl.net/"]
+	insteadOf = "https://github.kyndryl.net/"
+'''
