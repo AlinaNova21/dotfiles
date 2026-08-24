@@ -19,14 +19,8 @@ autoload -Uz compinit && compinit -i
 # Antidote loads DIRECTLY here (base content, copy-mode .zshrc) — not a separate block.
 # starship/direnv/zoxide are APPENDED as mise-managed blocks on demand.
 
-# Aliases
-alias -- cat=bat
-alias -- ls=eza
-alias -- ll='eza -l'
-alias -- la='eza -a'
-alias -- lla='eza -la'
-alias -- lt='eza --tree'
-alias -- vimdiff='nvim -d'
+# Aliases are managed as a mise [dotfiles] block (~/.zshrc/aliases) — not inline here.
+# See .config/mise/config.toml.
 
 # --- antidote (zsh plugin manager) ---
 # Static deferred load (fast): generate .zsh_plugins.zsh once, source it
