@@ -23,6 +23,12 @@ dotfiles.default_mode = "symlink"
 "~/.config/noctalia" = {}
 "~/.config/nvim" = {}
 
+[bootstrap.repos]
+# The dotfiles repo itself (this repo) — cloned on fresh machines before dotfiles apply.
+"~/projects/dotfiles" = { url = "git@github.com:AlinaNova21/dotfiles.git", ref = "main" }
+# antidote (zsh plugin manager) — cloned before dotfiles apply so .zshrc can source it.
+"~/.antidote" = { url = "git@github.com:mattmc3/antidote.git", ref = "main" }
+
 [tools]
 herdr = "latest"
 pi = "latest"
