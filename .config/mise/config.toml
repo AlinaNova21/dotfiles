@@ -31,6 +31,9 @@ dotfiles.default_mode = "symlink"
 "~/.zshrc" = { source = "~/projects/dotfiles/.zshrc", mode = "copy" }
 "~/.zlogout" = {}
 
+# starship prompt config (now mise-managed; captured from live nix-generated file)
+"~/.config/starship.toml" = {}
+
 # Tool-integration blocks mise-manages INSIDE the real ~/.zshrc (marker-delimited):
 "~/.zshrc/starship" = { block = 'eval "$(starship init zsh)"' }
 "~/.zshrc/direnv" = { block = 'eval "$(direnv hook zsh)"' }
