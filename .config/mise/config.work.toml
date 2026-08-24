@@ -1,0 +1,7 @@
+# Git WORK profile — loaded when MISE_ENV=work (via config.work.toml)
+# Overrides git_email/vars from the base config.toml. Add insteadOf for the
+# work github as needed. Set MISE_ENV=work on work machines (e.g. work-mbp).
+[vars]
+git_name = "Alina Shumann"
+git_email = "Alina.Shumann@kyndryl.com"
+work_insteadof = true

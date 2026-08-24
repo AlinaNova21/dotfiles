@@ -1,0 +1,30 @@
+[user]
+name = "{{ vars.git_name }}"
+email = "{{ vars.git_email }}"
+
+[init]
+defaultBranch = "main"
+
+[branch]
+autoSetupMerge = "simple"
+
+[push]
+default = "tracking"
+autoSetupRemote = true
+
+[diff]
+tool = "nvimdiff"
+
+[difftool]
+prompt = false
+
+[difftool "nvimdiff"]
+cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
+
+[safe]
+directory = "*"
+
+{% if vars.work_insteadof %}
+[url "ssh://git@github.kyndryl.net/"]
+	insteadOf = "https://github.kyndryl.net/"
+{% endif %}

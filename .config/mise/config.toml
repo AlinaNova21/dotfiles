@@ -6,6 +6,11 @@
 dotfiles.root = "~/.dotfiles"
 dotfiles.default_mode = "symlink"
 
+# Git identity — default is personal; override via config.work.toml (MISE_ENV=work)
+[vars]
+git_name = "AlinaNova21"
+git_email = "alina@alinanova.dev"
+
 [dotfiles]
 # Root symlink: bootstrap creates ~/.dotfiles -> repo on the first real apply (start of Stage 1).
 # We never create this manually.
@@ -35,6 +40,11 @@ dotfiles.default_mode = "symlink"
 
 # starship prompt config (now mise-managed; captured from live nix-generated file)
 "~/.config/starship.toml" = {}
+
+# tmux (ported from nix programs.tmux; clean base + user binds; no catppuccin)
+"~/.config/tmux/tmux.conf" = {}
+# git config — template-rendered (vars: git_email; override via config.work.toml/MISE_ENV=work)
+"~/.config/git/config" = { source = "~/projects/dotfiles/.config/git/config.tmpl", mode = "template" }
 
 # Tool-integration blocks mise-manages INSIDE the real ~/.zshrc (marker-delimited):
 "~/.zshrc/starship" = { block = 'eval "$(starship init zsh)"' }
