@@ -30,6 +30,8 @@ dotfiles.default_mode = "symlink"
 # (explicit real source — resolves from repo root, not the config file's dir)
 "~/.zshrc" = { source = "~/projects/dotfiles/.zshrc", mode = "copy" }
 "~/.zlogout" = {}
+# antidote plugin list (mirror to ~/.zsh_plugins.txt so .zshrc static-load can find it)
+"~/.zsh_plugins.txt" = {}
 
 # starship prompt config (now mise-managed; captured from live nix-generated file)
 "~/.config/starship.toml" = {}
@@ -46,7 +48,28 @@ alias -- la='eza -a'
 alias -- lla='eza -la'
 alias -- lt='eza --tree'
 alias -- vimdiff='nvim -d'
-alias -- nixos-rebuild-switch='pushd ~/projects/dotfiles; sudo nixos-rebuild switch --flake .; popd'
+''' }
+"~/.zshrc/pay-respects" = { block = 'eval "$(pay-respects zsh)"' }
+"~/.zshrc/fzf" = { block = 'eval "$(fzf --zsh)"' }
+"~/.zshrc/op" = { block = '''
+# 1Password CLI wrapper — only sign in when op is actually called
+op() {
+  if ! command op account get &>/dev/null; then
+    eval "$(command op signin)"
+  fi
+  command op "$@"
+}
+''' }
+"~/.zshrc/yazi" = { block = '''
+# yazi nest-cd wrapper (cd on exit)
+function y() {
+  local tmp="$(mktemp -t "yazi-cwd.XXXXX")"
+  command yazi "$@" --cwd-file="$tmp"
+  if cwd="$(<"$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+    builtin cd -- "$cwd"
+  fi
+  rm -f -- "$tmp"
+}
 ''' }
 
 [bootstrap.mise_shell_activate]
