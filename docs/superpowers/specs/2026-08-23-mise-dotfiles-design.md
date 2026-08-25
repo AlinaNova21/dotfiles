@@ -53,32 +53,54 @@ The repo's separate `config/` dir holds the user dotfiles (hypr, niri, etc.). On
 
 ## 3. Design
 
-### 3.1 Repository layout (mise-first)
+### 3.1 Repository layout — bootstrap (`./.mise/`) vs runtime (`.config/mise/`) split
+
+The mise config is split into two layers (model a): **bootstrap** and **runtime**. `.config/mise/` is
+self-managed (symlinked `~/.config/mise` → repo `.config/mise`); `./.mise/` is the project/bootstrap
+root (auto-loads `conf.d/` because `.mise/` is the recognized project config root — a bare `mise/`
+would NOT auto-load its conf.d).
 
 ```
-~/.config/home-manager/            # git AlinaNova21/dotfiles; also reachable as ~/projects/dotfiles
-├── .config/                       # mirror layout: source of `~/.config` (renamed from legacy `config/`)
-│   ├── mise/                      # mise's own global config — mirrors ~/.config/mise
-│   │   ├── miserc.toml            # auto_env = true (early-init; enables platform files below)
-│   │   ├── config.toml            # global core: [settings], [dotfiles] self-ref, [bootstrap.*], [tools]
-│   │   ├── mise.linux.toml        # linux-specific tools/packages (auto_env: loaded on linux)
-│   │   ├── mise.macos.toml        # macos-specific tools/packages (auto_env: loaded on macos)
-│   │   └── conf.d/
-│   │       ├── 00-local.toml      # gitignored, machine-local tools (kept)
-│   │       ├── 10-default.toml    # gh, jq, yq, rg, just, gitui   (global baseline)
-│   │       ├── 20-node.toml       # node + pnpm (global baseline)
-│   │       ├── 30-go.toml         # go (global baseline)
-│   │       ├── 40-kubernetes.toml # kubectl, helm, k9s, ... (global — copied from tools.nix)
-│   │       ├── 60-shell.toml      # starship, eza, bat, fzf, zoxide, yazi, direnv (shell tools)
-│   │       ├── 70-packages.toml   # [bootstrap.packages] git/zsh/1password-cli/age per-OS
-│   │       └── 80-desktop.toml    # [bootstrap.packages] GUI/desktop apps (hypr-adjacent) per-OS
-│   ├── hypr/ niri/ uwsm/ hyprpanel/ ashell/ noctalia/ nvim/   # user dotfiles (renamed from config/)
-│   └── starship.toml git etc.     # other generated configs moved here (Stage 3)
-├── .zshrc .zshenv .zprofile .zlogout .zsh_plugins.txt   # draft: mise-managed zsh rc files (Stage 4)
-├── .envrc .direnv/                # existing repo detritus (unchanged)
+~/.config/home-manager/            # git AlinaNova21/dotfiles; reachable as ~/projects/dotfiles
+├── .mise/                         # BOOTSTRAP layer: provisioning (mise bootstrap reads this)
+│   ├── config.toml                # [settings] [tasks] [oci] [tools] (bootstrap tools) [vars] (base git identity)
+│   ├── config.work.toml           # [vars] work-profile override (next to base vars; gated by MISE_ENV=work via ~/.miserc.toml)
+│   └── conf.d/
+│       ├── bootstrap.toml         # [bootstrap.packages] [bootstrap.repos] [bootstrap.user] [bootstrap.mise_shell_activate]
+│       ├── dotfiles.toml          # [dotfiles] universal (shell/git/tmux/starship/yazi/eza/bat + zsh blocks)
+│       ├── dotfiles.desktop.toml  # [dotfiles] desktop-env hosts only (hypr,niri,uwsm,hyprpanel,ashell,noctalia,electron-flags,user-dirs,ghostty)
+│       └── dotfiles.dev.toml      # [dotfiles] dev hosts only (nvim)
+├── .config/                       # mirror layout: source of `~/.config`
+│   └── mise/                      # RUNTIME layer: global config, symlinked ~/.config/mise
+│       ├── miserc.toml            # auto_env = true; env_conf_d = true (early-init)
+│       ├── mise.linux.toml / mise.macos.toml   # platform files (auto_env)
+│       ├── config.desktop.toml / config.dev.toml / config.work.*   # (env-suffixed runtime configs)
+│       └── conf.d/
+│           ├── 00-local.toml      # gitignored, machine-local (kept)
+│           ├── 10-default.toml    # gh, jq, yq, rg, just, gitui, age, sops
+│           ├── 20-node.toml       # node + pnpm
+│           ├── 30-go.toml         # go
+│           ├── 40-kubernetes.toml # kubectl/helm/k9s/...
+│           └── 60-shell.toml      # starship,eza,bat,fzf,zoxide,yazi,direnv,neovim,pay-respects
+├── .zshrc .zshenv .zprofile .zlogout .zsh_plugins.txt   # mise-managed zsh rc files
+├── .envrc .direnv/                # repo detritus (unchanged)
 ├── flake.nix, modules/…           # shrinks to software layer / removed
 └── docs/superpowers/specs/
 ```
+
+**Env-gated fragments.** `env_conf_d = true` (in `.config/mise/miserc.toml`) enables conf.d env-suffix
+gating. The `~/.miserc.toml` lists active envs per machine (e.g. `env = ["dev","desktop","alina-desktop"]`).
+So `dotfiles.desktop.toml` loads only when the `desktop` env is active — **`desktop` means a host
+running a desktop environment/GUI (includes LAPTOPS with a GUI, not just desktops).** This keeps
+desktop/WM/GUI configs (hypr, niri, ghostty, noctalia…) off servers, and dev-tool configs (nvim) off
+non-dev machines.
+
+**Bootstrap vs runtime boundaries (per user):**
+- **Bootstrap (`./.mise/`)** = provisioning: `[bootstrap.packages]`, `[bootstrap.repos]`, `[bootstrap.user]`,
+  `[bootstrap.mise_shell_activate]`, `[dotfiles]`, and `[vars]`/`[settings]`/`[tasks]`/`[tools]` that drive it
+  (vars feed the git template; packages install system deps).
+- **Runtime (`.config/mise/`)** = the daily dev-tool environment: `[tools]` + tool fragments, platform files,
+  miserc.
 
 **Global vs project-scoped tools.** The global `[tools]` set is lean baselines — general utilities
 (`gh jq yq rg just gitui`), runtime/lang (`node pnpm go`), shell-integration
