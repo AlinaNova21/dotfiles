@@ -1,28 +1,3 @@
-[tools]
-gum = "latest"
-# Python yq bundle provides the tomlq console script (TOML equivalent of jq)
-"pipx:yq" = "latest"
-herdr = "latest"
-pi = "latest"
-usage = "latest"
-
-[tasks.sysconfig]
-description = "Configure dotfiles hub profiles (writes ~/.miserc.toml)"
-run = "scripts/sysconfig"
-# Global core config — mirrored into ~/.config/mise in Stage 1.
-# Follows mise's documented self-managing pattern (docs/superpowers/specs/2026-08-23-mise-dotfiles-design.md):
-# bootstrap creates the dotfiles-root symlink via a [dotfiles] entry; first-run sources use the real
-# repo path because ~/.dotfiles does not exist until that symlink is created.
-[settings]
-dotfiles.root = "~/.dotfiles"
-dotfiles.default_mode = "symlink"
-
-# Git identity — default is personal; override via config.work.toml (MISE_ENV=work)
-[vars]
-git_name = "AlinaNova21"
-git_email = "alina@alinanova.dev"
-extra_git_config = ""
-
 [dotfiles]
 # Root symlink: bootstrap creates ~/.dotfiles -> repo on the first real apply (start of Stage 1).
 # We never create this manually.
@@ -107,18 +82,3 @@ function y() {
   rm -f -- "$tmp"
 }
 ''' }
-
-[bootstrap.user]
-login_shell = "/bin/zsh"
-
-[bootstrap.mise_shell_activate]
-zshrc = "activate"
-zprofile = "shims"
-
-[bootstrap.repos]
-# The dotfiles repo itself (this repo) — cloned on fresh machines before dotfiles apply.
-# TEMPORARILY COMMENTED (user): avoid overwriting the actively-working repo; re-enable later.
-#"~/projects/dotfiles" = { url = "git@github.com:AlinaNova21/dotfiles.git", ref = "main" }
-# antidote (zsh plugin manager) — cloned before dotfiles apply so .zshrc can source it.
-"~/.antidote" = { url = "git@github.com:mattmc3/antidote.git", ref = "main" }
-

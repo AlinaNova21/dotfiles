@@ -1,0 +1,36 @@
+[bootstrap.packages]
+# Foundational system tools (not mise tools — no registry entry / system-managed)
+"pacman:git" = {}
+"apt:git" = {}
+"brew:git" = { os = "macos" }
+
+"pacman:zsh" = {}
+"apt:zsh" = {}
+"brew:zsh" = { os = "macos" }
+
+# tmux (no mise registry entry)
+"pacman:tmux" = {}
+"apt:tmux" = {}
+"brew:tmux" = { os = "macos" }
+
+# Security tooling — op/1password-cli is system-managed (provides /usr/bin/op, root-owned setuid-group)
+"pacman:1password-cli" = { os = "linux" }
+"brew:1password-cli" = { os = "macos" }
+
+# Fonts (FiraCode Nerd — used by ghostty etc.)
+"pacman:ttf-firacode-nerd" = { os = "linux" }
+"brew:font-firacode-nerd-font" = { os = "macos" }
+
+[bootstrap.user]
+login_shell = "/bin/zsh"
+
+[bootstrap.mise_shell_activate]
+zshrc = "activate"
+zprofile = "shims"
+
+[bootstrap.repos]
+# The dotfiles repo itself (this repo) — cloned on fresh machines before dotfiles apply.
+# TEMPORARILY COMMENTED (user): avoid overwriting the actively-working repo; re-enable later.
+#"~/projects/dotfiles" = { url = "git@github.com:AlinaNova21/dotfiles.git", ref = "main" }
+# antidote (zsh plugin manager) — cloned before dotfiles apply so .zshrc can source it.
+"~/.antidote" = { url = "git@github.com:mattmc3/antidote.git", ref = "main" }
