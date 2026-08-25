@@ -3,7 +3,6 @@
 # We never create this manually.
 "~/.dotfiles" = "~/projects/dotfiles"
 "~/.config/mise" = "~/projects/dotfiles/.config/mise"
-"~/.config/nvim" = {}
 # zsh rc files (mise-managed)
 "~/.zshenv" = {}
 "~/.zprofile" = { mode = "copy" }
@@ -20,7 +19,6 @@
 # git config — template-rendered (vars: git_email; override via config.work.toml/MISE_ENV=work)
 "~/.config/git/config" = { source = "~/projects/dotfiles/.config/git/config.tmpl", mode = "template" }
 # ghostty / yazi / eza / bat (user configs; mirror-style)
-"~/.config/ghostty" = {}
 "~/.config/yazi" = {}
 "~/.config/eza" = {}
 "~/.config/bat" = {}

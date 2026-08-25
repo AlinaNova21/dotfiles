@@ -14,3 +14,6 @@
 # noctalia (desktop bar/shell) + electron-flags (Wayland Electron)
 "~/.config/noctalia" = {}
 "~/.config/electron-flags.conf" = {}
+
+# ghostty (desktop terminal)
+"~/.config/ghostty" = {}

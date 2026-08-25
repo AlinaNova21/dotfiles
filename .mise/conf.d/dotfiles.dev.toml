@@ -1,0 +1,3 @@
+[dotfiles]
+# Dev-tool configs (gated by "dev" env)
+"~/.config/nvim" = {}
