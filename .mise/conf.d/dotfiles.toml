@@ -3,18 +3,7 @@
 # We never create this manually.
 "~/.dotfiles" = "~/projects/dotfiles"
 "~/.config/mise" = "~/projects/dotfiles/.config/mise"
-
-# Desktop config dirs — mirror-style (no explicit source): resolve via dotfiles.root
-# (~/dotfiles) to repo/.config/<name>. Source must exist at repo/.config/<name> — folders
-# are moved from repo/config/ to repo/.config/ (Part E) before these are applied.
-"~/.config/hypr" = {}
-"~/.config/niri" = {}
-"~/.config/uwsm" = {}
-"~/.config/hyprpanel" = {}
-"~/.config/ashell" = {}
-"~/.config/noctalia" = {}
 "~/.config/nvim" = {}
-
 # zsh rc files (mise-managed)
 "~/.zshenv" = {}
 "~/.zprofile" = { mode = "copy" }
@@ -24,28 +13,18 @@
 "~/.zlogout" = {}
 # antidote plugin list (mirror to ~/.zsh_plugins.txt so .zshrc static-load can find it)
 "~/.zsh_plugins.txt" = {}
-
 # starship prompt config (now mise-managed; captured from live nix-generated file)
 "~/.config/starship.toml" = {}
-
 # tmux (ported from nix programs.tmux; clean base + user binds; no catppuccin)
 "~/.config/tmux/tmux.conf" = {}
 # git config — template-rendered (vars: git_email; override via config.work.toml/MISE_ENV=work)
 "~/.config/git/config" = { source = "~/projects/dotfiles/.config/git/config.tmpl", mode = "template" }
-
-# user-dirs + electron-flags (mirror-style; repo .config/ matches ~/.config)
-"~/.config/user-dirs.conf" = {}
-"~/.config/user-dirs.dirs" = {}
-"~/.config/electron-flags.conf" = {}
-
 # ghostty / yazi / eza / bat (user configs; mirror-style)
 "~/.config/ghostty" = {}
 "~/.config/yazi" = {}
 "~/.config/eza" = {}
 "~/.config/bat" = {}
-
 "~/.zprofile/activate" = { block = 'eval "$(mise activate zsh --shims)"' }
-
 # Tool-integration blocks mise-manages INSIDE the real ~/.zshrc (marker-delimited):
 "~/.zshrc/activate" = { block = 'eval "$(mise activate zsh)"' }
 "~/.zshrc/starship" = { block = 'eval "$(starship init zsh)"' }

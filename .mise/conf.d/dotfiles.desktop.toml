@@ -1,0 +1,16 @@
+[dotfiles]
+# Desktop config dirs — mirror-style (no explicit source): resolve via dotfiles.root
+# (~/dotfiles) to repo/.config/<name>. Source must exist at repo/.config/<name> — folders
+# are moved from repo/config/ to repo/.config/ (Part E) before these are applied.
+"~/.config/hypr" = {}
+"~/.config/niri" = {}
+"~/.config/uwsm" = {}
+"~/.config/hyprpanel" = {}
+"~/.config/ashell" = {}
+# user-dirs + electron-flags (mirror-style; repo .config/ matches ~/.config)
+"~/.config/user-dirs.conf" = {}
+"~/.config/user-dirs.dirs" = {}
+
+# noctalia (desktop bar/shell) + electron-flags (Wayland Electron)
+"~/.config/noctalia" = {}
+"~/.config/electron-flags.conf" = {}
