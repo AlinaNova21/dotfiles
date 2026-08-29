@@ -13,6 +13,7 @@ with lib;
     enable = mkEnableOption "dev";
   };
   config = mkIf (cfg.enable) {
+    # acme.direnv disabled too? direnv IS in mise 60-shell — but keep acme.direnv for now (whitelist config).
     acme.direnv.enable = true;
     acme.dotfiles.enable = true;
     # acme.gh.copilot = true;
@@ -32,11 +33,10 @@ with lib;
     programs.nix-index.enable = true;
     # pay-respects moved to mise [tools] (aqua:iffse/pay-respects); nix no longer manages it.
     # [disabled] programs.pay-respects.enable = true;
-    programs.yazi = {
-      enable = true;
-      shellWrapperName = "y";
-    };
-    programs.zellij.enable = true;
+    # Mise migration: yazi/zellij are mise-managed (60-shell) + zsh blocks; nix no longer
+    # installs them or generates the y-wrapper (that's the ~/.zshrc/yazi block now).
+    # programs.yazi = { enable = true; shellWrapperName = "y"; };
+    # programs.zellij.enable = true;
     # mise is now system/pacman-managed (via [bootstrap.packages]) and its config is
     # self-managed in the repo (.config/mise/). We no longer install it via nix, so
     # programs.mise.enable is removed; the tools.nix conf.d generation is gated on it

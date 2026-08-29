@@ -19,9 +19,8 @@ with lib;
     enable = mkEnableOption "Enable Desktop Group";
   };
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [
-      google-chrome
-    ];
+    # chrome dropped (user call): no longer nix-installed (desktop package layer shrinking).
+    # home.packages = with pkgs; [ google-chrome ];
     # Force Electron apps to use Wayland
     # DISABLED (mise migration): electron-flags.conf is now a mise dotfile
     # (repo .config/electron-flags.conf). home.file no longer generates it.

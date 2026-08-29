@@ -33,26 +33,16 @@
 
     # eza/bat disabled (mise migration): configs now mise dotfiles (repo .config/eza, .config/bat).
     # programs.bat.enable = true;
-    programs.btop.enable = true;
+    # Mise migration: btop/fastfetch/fd/fzf/htop/jq/ripgrep/zoxide are mise-managed
+    # (conf.d fragments) or droppable (htop). Disabled here — nix no longer installs them.
+    # programs.btop.enable = true;
     # programs.eza.enable = true;
-    programs.fastfetch.enable = true;
-    programs.fd.enable = true;
-    programs.fzf.enable = true;
-    programs.htop = {
-      enable = true;
-      settings = {
-        hide_kernel_threads = true;
-        hide_userland_threads = true;
-      };
-    };
-    programs.jq.enable = true;
-    programs.ripgrep.enable = true;
-    programs.zoxide = {
-      enable = true;
-      options = [
-        "--cmd"
-        "cd"
-      ];
-    };
+    # programs.fastfetch.enable = true;
+    # programs.fd.enable = true;
+    # programs.fzf.enable = true;
+    # programs.htop = { enable = true; settings = { hide_kernel_threads = true; hide_userland_threads = true; }; };
+    # programs.jq.enable = true;
+    # programs.ripgrep.enable = true;
+    # programs.zoxide = { enable = true; options = [ "--cmd" "cd" ]; };
   };
 }
