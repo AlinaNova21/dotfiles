@@ -1,0 +1,14 @@
+[dock]
+active_scale = 1.2000000178813934
+background_opacity = 0.99999997764825821
+cross_axis_padding = 25
+enabled = true
+inactive_opacity = 0.79999998211860657
+item_spacing = 0
+launcher_position = "start"
+layer = "overlay"
+magnification_scale = 1.2500000037252903
+main_axis_padding = 25
+radius = 64
+reserve_space = false
+smart_auto_hide = true

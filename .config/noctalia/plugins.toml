@@ -1,0 +1,35 @@
+[plugins]
+enabled = [
+    "yuuto/arch-updater",
+    "yuuto/calculator",
+    "oldirtty/color_picker",
+    "raycursive/discord-voice",
+    "rylos/syncthing",
+    "cleboost/ssh-launcher",
+    "joshuaslate/shelly",
+    "tordex/nvtop",
+    "noctalia/wallhaven",
+    "davemhammer/tailscale",
+    "alinas/ss14-status"
+]
+
+    [[plugins.source]]
+    kind = "git"
+    location = "https://github.com/noctalia-dev/official-plugins"
+    name = "official"
+
+    [[plugins.source]]
+    kind = "git"
+    location = "https://github.com/noctalia-dev/community-plugins"
+    name = "community"
+
+    [[plugins.source]]
+    kind = "path"
+    location = "/home/alina/projects/noctalia-plugins/alinas-plugins"
+    name = "local"
+
+[plugin_settings."alinas/ss14-status"]
+list_placement = "attached"
+
+[plugin_settings."raycursive/discord-voice"]
+discord_binary = "/usr/bin/vesktop"

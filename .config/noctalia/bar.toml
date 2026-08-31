@@ -1,0 +1,96 @@
+[bar.default]
+capsule = true
+center = [ "media", "bar_3" ]
+end = [ "group:g3", "group:g4", "group:g2", "brightness", "battery", "group:g1" ]
+margin_ends = 150
+start = [ "group:g5", "workspaces" ]
+thickness = 32
+
+    [[bar.default.capsule_group]]
+    accordion = false
+    accordion_direction = "end"
+    enabled = true
+    fill = "surface_variant"
+    id = "g1"
+    members = [ "clipboard", "widget", "clock", "control-center", "notifications" ]
+    opacity = 1.0
+    padding = 6.0
+
+    [[bar.default.capsule_group]]
+    accordion = false
+    accordion_direction = "end"
+    enabled = true
+    fill = "surface_variant"
+    id = "g2"
+    members = [ "volume", "bluetooth", "bar_2", "status", "network" ]
+    opacity = 1.0
+    padding = 6.0
+
+    [[bar.default.capsule_group]]
+    accordion = false
+    accordion_direction = "end"
+    border = ""
+    enabled = true
+    fill = "surface_variant"
+    id = "g3"
+    members = [ "cpu", "ram", "temp" ]
+    opacity = 1.0
+    padding = 6.0
+
+    [[bar.default.capsule_group]]
+    accordion = false
+    accordion_direction = "end"
+    enabled = true
+    fill = "surface_variant"
+    id = "g4"
+    members = [ "tray", "bar" ]
+    opacity = 1.0
+    padding = 6.0
+    widget_spacing = 12
+
+    [[bar.default.capsule_group]]
+    accordion = false
+    accordion_direction = "end"
+    enabled = true
+    fill = "surface_variant"
+    id = "g5"
+    members = [ "launcher", "wallpaper", "wallhaven" ]
+    opacity = 1.0
+    padding = 6.0
+
+[battery.device."/org/freedesktop/UPower/devices/battery_hidpp_battery_0"]
+warning_threshold = 20
+
+[battery.device."/org/freedesktop/UPower/devices/battery_hidpp_battery_1"]
+warning_threshold = 20
+
+[battery.device."/org/freedesktop/UPower/devices/headset_dev_E8_EE_CC_DA_12_2E"]
+warning_threshold = 20
+
+[widget.bar]
+type = "rylos/syncthing:bar"
+
+[widget.bar_2]
+type = "rylos/tailnet:bar"
+
+[widget.bar_3]
+type = "alinas/ss14-status:bar"
+
+[widget.network]
+capsule = true
+
+    [widget.network.actions]
+    right = "none"
+
+[widget.status]
+type = "davemhammer/tailscale:status"
+
+[widget.tray]
+capsule = true
+
+[widget.wallhaven]
+type = "noctalia/wallhaven:wallhaven"
+
+[widget.widget]
+capsule = true
+type = "yuuto/arch-updater:widget"

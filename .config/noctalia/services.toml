@@ -1,0 +1,5 @@
+[location]
+address = "Olive Branch, MS"
+
+[weather]
+unit = "imperial"
