@@ -18,3 +18,8 @@ screenshot-path "~/Screenshots/%Y/%m/%Y-%m-%d %H%M%S.png"
 
 // You can also set this to null to disable saving screenshots to disk.
 // screenshot-path null
+
+debug {
+  // Allows notification actions and window activation from Noctalia.
+  honor-xdg-activation-with-invalid-serial
+}

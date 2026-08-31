@@ -147,7 +147,7 @@ disabled = false
 symbol = "  "
 style = "fg:crust bg:sapphire"
 format = '[$symbol$health ]($style)'
-ignore_base = false
+
 
 [time]
 disabled = false
