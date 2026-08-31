@@ -25,6 +25,6 @@ experimental = true
 
 # Git identity — default is personal; override via config.work.toml (MISE_ENV=work)
 [vars]
-git_name = "AlinaNova21"
+git_name = "alinanova21"
 git_email = "alina@alinanova.dev"
 extra_git_config = ""

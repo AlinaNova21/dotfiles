@@ -1,6 +1,6 @@
 [bar.default]
 capsule = true
-center = [ "media", "bar_3" ]
+center = [ "media", "bar_4" ]
 end = [ "group:g3", "group:g4", "group:g2", "brightness", "battery", "group:g1" ]
 margin_ends = 150
 start = [ "group:g5", "workspaces" ]
@@ -73,8 +73,8 @@ type = "rylos/syncthing:bar"
 [widget.bar_2]
 type = "rylos/tailnet:bar"
 
-[widget.bar_3]
-type = "alinas/ss14-status:bar"
+[widget.bar_4]
+type = "alinanova21/ss14-status:bar"
 
 [widget.network]
 capsule = true

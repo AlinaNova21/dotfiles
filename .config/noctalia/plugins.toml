@@ -10,7 +10,7 @@ enabled = [
     "tordex/nvtop",
     "noctalia/wallhaven",
     "davemhammer/tailscale",
-    "alinas/ss14-status"
+    "alinanova21/ss14-status"
 ]
 
     [[plugins.source]]
@@ -22,13 +22,18 @@ enabled = [
     kind = "git"
     location = "https://github.com/noctalia-dev/community-plugins"
     name = "community"
+   
+    [[plugins.source]]
+    kind = "git"
+    location = "https://github.com/alinanova21/noctalia-plugins"
+    name = "alina"
 
     [[plugins.source]]
     kind = "path"
     location = "/home/alina/projects/noctalia-plugins/alinas-plugins"
     name = "local"
 
-[plugin_settings."alinas/ss14-status"]
+[plugin_settings."alinanova21/ss14-status"]
 list_placement = "attached"
 
 [plugin_settings."raycursive/discord-voice"]
