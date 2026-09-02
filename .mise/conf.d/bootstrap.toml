@@ -14,8 +14,8 @@
 "brew:tmux" = { os = "macos" }
 
 # Security tooling — op/1password-cli is system-managed (provides /usr/bin/op, root-owned setuid-group)
-"pacman:1password-cli" = { os = "linux" }
-"brew:1password-cli" = { os = "macos" }
+#"pacman:1password-cli" = { os = "linux" }
+#"brew:1password-cli" = { os = "macos" }
 
 # Fonts (FiraCode Nerd — used by ghostty etc.)
 "pacman:ttf-firacode-nerd" = { os = "linux" }
