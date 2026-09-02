@@ -1,4 +1,7 @@
 [tools]
+"aqua:postfinance/topf" = "0.5.0"
+"github:helmfile/vals" = "latest"
+"github:postfinance/topf" = "latest"
 pi = "latest"
 # Linux-only tools — loaded automatically when auto_env = true (via miserc.toml) on Linux.
 # Add host-OS-specific tools here; stays empty if nothing is linux-only yet.
