@@ -16,6 +16,9 @@
 "~/.config/starship.toml" = {}
 # tmux (ported from nix programs.tmux; clean base + user binds; no catppuccin)
 "~/.config/tmux/tmux.conf" = {}
+# pi global agent config — filesystem-search guard (see .pi/agent/APPEND_SYSTEM.md)
+"~/.pi/agent/APPEND_SYSTEM.md" = {}
+
 # git config — template-rendered (vars: git_email; override via config.work.toml/MISE_ENV=work)
 "~/.config/git/config" = { source = "~/projects/dotfiles/.config/git/config.tmpl", mode = "template" }
 # ghostty / yazi / eza / bat (user configs; mirror-style)
