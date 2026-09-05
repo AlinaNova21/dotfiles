@@ -23,6 +23,12 @@ autoload -Uz compinit && compinit -i
 # See .config/mise/config.toml.
 
 # --- antidote (zsh plugin manager) ---
+# oh-my-zsh plugins are loaded directly via antidote (no oh-my-zsh.sh), so they
+# miss the framework's ZSH_CACHE_DIR + completions dir that oh-my-zsh.sh creates
+# (kubectl plugin's completion generator needs it; without it, its =(...) temp
+# file creation fails and zsh 5.9.2 corrupts the heap: "free(): invalid size").
+[[ -n "$ZSH_CACHE_DIR" ]] || ZSH_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/oh-my-zsh"
+mkdir -p "$ZSH_CACHE_DIR/completions"
 # Static deferred load (fast): generate .zsh_plugins.zsh once, source it
 zsh_plugins=${ZDOTDIR:-$HOME}/.zsh_plugins
 [[ ${zsh_plugins}.zsh -nt ${zsh_plugins}.txt ]] || {
