@@ -1,0 +1,4 @@
+# Noctalia shell -> greeter appearance sync: allow alina to run the sync helper
+# as root without a password. Installed via mise bootstrap files (see
+# .mise/conf.d/bootstrap.toml -> /etc/sudoers.d/10-noctalia).
+alina ALL=(ALL) NOPASSWD: /usr/bin/noctalia-greeter-apply-appearance /run/user/1000/noctalia-greeter-sync

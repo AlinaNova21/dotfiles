@@ -1,9 +1,9 @@
 [bar.default]
 capsule = true
-center = [ "media", "bar_4" ]
-end = [ "group:g3", "group:g4", "group:g2", "brightness", "battery", "group:g1" ]
-margin_ends = 150
-start = [ "group:g5", "workspaces" ]
+center = [ "group:g3", "media" ]
+end = [ "group:g4", "group:g2", "brightness", "battery", "group:g1" ]
+margin_ends = 50
+start = [ "group:g5", "workspaces", "bar_4" ]
 thickness = 32
 
     [[bar.default.capsule_group]]

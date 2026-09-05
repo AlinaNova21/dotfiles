@@ -34,3 +34,11 @@ zprofile = "shims"
 #"~/projects/dotfiles" = { url = "git@github.com:alinanova21/dotfiles.git", ref = "main" }
 # antidote (zsh plugin manager) — cloned before dotfiles apply so .zshrc can source it.
 "~/.antidote" = { url = "git@github.com:mattmc3/antidote.git", ref = "main" }
+
+# Root-owned system files (repo etc/ mirrors /etc). Requires sudo during apply.
+# Noctalia greeter appearance sync: alina may run the helper as root, no prompt.
+[bootstrap.files."/etc/sudoers.d/10-noctalia"]
+source = "../../etc/sudoers.d/10-noctalia"
+owner = "root"
+group = "root"
+mode = "0440"

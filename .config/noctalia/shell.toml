@@ -11,6 +11,7 @@ polkit_agent = true
 
     [shell.greeter_sync]
     auto_sync = true
+    privilege_command = "sudo"
 
     [shell.launcher]
     pinned = [ "vivaldi-stable", "vesktop", "steam" ]
